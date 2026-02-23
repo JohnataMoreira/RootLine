@@ -21,7 +21,7 @@ CREATE TABLE public.photos (
 
     -- EXIF / temporal
     taken_at TIMESTAMP WITH TIME ZONE,   -- from EXIF or user input
-    captured_year INTEGER GENERATED ALWAYS AS (EXTRACT(YEAR FROM taken_at)::INTEGER) STORED,
+    captured_year INTEGER,
 
     -- Source
     source TEXT DEFAULT 'manual' CHECK (source IN ('manual', 'google_photos')),
