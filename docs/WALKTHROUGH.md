@@ -248,6 +248,20 @@ Foram aplicadas melhorias proativas de segurança e performance no projeto RootL
 
 ---
 
+## Validação Final de Deployment — Tasks 5.4 & 5.5
+
+Deployment em produção finalizado com sucesso no Dokploy:
+
+- **Domínio**: [https://staging-rootline.johnatamoreira.com.br/](https://staging-rootline.johnatamoreira.com.br/)
+- **Build Hardening**: Aplicado `Clean Cache` e adicionado `RUN rm -rf app` no `Dockerfile` para garantir ambiente limpo.
+- **Roteamento**: Log do build verificado com sucesso (todas as rotas `Route (app)` listadas).
+- **UX**: Raiz do site (`/`) redireciona automaticamente para `/login`.
+
+![Login em Produção](file:///C:/Users/johna/.gemini/antigravity/brain/a0af357a-d85d-4e50-8b58-7ba2122d597e/rootline_login_page_1771887601816.png)
+*Tela de login carregada com sucesso via HTTPS no servidorstaging.*
+
+---
+
 ## Protocolo de Erros (Obrigatório)
 Se você ou a automação se deparar com erros persistentes durante o build ou desenvolvimento (Runtime, Deploy, etc.):
 1. Abra e leia atentamente o documento `.agent/workflows/bug360.md`.
