@@ -16,8 +16,11 @@ export default function LoginPage({
                     Email
                 </label>
                 <input
+                    id="email"
                     className="rounded-md px-4 py-2 bg-inherit border border-gray-300 mb-4 focus:ring-2 focus:ring-blue-500 focus:outline-none"
                     name="email"
+                    type="email"
+                    autoComplete="email"
                     placeholder="you@example.com"
                     required
                 />
@@ -25,9 +28,11 @@ export default function LoginPage({
                     Password
                 </label>
                 <input
+                    id="password"
                     className="rounded-md px-4 py-2 bg-inherit border border-gray-300 mb-6 focus:ring-2 focus:ring-blue-500 focus:outline-none"
                     type="password"
                     name="password"
+                    autoComplete="current-password"
                     placeholder="••••••••"
                     required
                 />
