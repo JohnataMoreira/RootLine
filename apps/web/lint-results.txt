@@ -1,0 +1,14 @@
+
+> web@0.1.0 lint
+> eslint
+
+
+C:\Projetos\Antigravity\apps\RootLine\apps\web\src\app\photos\GooglePhotosPanel.tsx
+  71:91   error  `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+  71:115  error  `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+
+C:\Projetos\Antigravity\apps\RootLine\apps\web\src\utils\google-photos.ts
+  134:21  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+Ô£û 3 problems (3 errors, 0 warnings)
+
