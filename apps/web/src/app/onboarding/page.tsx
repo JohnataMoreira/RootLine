@@ -2,11 +2,10 @@ import { createFamily } from './actions'
 import { createClient } from '@/utils/supabase/server'
 import { redirect } from 'next/navigation'
 
-export default async function OnboardingPage({
-    searchParams,
-}: {
-    searchParams: { message: string }
+export default async function OnboardingPage(props: {
+    searchParams: Promise<{ message: string }>
 }) {
+    const searchParams = await props.searchParams
     const supabase = await createClient()
     const { data: { user } } = await supabase.auth.getUser()
 

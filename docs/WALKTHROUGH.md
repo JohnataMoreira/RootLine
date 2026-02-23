@@ -262,6 +262,17 @@ Deployment em produção finalizado com sucesso no Dokploy:
 
 ---
 
+## Fluxo de Login por Senha — Task 6
+
+Refatoração completa do sistema de autenticação para priorizar segurança e UX:
+
+- **Auth Mode**: Alterado de OTP/Magic Link para **Email + Password** (`signInWithPassword`).
+- **Navegação**: Corrigido loop de redirecionamento. O sucesso no login agora leva para `/timeline` (que redireciona para `/onboarding` se necessário).
+- **Acessibilidade**: Campos de login agora possuem `autoComplete` e `id` corretos para integração com gerenciadores de senha.
+- **Feedback**: Mensagens de erro personalizadas (ex: "Invalid email or password") em vez de mensagens genéricas.
+
+---
+
 ## Protocolo de Erros (Obrigatório)
 Se você ou a automação se deparar com erros persistentes durante o build ou desenvolvimento (Runtime, Deploy, etc.):
 1. Abra e leia atentamente o documento `.agent/workflows/bug360.md`.

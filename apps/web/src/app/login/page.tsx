@@ -1,10 +1,9 @@
 import { login, signup } from './actions'
 
-export default function LoginPage({
-    searchParams,
-}: {
-    searchParams: { message: string }
+export default async function LoginPage(props: {
+    searchParams: Promise<{ message: string }>
 }) {
+    const searchParams = await props.searchParams
     return (
         <div className="flex justify-center items-center min-h-screen bg-gray-50">
             <form className="animate-in flex-1 flex flex-col w-full justify-center gap-2 text-foreground max-w-md p-8 bg-white rounded-lg shadow-md border border-gray-100">

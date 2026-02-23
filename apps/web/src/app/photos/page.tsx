@@ -15,11 +15,10 @@ type Photo = {
     size_bytes: number | null
 }
 
-export default async function PhotosPage({
-    searchParams,
-}: {
-    searchParams: { google_connected?: string; google_error?: string }
+export default async function PhotosPage(props: {
+    searchParams: Promise<{ google_connected?: string; google_error?: string }>
 }) {
+    const searchParams = await props.searchParams
     const supabase = await createClient()
 
     const { data: { user } } = await supabase.auth.getUser()
