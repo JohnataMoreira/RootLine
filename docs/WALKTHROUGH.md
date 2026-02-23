@@ -228,6 +228,26 @@ Se encontrar comportamentos estranhos ou erros com `error_id` na tela:
 
 ---
 
+## Resolução de Problemas de Deploy — Task 5.1
+
+### Caso: Página Padrão do Next.js aparecendo em vez do App
+**Sintoma**: Após o deploy no Dokploy, o navegador exibe a página "To get started, edit page.tsx" e os logs de build mostram apenas a rota `/404`.
+**Causa**: Presença de uma pasta `app/` vazia na raiz do projeto `apps/web`. No Next.js, se existir uma pasta `app` fora do `src`, ela tem precedência e faz com que o App Router ignore completamente a pasta `src/app`.
+**Solução**: Remover a pasta `apps/web/app` física.
+**Validação**: Execute `npm run build` e verifique se o log "Route (app)" lista todas as páginas (`/login`, `/timeline`, etc.).
+
+---
+
+## Otimizações de Banco de Dados — Task 5.3
+
+Foram aplicadas melhorias proativas de segurança e performance no projeto RootLine Staging:
+
+- **Performance (Indexes)**: Criados 7 novos índices em chaves estrangeiras (`families`, `photos`, `members`, `invites`, `relationships`, `google_sync_cursors`) para acelerar buscas e joins.
+- **Performance (RLS)**: Refatoradas 21 políticas de acesso para usar `(SELECT auth.uid())`. Isso permite que o Postgres faça o cache do ID do usuário, evitando milhares de chamadas repetidas à função de autenticação em consultas grandes.
+- **Segurança (Hardening)**: Definido `search_path = public` em funções críticas para mitigar vulnerabilidades de escalação de privilégios.
+
+---
+
 ## Protocolo de Erros (Obrigatório)
 Se você ou a automação se deparar com erros persistentes durante o build ou desenvolvimento (Runtime, Deploy, etc.):
 1. Abra e leia atentamente o documento `.agent/workflows/bug360.md`.
