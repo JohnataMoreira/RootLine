@@ -19,14 +19,21 @@ export function UploadPhotoForm() {
     async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault()
         setLoading(true)
-        const formData = new FormData(e.currentTarget)
-        const res = await uploadPhoto(formData)
-        setResult(res)
-        if (res.success) {
-            setPreview(null)
-            if (inputRef.current) inputRef.current.value = ''
+        setResult(null)
+        try {
+            const formData = new FormData(e.currentTarget)
+            const res = await uploadPhoto(formData)
+            setResult(res)
+            if (res.success) {
+                setPreview(null)
+                if (inputRef.current) inputRef.current.value = ''
+            }
+        } catch (error: any) {
+            console.error('Photo upload failed:', error)
+            setResult({ error: error.message || 'An unexpected error occurred during upload.' })
+        } finally {
+            setLoading(false)
         }
-        setLoading(false)
     }
 
     return (

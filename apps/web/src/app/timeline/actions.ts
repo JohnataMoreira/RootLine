@@ -64,9 +64,11 @@ export async function sendInvite(formData: FormData) {
     // In production, an external worker or Edge Function triggers via Database Webhook
     // sending the email using Resend:
     // url: `https://app.rootline.com/invite?token=${rawToken}`
-    // For the MVP testing and Walkthrough, we will return the generated plain token snippet
-    // so the user can copy-paste it for Task 2.3 validation locally.
-    const inviteLink = `http://localhost:3000/invite/${rawToken}`
+    // Resolve base URL dynamically or from env
+    const { headers } = await import('next/headers')
+    const reqHeaders = await headers()
+    const origin = reqHeaders.get('origin') || process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'
+    const inviteLink = `${origin}/invite/${rawToken}`
 
     return {
         success: true,

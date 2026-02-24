@@ -36,10 +36,10 @@ Se algo der errado, anote o problema de forma curta.
 
 ## ✅ Checklist Pré-Beta (Admin)
 
-- [ ] Confirmar deploy no commit atual (`057d842` ou mais recente) no Staging.
-- [ ] Confirmar aplicabilidade das migrations essenciais no banco:
+- [x] Confirmar deploy no commit atual (`dcf7978` ou mais recente) no Staging.
+- [x] Confirmar aplicabilidade das migrations essenciais no banco:
   - `0009_fix_rls_recursion.sql`
   - `0010_rpc_create_family_and_join.sql`
-- [ ] Confirmar existência da RPC `accept_invite_by_token`
-- [ ] Confirmar fluxo manual sem erros 500.
-- [ ] Verificar logs do Supabase (sem erros críticos de RLS ou falha de conexão).
+- [x] Confirmar existência da RPC `accept_invite_by_token`
+- [x] Confirmar fluxo manual sem erros 500.
+- [x] Verificar logs do Supabase (sem erros críticos de RLS ou falha de conexão).

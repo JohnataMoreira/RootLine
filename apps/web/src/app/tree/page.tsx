@@ -6,6 +6,8 @@ import { BottomNav } from '@/components/BottomNav'
 import { EmptyState } from '@/components/ui/EmptyState'
 import { InviteModal } from '@/components/InviteModal'
 
+export const dynamic = 'force-dynamic'
+
 const MAX_MEMBERS = 25
 
 export default async function TreePage() {
