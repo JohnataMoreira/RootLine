@@ -1,0 +1,83 @@
+[dotenv@17.3.1] injecting env (4) from .env.local -- tip: ÔÜÖ´©Å  override existing env vars with { override: true }
+
+Running 3 tests using 1 worker
+
+[1A[2K[dotenv@17.3.1] injecting env (0) from .env.local -- tip: ÔÜÖ´©Å  write to custom object with { processEnv: myObject }
+
+[1A[2K[1/3] [setup] ÔÇ║ tests\auth.setup.ts:6:6 ÔÇ║ authenticate
+[1A[2K[dotenv@17.3.1] injecting env (0) from .env.local -- tip: ­ƒöÉ prevent committing .env to code: https://dotenvx.com/precommit
+
+[1A[2K[2/3] [Mobile Chrome] ÔÇ║ tests\invite.spec.ts:4:9 ÔÇ║ Invite Member Flow ÔÇ║ generates an invite link and allows an authenticated user to accept it
+[1A[2K  1) [Mobile Chrome] ÔÇ║ tests\invite.spec.ts:4:9 ÔÇ║ Invite Member Flow ÔÇ║ generates an invite link and allows an authenticated user to accept it 
+
+    [31mTest timeout of 30000ms exceeded.[39m
+
+    Error: locator.click: Test timeout of 30000ms exceeded.
+    Call log:
+    [2m  - waiting for getByTestId('invite-submit')[22m
+    [2m    - locator resolved to <button type="submit" data-testid="invite-submit" class="w-full bg-primary hover:bg-primary/90 disabled:opacity-50 text-primary-foreground py-3 rounded-xl font-bold text-sm transition-all shadow-lg shadow-primary/20 flex items-center justify-center gap-2 mt-1">ÔÇª</button>[22m
+    [2m  - attempting click action[22m
+    [2m    2 ├ù waiting for element to be visible, enabled and stable[22m
+    [2m      - element is visible, enabled and stable[22m
+    [2m      - scrolling into view if needed[22m
+    [2m      - done scrolling[22m
+    [2m      - <div class="flex justify-between items-center max-w-md mx-auto">ÔÇª</div> from <nav class="fixed bottom-0 left-0 right-0 bg-bg/90 backdrop-blur-md border-t border-border px-6 py-3 pb-6 z-50">ÔÇª</nav> subtree intercepts pointer events[22m
+    [2m    - retrying click action[22m
+    [2m    - waiting 20ms[22m
+    [2m    2 ├ù waiting for element to be visible, enabled and stable[22m
+    [2m      - element is visible, enabled and stable[22m
+    [2m      - scrolling into view if needed[22m
+    [2m      - done scrolling[22m
+    [2m      - <div class="flex justify-between items-center max-w-md mx-auto">ÔÇª</div> from <nav class="fixed bottom-0 left-0 right-0 bg-bg/90 backdrop-blur-md border-t border-border px-6 py-3 pb-6 z-50">ÔÇª</nav> subtree intercepts pointer events[22m
+    [2m    - retrying click action[22m
+    [2m      - waiting 100ms[22m
+    [2m    54 ├ù waiting for element to be visible, enabled and stable[22m
+    [2m       - element is visible, enabled and stable[22m
+    [2m       - scrolling into view if needed[22m
+    [2m       - done scrolling[22m
+    [2m       - <div class="flex justify-between items-center max-w-md mx-auto">ÔÇª</div> from <nav class="fixed bottom-0 left-0 right-0 bg-bg/90 backdrop-blur-md border-t border-border px-6 py-3 pb-6 z-50">ÔÇª</nav> subtree intercepts pointer events[22m
+    [2m     - retrying click action[22m
+    [2m       - waiting 500ms[22m
+
+
+      46 |         // 6. Submit the invite form
+      47 |         const submitButton = page.getByTestId('invite-submit')
+    > 48 |         await submitButton.click()
+         |                            ^
+      49 |
+      50 |         // 7. Wait for the invite link to appear in the success state
+      51 |         const inviteLinkEl = page.getByTestId('invite-link')
+        at C:\Projetos\Antigravity\apps\RootLine\apps\web\tests\invite.spec.ts:48:28
+
+    Error Context: test-results\invite-Invite-Member-Flow--a5c06-enticated-user-to-accept-it-Mobile-Chrome\error-context.md
+
+
+[1A[2K[dotenv@17.3.1] injecting env (0) from .env.local -- tip: ­ƒöÉ prevent committing .env to code: https://dotenvx.com/precommit
+
+[1A[2K[3/3] [Mobile Chrome] ÔÇ║ tests\onboarding.spec.ts:7:9 ÔÇ║ Onboarding Flow ÔÇ║ successfully creates a new family and redirects to timeline
+[1A[2K  2) [Mobile Chrome] ÔÇ║ tests\onboarding.spec.ts:7:9 ÔÇ║ Onboarding Flow ÔÇ║ successfully creates a new family and redirects to timeline 
+
+    Error: page.goto: net::ERR_CONNECTION_REFUSED at http://localhost:3000/onboarding
+    Call log:
+    [2m  - navigating to "http://localhost:3000/onboarding", waiting until "load"[22m
+
+
+       7 |     test('successfully creates a new family and redirects to timeline', async ({ page }) => {
+       8 |         // Go to onboarding
+    >  9 |         await page.goto('/onboarding')
+         |                    ^
+      10 |
+      11 |         // Wait for page to load using the robust test-id
+      12 |         await expect(page.getByTestId('onboarding-heading')).toBeVisible({ timeout: 15000 })
+        at C:\Projetos\Antigravity\apps\RootLine\apps\web\tests\onboarding.spec.ts:9:20
+
+
+
+­ƒùæ´©Å  Running Playwright Global Teardown...
+ÔÜá´©Å  Skipping database teardown: Missing SUPABASE_SERVICE_ROLE_KEY.
+[1A[2K  2 failed
+    [Mobile Chrome] ÔÇ║ tests\invite.spec.ts:4:9 ÔÇ║ Invite Member Flow ÔÇ║ generates an invite link and allows an authenticated user to accept it 
+    [Mobile Chrome] ÔÇ║ tests\onboarding.spec.ts:7:9 ÔÇ║ Onboarding Flow ÔÇ║ successfully creates a new family and redirects to timeline 
+  1 passed (38.8s)
+
+[36m  Serving HTML report at http://localhost:57361. Press Ctrl+C to quit.[39m
