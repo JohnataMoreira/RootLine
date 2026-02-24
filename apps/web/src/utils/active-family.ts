@@ -1,6 +1,7 @@
-import { createClient } from '@/utils/supabase/server'
+﻿import { createClient } from '@/utils/supabase/server'
 import { redirect } from 'next/navigation'
 import type { SupabaseClient } from '@supabase/supabase-js'
+import { getActiveFamilyId, setActiveFamilyId } from '@/lib/family/active-family'
 
 export type ActiveFamilyMembership = {
     familyId: string
@@ -10,14 +11,15 @@ export type ActiveFamilyMembership = {
 }
 
 /**
- * Resolves the "active family" for the currently authenticated user.
+ * Resolves the "active family" for the currently authenticated user based ONLY on the SSR Cookie.
  *
- * Strategy:
- * 1. Read profiles.active_family_id.
- * 2. Validate we are still a member of that family (guard against removal).
- * 3. If null/invalid → fall back to oldest membership (joined_at ASC), persist via RPC.
- * 4. If no families → redirect to /onboarding.
- * 5. Return active context + full list for the family switcher.
+ * Strategy (T9.1):
+ * 1. Read 'rootline_active_family_id' cookie.
+ * 2. Fetch all user memberships.
+ * 3. Validate cookie vs memberships.
+ * 4. If 0 families â†’ redirect to /onboarding.
+ * 5. If > 1 family & invalid cookie â†’ redirect to /families selector.
+ * 6. If 1 family â†’ auto-set cookie and use it.
  */
 export async function getActiveFamily(
     supabase?: SupabaseClient
@@ -27,12 +29,7 @@ export async function getActiveFamily(
     const { data: { user } } = await client.auth.getUser()
     if (!user) redirect('/login')
 
-    // Fetch profile + all memberships in one join
-    const { data: profile } = await client
-        .from('profiles')
-        .select('active_family_id')
-        .eq('id', user.id)
-        .single()
+    const currentCookieId = await getActiveFamilyId()
 
     const { data: memberships } = await client
         .from('members')
@@ -50,23 +47,24 @@ export async function getActiveFamily(
         role: m.role,
     }))
 
-    // Check if the stored active_family_id is still valid (user might have been removed)
-    const activeFamilyId = profile?.active_family_id
-    const isActiveValid = activeFamilyId
-        ? allFamilies.some((f) => f.familyId === activeFamilyId)
+    // Determine the resolved active family
+    const isCookieValid = currentCookieId
+        ? allFamilies.some((f) => f.familyId === currentCookieId)
         : false
 
-    // Determine the resolved active family
-    const resolved = isActiveValid
-        ? allFamilies.find((f) => f.familyId === activeFamilyId)!
-        : allFamilies[0] // oldest membership as deterministic fallback
+    let resolved = null
 
-    // Persist if we auto-selected a fallback
-    if (!isActiveValid) {
-        // Fire-and-forget — non-blocking; page still loads
-        client.rpc('set_active_family', { p_family_id: resolved.familyId }).then(({ error }) => {
-            if (error) console.error('Failed to auto-set active family:', error)
-        })
+    if (isCookieValid) {
+        resolved = allFamilies.find((f) => f.familyId === currentCookieId)!
+    } else {
+        if (memberships.length === 1) {
+            // Auto select if only 1
+            await setActiveFamilyId(allFamilies[0].familyId)
+            resolved = allFamilies[0]
+        } else {
+            // No valid cookie, multiple options -> user must select
+            redirect('/families')
+        }
     }
 
     return {
@@ -76,3 +74,5 @@ export async function getActiveFamily(
         allFamilies,
     }
 }
+
+

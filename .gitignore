@@ -1,0 +1,3 @@
+apps/web/.env.local
+apps/web/.env.e2e
+apps/web/.env.*.local

@@ -1,6 +1,7 @@
 import { createFamily } from './actions'
 import { createClient } from '@/utils/supabase/server'
 import { redirect } from 'next/navigation'
+import { ThemeToggle } from '@/components/theme-toggle'
 
 export default async function OnboardingPage(props: {
     searchParams: Promise<{ message: string }>
@@ -20,50 +21,75 @@ export default async function OnboardingPage(props: {
         .eq('profile_id', user.id)
         .limit(1)
 
-    // If already part of a family, MVP rule defaults them and skips onboarding
     if (members && members.length > 0) {
         redirect('/timeline')
     }
 
+    // Stitch Layout Implementation
     return (
-        <div className="flex justify-center items-center min-h-screen bg-gray-50 p-4">
-            <div className="animate-in flex flex-col w-full max-w-md p-8 bg-white rounded-lg shadow-md border border-gray-100">
-                <div className="text-center mb-6">
-                    <h1 className="text-3xl font-semibold tracking-tight text-gray-900">Welcome to RootLine</h1>
-                    <p className="text-sm text-gray-500 mt-2">Let&apos;s create your first Living Archive.</p>
+        <div className="relative flex h-auto min-h-screen w-full flex-col bg-bg text-text group/design-root overflow-x-hidden max-w-md mx-auto shadow-2xl">
+            {/* Header */}
+            <div className="flex items-center bg-bg p-4 pb-2 justify-between">
+                <div className="w-10 flex justify-start">
+                    <span className="material-symbols-outlined text-text">
+                        family_history
+                    </span>
                 </div>
+                <h2 className="text-text text-lg font-bold leading-tight tracking-[-0.015em] flex-1 text-center">
+                    Rootline
+                </h2>
+                <div className="w-10 flex justify-end">
+                    <ThemeToggle />
+                </div>
+            </div>
 
-                <form action={createFamily} className="flex flex-col gap-4">
+            {/* Hero Section */}
+            <div className="p-4">
+                <div
+                    className="w-full bg-center bg-no-repeat bg-cover flex flex-col justify-end overflow-hidden bg-surface-2 rounded-xl min-h-[400px] relative shadow-lg"
+                    style={{ backgroundImage: 'url("https://lh3.googleusercontent.com/aida-public/AB6AXuA4Vej_j4FhPEPpdPv_USkiKG3sUL8RKaZil3lBQMM_ZfHwf-XR0yBsNBWG-ZTz9WLURmlbaA1beU4X9mJPW5TmL-0v3qCIWXyEt6YHi9leptzeoYRIKBMf7OwIkIQ5Ec61XDTsAiWAWvos6y5Sa2F14LK_0DAq3tWP5W_rYxx4YmVqGOoEqTC38YQ3xaRgo1Y2xCDAOVB3g3MK2C3_2iCf_ph4R51eUH4PgqbCRJXyDpGe8U-wgoal9d5Gzs6SqBwbO7NigWPNaio")' }}
+                >
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
+                </div>
+            </div>
+
+            {/* Content Section */}
+            <div className="flex flex-col flex-grow px-6 pt-6 pb-12">
+                <h1 data-testid="onboarding-heading" className="text-text tracking-tight text-[32px] font-extrabold leading-tight text-center pb-3">
+                    Preserve o legado da sua família
+                </h1>
+                <p className="text-muted-foreground text-base font-medium leading-relaxed pb-6 text-center">
+                    Organize memórias de gerações com IA e crie um arquivo vivo para o futuro.
+                </p>
+
+                <form action={createFamily} className="flex flex-col w-full gap-4 mt-auto">
                     <div>
-                        <label className="text-sm font-medium text-gray-700 block mb-1" htmlFor="familyName">
-                            Family Name
-                        </label>
                         <input
-                            className="w-full rounded-md px-4 py-2 border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                            className="w-full bg-surface border border-border text-text rounded-xl px-4 py-4 focus:ring-2 focus:ring-primary focus:outline-none placeholder:text-muted-foreground shadow-sm transition-all"
                             name="familyName"
-                            placeholder="e.g. The Silva Family"
+                            placeholder="Nome da Família (Ex: Família Silva)"
                             required
                         />
                     </div>
 
                     <button
                         type="submit"
-                        className="w-full bg-blue-600 hover:bg-blue-700 text-white rounded-md px-4 py-3 transition-colors font-medium mt-4 shadow-sm"
+                        className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-bold py-4 rounded-xl shadow-lg shadow-primary/20 transition-all flex items-center justify-center gap-2 mt-2"
                     >
-                        Create Family Archive
+                        Começar agora
+                        <span className="material-symbols-outlined text-[20px]">
+                            arrow_forward
+                        </span>
                     </button>
 
                     {searchParams?.message && (
-                        <p className="mt-4 p-4 bg-red-50 text-red-900 border border-red-200 text-center text-sm rounded-md">
+                        <p className="mt-2 p-3 bg-destructive/10 text-destructive border border-destructive/20 text-center text-sm rounded-xl font-medium">
                             {searchParams.message}
                         </p>
                     )}
                 </form>
 
-                <div className="mt-6 border-t pt-4 text-center">
-                    <p className="text-sm text-gray-500 mb-2">Were you invited by someone?</p>
-                    <p className="text-xs text-gray-400">Please check your email and click the invitation link to join an existing family.</p>
-                </div>
+                <div className="h-2 bg-primary w-1/3 mx-auto rounded-full mt-10 opacity-20"></div>
             </div>
         </div>
     )

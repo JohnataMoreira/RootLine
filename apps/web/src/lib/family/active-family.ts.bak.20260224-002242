@@ -1,0 +1,19 @@
+import { cookies } from 'next/headers'
+
+export const ACTIVE_FAMILY_COOKIE_NAME = 'rootline_active_family_id'
+
+export async function getActiveFamilyId(): Promise<string | null> {
+    const cookieStore = await cookies()
+    return cookieStore.get(ACTIVE_FAMILY_COOKIE_NAME)?.value || null
+}
+
+export async function setActiveFamilyId(familyId: string) {
+    const cookieStore = await cookies()
+    cookieStore.set(ACTIVE_FAMILY_COOKIE_NAME, familyId, {
+        path: '/',
+        maxAge: 60 * 60 * 24 * 365, // 1 year
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'lax',
+    })
+}

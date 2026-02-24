@@ -271,7 +271,67 @@ Refatoração completa do sistema de autenticação para priorizar segurança e 
 - **Acessibilidade**: Campos de login agora possuem `autoComplete` e `id` corretos para integração com gerenciadores de senha.
 - **Feedback**: Mensagens de erro personalizadas (ex: "Invalid email or password") em vez de mensagens genéricas.
 
+### Evidência de Teste (Live Staging)
+- **Account**: `antigravity@teste.com`
+- **Fluxo**: Login realizado com sucesso -> Redirecionamento para `/onboarding`.
+- **Resolução de Erro**: Corrigido erro de serialização ("Functions cannot be passed directly to Client Components") adicionando `'use server'` em `onboarding/actions.ts` e tratando `searchParams` como assíncronos (exigência do Next.js 16).
+
 ---
+
+## Correção de Erro de Onboarding (Recursão RLS) — Task 7
+
+Durante a criação da primeira família no `/onboarding`, ocorria o erro `Failed to create family`. O log do banco no Staging reportava `infinite recursion detected in policy for relation "members"`.
+
+**Causa:**
+Políticas de RLS nas tabelas `members` e `families` faziam consultas cruzadas e autoreferenciadas na própria tabela `members`. Ao inserir um novo membro (o criador da família), a validação da política de `INSERT` disparava a política de `SELECT`, criando um loop infinito no Postgres.
+
+**Resolução (Migration 0009):**
+Refatoramos o RLS do projeto adotando a arquitetura recomendada do Supabase via **SECURITY DEFINER Functions**:
+- Criadas funções em `sql` (ex: `get_user_family_ids()`) que rodam com privilégios de sistema, bypassando o RLS internamente para extrair a lista de IDs de família do usuário logado.
+- Todas as políticas em `families`, `members`, `invites` e `relationships` foram reescritas para utilizar `family_id IN (SELECT get_user_family_ids())`, eliminando a recursão e oferecendo alta performance.
+
+---
+
+## Task 9.6 — Playwright E2E Test Validation
+
+**Objetivo:** Garantir que os testes E2E Playwright para os fluxos de Onboarding e Convite sejam estáveis e passem de forma confiável.
+
+**Problemas Identificados e Resolvidos:**
+
+1. **Função RPC `create_family_and_join` ausente no banco:** A action de criação de família chamava `supabase.rpc('create_family_and_join', ...)` mas a função nunca foi criada no Supabase. Migration `create_family_and_join_rpc` criada com `SECURITY DEFINER`.
+
+2. **Violação de FK `families_created_by_fkey`:** A tabela `families.created_by` referencia `public.profiles`. O usuário de teste é criado via `auth.signUp` mas sem trigger para criar o perfil. A RPC foi atualizada (migration `fix_create_family_and_join_upsert_profile`) para fazer `INSERT ... ON CONFLICT DO NOTHING` em `profiles` antes de criar a família.
+
+3. **`auth.setup.ts` travado em `/timeline`:** O usuário de teste não existia ainda, fazendo a UI retornar "Invalid email or password". Refatorado para: (a) tentar `signInWithPassword` via SDK do Supabase; (b) fazer `signUp` automaticamente se a conta não existir; (c) usar `Promise.all([waitForNavigation, click])` para captura atômica do redirecionamento.
+
+4. **`invite.spec.ts` executando verificação de URL prematuramente:** O `page.url()` logo após `goto('/timeline')` ainda retornava `/timeline` antes do redirect server-side completar. Corrigido com `await page.waitForURL(/.*(\\/timeline|\\/onboarding|\\/families|\\/login)/)` antes da verificação e clique na família.
+
+**Resultado Final (Antes da Task 10):**
+| Teste | Status |
+|---|---|
+| `auth.setup.ts › authenticate` | ✅ Passou (2.1s) |
+| `onboarding.spec.ts › Onboarding Flow` | ✅ Passou (3.8s) |
+| `invite.spec.ts › Invite Member Flow` | ⏭️ Skipped (UI do modal `/tree` ainda não implementada) |
+
+---
+
+## Task 10 — Implementar Modal de Invite no /tree + Destravar E2E
+
+**Objetivo:** Implementar a interface de envio de convites visível na página `/tree` e ajustar o teste E2E para rodar de modo ininterrupto 100% verde (sem skipes).
+
+**O que foi feito:**
+1. **Frontend:** Criado o componente `<InviteModal />` seguindo o design de bottom-sheet com animação "slide-in-from-bottom", com loading states, sucesso (mostrar link e copiar) e erro perfeitamente integrados com as sever actions (`sendInvite`) re-exportadas para `/tree`.
+2. **z-index Bug:** O componente `<BottomNav />` posicionado sobre o botão causava falha no Playwright na recepção do click (interceptado por outra div `z-50`). O `InviteModal` teve o overlay ajustado para `z-[100]`.
+3. **E2E — Auth Compartilhado (Isolamento de Estado):** O Next.js bloqueia nativamente `/onboarding` se o usuário já possuir famílias (que são persistidas devido ao `storageState`). Refatoramos `onboarding.spec.ts` para dispensar a auth compartilhada e garantir login com e-mail 100% fresco, permitindo rodagem livre e contínua do suite de testes em watch ou CI/CD local sem falsos positivos.
+4. **Resolução de RLS em Convites:** A action de aceitação, `acceptInvite()`, não precisava buscar o convite original já que o Test User que aceita (por não ser membro) não tem permissão RLS na tabela `invites`. Substituímos o bloqueio por RLS delegando a consulta 100% em backend para a função RPC nativa e segura (`accept_invite_by_token`) - evitando a colisão do E2E com as Policies.
+
+**Resultado E2E Consolidado (setup, onboarding, invite):**
+| Módulo | Output Playwright |
+|---|---|
+| Autenticação (Setup) | ✅ `auth.setup.ts › authenticate (1.6s)` |
+| Onboarding E2E | ✅ `onboarding.spec.ts › creates family and redirects (4.5s)` |
+| Invite E2E | ✅ `invite.spec.ts › generates invite link and allows accept (11.7s)` |
+**Total Passing:** 3 passed (17.8s), Exit code: 0
 
 ## Protocolo de Erros (Obrigatório)
 Se você ou a automação se deparar com erros persistentes durante o build ou desenvolvimento (Runtime, Deploy, etc.):

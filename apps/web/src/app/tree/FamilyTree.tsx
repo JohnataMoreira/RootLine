@@ -19,21 +19,32 @@ type MemberData = {
     label: string
     role: string
     joined_at: string
+    avatar_url?: string
 }
 
 function MemberNode({ data, selected }: NodeProps<MemberData>) {
     return (
         <>
-            <Handle type="target" position={Position.Top} />
-            <div
-                className={`px-4 py-3 rounded-lg shadow-md border-2 bg-white text-gray-900 min-w-[120px] text-center transition-all ${selected ? 'border-blue-500 shadow-blue-200' : 'border-gray-200'
-                    }`}
-            >
-                <div className="text-2xl mb-1">👤</div>
-                <div className="font-semibold text-sm">{data.label}</div>
-                <div className="text-xs text-gray-400 mt-0.5 capitalize">{data.role}</div>
+            <Handle type="target" position={Position.Top} className="opacity-0 w-8" />
+            <div className="flex flex-col items-center gap-2 group">
+                <div
+                    className={`size-16 rounded-full border-2 p-0.5 bg-bg overflow-hidden shadow-sm transition-all ${selected ? 'border-primary ring-4 ring-primary/20 scale-110' : 'border-primary/40 hover:border-primary/60'
+                        }`}
+                >
+                    {data.avatar_url ? (
+                        // eslint-disable-next-line @next/next/no-img-element
+                        <img src={data.avatar_url} alt={data.label} className="w-full h-full object-cover rounded-full" />
+                    ) : (
+                        <div className="w-full h-full rounded-full bg-surface-2 flex items-center justify-center text-text shadow-inner">
+                            <span className="material-symbols-outlined text-border">person</span>
+                        </div>
+                    )}
+                </div>
+                <div className={`px-2 py-1 rounded bg-surface/80 backdrop-blur-sm border ${selected ? 'border-primary text-primary font-bold' : 'border-transparent text-text font-medium text-xs'}`}>
+                    {data.label}
+                </div>
             </div>
-            <Handle type="source" position={Position.Bottom} />
+            <Handle type="source" position={Position.Bottom} className="opacity-0 w-8" />
         </>
     )
 }
@@ -46,7 +57,7 @@ type Props = {
         profile_id: string | null
         role: string
         joined_at: string
-        profiles: { full_name: string } | null
+        profiles: { full_name: string; avatar_url?: string } | null
     }>
     relationships: Array<{
         id: string
@@ -62,11 +73,12 @@ export function FamilyTree({ members, relationships }: Props) {
     const initialNodes: Node<MemberData>[] = members.map((m, i) => ({
         id: m.id,
         type: 'member',
-        position: { x: (i % 5) * 200, y: Math.floor(i / 5) * 160 },
+        position: { x: (i % 5) * 150, y: Math.floor(i / 5) * 150 },
         data: {
-            label: m.profiles?.full_name ?? 'Unknown Member',
+            label: m.profiles?.full_name?.split(' ')[0] ?? 'Desconhecido', // Simplify name for tree
             role: m.role,
             joined_at: m.joined_at,
+            avatar_url: m.profiles?.avatar_url,
         },
     }))
 
@@ -74,10 +86,9 @@ export function FamilyTree({ members, relationships }: Props) {
         id: r.id,
         source: r.member_a_id,
         target: r.member_b_id,
-        label: r.type === 'parent_child' ? '👶 child' : '💍 spouse',
         animated: r.type === 'spouse',
-        style: { stroke: r.type === 'spouse' ? '#ec4899' : '#6366f1' },
-        labelStyle: { fontSize: 11, fill: '#6b7280' },
+        type: 'smoothstep',
+        style: { stroke: r.type === 'spouse' ? '#ec4899' : '#13ae20', strokeWidth: 2, strokeDasharray: r.type === 'spouse' ? '5,5' : '0' },
     }))
 
     const [nodes, , onNodesChange] = useNodesState(initialNodes)
@@ -91,7 +102,7 @@ export function FamilyTree({ members, relationships }: Props) {
     )
 
     return (
-        <div className="relative w-full h-[600px] rounded-xl overflow-hidden border border-gray-200 bg-gray-50">
+        <div className="relative w-full h-[500px] overflow-hidden bg-transparent">
             <ReactFlow
                 nodes={nodes}
                 edges={edges}
@@ -101,27 +112,27 @@ export function FamilyTree({ members, relationships }: Props) {
                 onNodeClick={onNodeClick}
                 fitView
                 fitViewOptions={{ padding: 0.3 }}
+                proOptions={{ hideAttribution: true }}
             >
-                <Background gap={24} color="#e5e7eb" />
-                <Controls />
-                <MiniMap nodeColor="#6366f1" maskColor="rgba(0,0,0,0.05)" />
+                <Background gap={24} color="var(--border)" size={1} />
+                <Controls className="opacity-50" showInteractive={false} />
             </ReactFlow>
 
             {/* Info card panel */}
             {selectedMember && (
-                <div className="absolute top-4 right-4 bg-white rounded-lg shadow-lg border border-gray-200 p-4 min-w-[200px] z-10">
-                    <div className="flex justify-between items-start mb-2">
-                        <span className="font-semibold text-gray-900 text-sm">{selectedMember.label}</span>
+                <div className="absolute top-4 right-4 bg-surface rounded-xl shadow-xl border border-border p-4 min-w-[200px] z-10">
+                    <div className="flex justify-between items-start mb-2 border-b border-border/50 pb-2">
+                        <span className="font-bold text-text text-sm">{selectedMember.label}</span>
                         <button
                             onClick={() => setSelectedMember(null)}
-                            className="text-gray-400 hover:text-gray-600 ml-2 text-xs"
+                            className="text-muted-foreground hover:text-text ml-2 text-xs flex items-center justify-center size-6 rounded-full hover:bg-surface-2 transition-colors"
                         >
                             ✕
                         </button>
                     </div>
-                    <div className="text-xs text-gray-500 space-y-1">
-                        <p><span className="font-medium">Role:</span> <span className="capitalize">{selectedMember.role}</span></p>
-                        <p><span className="font-medium">Joined:</span> {new Date(selectedMember.joined_at).toLocaleDateString()}</p>
+                    <div className="text-xs text-muted-foreground space-y-2 mt-2">
+                        <p className="flex justify-between"><span className="font-medium text-text">Papel:</span> <span className="capitalize">{selectedMember.role}</span></p>
+                        <p className="flex justify-between"><span className="font-medium text-text">Entrou em:</span> <span>{new Date(selectedMember.joined_at).toLocaleDateString('pt-BR')}</span></p>
                     </div>
                 </div>
             )}

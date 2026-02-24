@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Rootline - Carrinho</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#13ae20",
+                        "background-light": "#f6f8f6",
+                        "background-dark": "#112112",
+                    },
+                    fontFamily: {
+                        "display": ["Manrope"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Manrope', sans-serif;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 font-display">
+<div class="relative flex min-h-screen w-full max-w-md mx-auto flex-col bg-background-light dark:bg-background-dark overflow-x-hidden border-x border-slate-200 dark:border-slate-800">
+<!-- Header -->
+<header class="sticky top-0 z-10 flex items-center bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-md p-4 justify-between border-b border-slate-200 dark:border-slate-800">
+<button class="flex size-10 items-center justify-center rounded-full hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">
+<span class="material-symbols-outlined text-slate-700 dark:text-slate-300">arrow_back</span>
+</button>
+<h1 class="text-lg font-bold leading-tight tracking-tight flex-1 text-center pr-10 text-slate-900 dark:text-slate-100">Meu Carrinho</h1>
+</header>
+<!-- Cart Items List -->
+<main class="flex-1 px-4 py-6 space-y-6">
+<!-- Item 1 -->
+<div class="flex items-start gap-4 animate-in fade-in duration-500">
+<div class="relative shrink-0">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-xl size-24 border border-slate-200 dark:border-slate-700" data-alt="Álbum de fotos com capa de tecido verde" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAc_qhw84w_Hq9kY19AczfhmWlyhAvdxbwyZssjMFCNIOVLwtg6nuzDwnhJHK7x3HoUr_XM88ReseTQ-Gh1BRdSJA5hZLN-29R89q4OpMXC8tzbHMs71FP0KyVERB9H7z0pO48EU4e0JwTy43ZfbSyuyYBEN6dj7h0qr0S-857tQ4b2jE9AhNgHm9fec2wzpPyIP4y0NI4gqqgBqFb7H7viVLjeazBWEfi1zYNrVCzgvHAotBLg2eb0fqInbLjccwddBM8X7BvX8s4");'>
+</div>
+</div>
+<div class="flex flex-col flex-1 justify-between h-24">
+<div>
+<h3 class="text-slate-900 dark:text-slate-100 text-base font-bold leading-tight line-clamp-1">Álbum de Fotos</h3>
+<p class="text-slate-500 dark:text-slate-400 text-xs font-medium uppercase tracking-wider mb-1">Aniversário da Sara</p>
+<p class="text-primary text-base font-bold">R$ 189,90</p>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-3 bg-slate-100 dark:bg-slate-800 rounded-full px-2 py-1 border border-slate-200 dark:border-slate-700">
+<button class="flex h-7 w-7 items-center justify-center rounded-full bg-white dark:bg-slate-700 text-slate-600 dark:text-slate-300 hover:text-primary transition-colors shadow-sm">
+<span class="material-symbols-outlined text-sm">remove</span>
+</button>
+<span class="text-sm font-bold w-4 text-center">1</span>
+<button class="flex h-7 w-7 items-center justify-center rounded-full bg-white dark:bg-slate-700 text-slate-600 dark:text-slate-300 hover:text-primary transition-colors shadow-sm">
+<span class="material-symbols-outlined text-sm font-bold">add</span>
+</button>
+</div>
+<button class="text-slate-400 hover:text-red-500 transition-colors">
+<span class="material-symbols-outlined text-xl">delete</span>
+</button>
+</div>
+</div>
+</div>
+<hr class="border-slate-200 dark:border-slate-800"/>
+<!-- Item 2 -->
+<div class="flex items-start gap-4">
+<div class="relative shrink-0">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-xl size-24 border border-slate-200 dark:border-slate-700" data-alt="Quadro emoldurado com paisagem de montanha" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAqjwXvB8MmStFZUS5ww_E3KjHHIFHYUc5fhoZCdC9KkltvMaI06Wevnc5TABquhkgJJtWeHC0r02sq0RBpDP6-o3PU8LhSfFSIQ1Z3QuDubDLAlQGEB0gx_Fgp1SWrhiNtc0SKK7ngExB5xcXyw_ARh8pTDZjhakrKs-n91MCgIPPLqnVb9h-zZoCqXLraZxpgR1Xs4ZPR6tqkhumO-JDi2DI0PoPoHNOSTykAC91lzuu6Fzj7ivYpsLkPZmCTjNZaXm6-BBFifx4");'>
+</div>
+</div>
+<div class="flex flex-col flex-1 justify-between h-24">
+<div>
+<h3 class="text-slate-900 dark:text-slate-100 text-base font-bold leading-tight line-clamp-1">Quadros e Telas</h3>
+<p class="text-slate-500 dark:text-slate-400 text-xs font-medium uppercase tracking-wider mb-1">Viagem à Montanha</p>
+<p class="text-primary text-base font-bold">R$ 245,00</p>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-3 bg-slate-100 dark:bg-slate-800 rounded-full px-2 py-1 border border-slate-200 dark:border-slate-700">
+<button class="flex h-7 w-7 items-center justify-center rounded-full bg-white dark:bg-slate-700 text-slate-600 dark:text-slate-300 hover:text-primary transition-colors shadow-sm">
+<span class="material-symbols-outlined text-sm">remove</span>
+</button>
+<span class="text-sm font-bold w-4 text-center">1</span>
+<button class="flex h-7 w-7 items-center justify-center rounded-full bg-white dark:bg-slate-700 text-slate-600 dark:text-slate-300 hover:text-primary transition-colors shadow-sm">
+<span class="material-symbols-outlined text-sm font-bold">add</span>
+</button>
+</div>
+<button class="text-slate-400 hover:text-red-500 transition-colors">
+<span class="material-symbols-outlined text-xl">delete</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Empty Space filler or additional items could go here -->
+<div class="pt-8">
+<div class="bg-primary/5 rounded-xl p-4 border border-primary/10 flex items-center gap-3">
+<span class="material-symbols-outlined text-primary">local_shipping</span>
+<p class="text-sm font-medium text-slate-700 dark:text-slate-300">
+                        Você ganhou <span class="text-primary font-bold">Frete Grátis</span> nesta compra!
+                    </p>
+</div>
+</div>
+</main>
+<!-- Summary & Footer -->
+<section class="mt-auto bg-white dark:bg-slate-900 rounded-t-3xl shadow-[0_-8px_30px_rgb(0,0,0,0.04)] dark:shadow-[0_-8px_30px_rgb(0,0,0,0.2)] p-6 space-y-4 border-t border-slate-100 dark:border-slate-800">
+<div class="space-y-2">
+<div class="flex justify-between items-center text-slate-500 dark:text-slate-400">
+<p class="text-sm font-medium">Subtotal</p>
+<p class="text-sm font-bold text-slate-700 dark:text-slate-200">R$ 434,90</p>
+</div>
+<div class="flex justify-between items-center text-slate-500 dark:text-slate-400">
+<p class="text-sm font-medium">Entrega</p>
+<p class="text-sm font-bold text-primary">Grátis</p>
+</div>
+<div class="pt-2 mt-2 border-t border-slate-100 dark:border-slate-800 flex justify-between items-center">
+<p class="text-base font-bold text-slate-900 dark:text-slate-100">Total</p>
+<p class="text-2xl font-extrabold text-primary">R$ 434,90</p>
+</div>
+</div>
+<button class="w-full bg-primary hover:bg-primary/90 text-white font-bold py-4 rounded-xl shadow-lg shadow-primary/20 transition-all active:scale-[0.98] flex items-center justify-center gap-2">
+<span>Fechar Pedido</span>
+<span class="material-symbols-outlined">arrow_forward</span>
+</button>
+<p class="text-[10px] text-center text-slate-400 dark:text-slate-500 uppercase tracking-widest font-bold">
+                Rootline Family Archives © 2024
+            </p>
+</section>
+<!-- Bottom Navigation Bar -->
+<nav class="flex gap-2 border-t border-slate-200 dark:border-slate-800 bg-background-light dark:bg-background-dark px-4 pb-6 pt-3">
+<a class="flex flex-1 flex-col items-center justify-center gap-1 text-slate-400 dark:text-slate-500 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined">home</span>
+<p class="text-[10px] font-bold leading-normal tracking-wide">INÍCIO</p>
+</a>
+<a class="flex flex-1 flex-col items-center justify-center gap-1 text-slate-400 dark:text-slate-500 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined">archive</span>
+<p class="text-[10px] font-bold leading-normal tracking-wide">ARQUIVO</p>
+</a>
+<a class="flex flex-1 flex-col items-center justify-center gap-1 text-primary" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1">shopping_cart</span>
+<p class="text-[10px] font-bold leading-normal tracking-wide">CARRINHO</p>
+</a>
+<a class="flex flex-1 flex-col items-center justify-center gap-1 text-slate-400 dark:text-slate-500 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined">person</span>
+<p class="text-[10px] font-bold leading-normal tracking-wide">PERFIL</p>
+</a>
+</nav>
+</div>
+</body></html>

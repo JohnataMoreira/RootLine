@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Rootline - Loja de Memórias</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#13ae20",
+                        "background-light": "#f6f8f6",
+                        "background-dark": "#112112",
+                    },
+                    fontFamily: {
+                        "display": ["Manrope", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Manrope', sans-serif;
+        }
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen flex flex-col">
+<!-- Header Section -->
+<header class="sticky top-0 z-50 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-md border-b border-primary/10 px-4 py-4 flex items-center justify-between">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary text-3xl">auto_stories</span>
+<div>
+<h1 class="text-xl font-extrabold tracking-tight">Loja de Memórias</h1>
+<p class="text-xs text-slate-500 dark:text-slate-400">Transforme pixels em lembranças</p>
+</div>
+</div>
+<div class="relative">
+<button class="p-2 rounded-full hover:bg-primary/10 transition-colors">
+<span class="material-symbols-outlined">shopping_cart</span>
+</button>
+<span class="absolute top-1 right-1 bg-primary text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full">2</span>
+</div>
+</header>
+<!-- Main Content -->
+<main class="flex-1 overflow-y-auto pb-24">
+<!-- Hero Section -->
+<section class="p-4">
+<div class="relative w-full h-48 rounded-xl overflow-hidden shadow-lg group">
+<div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent z-10"></div>
+<img alt="Impressão de Fotos" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="Hand holding a high quality family photo album" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAm6SjZ_2x8uh2zmv6vV_ler0jZGhlkxj4b-WMJ4l8I7e3aRU2Jm0vvdx9Z-WPonJZVmVmzSvnOxdFPAymVHLqdq1yN3Hu7IBIIQExZkkhmzaj5Ol_O9QAtSuFI6m7uqgg1Gfo4QQbpizCd8Mh97HJtumPSw-dduEJdQCS8kIuOQQFDDmOxGFbl8H40Xyrn4jw6EbqTCZPLCkstTWCTciaRFR-dQrqT-aTO8AP22C_19WrUMoIKtc9NflRZAs2Yj5e-9hqd4og8-d0"/>
+<div class="absolute bottom-4 left-4 z-20">
+<span class="bg-primary/90 text-white text-[10px] font-bold uppercase tracking-widest px-2 py-1 rounded mb-2 inline-block">Novidade</span>
+<h2 class="text-white text-2xl font-bold">Papel Fine Art</h2>
+<p class="text-white/80 text-sm">Qualidade de galeria para suas fotos</p>
+</div>
+</div>
+</section>
+<!-- Categories Grid -->
+<section class="px-4 py-2">
+<h3 class="text-lg font-bold mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">grid_view</span>
+                Categorias
+            </h3>
+<div class="grid grid-cols-1 gap-4">
+<!-- Photo Books -->
+<div class="flex bg-white dark:bg-slate-900 rounded-xl overflow-hidden shadow-sm border border-slate-100 dark:border-slate-800">
+<div class="w-1/3 h-32 relative">
+<img alt="Álbuns" class="absolute inset-0 w-full h-full object-cover" data-alt="Stack of linen photo books in soft green and beige" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAHOQOHg4hNirK6iDN6ZI-n-66Ypj6Xlu2oAyrtsmSYGoMVbtKjuX7PvA3R_pmpsu6nUeeQCCRm7CLmvoIOcrLGVlQdivM_PBzPqcaldULRsNZ5MY-yYsRwJy8NjUrXOO_vvRM2F2Z_WF3fuj9KWWGFrKohYC__4ZZp_fOvUq_-xzBNXXlsHLG4hUrpx5j4Fx512X-mkcylVjCkBKV-PKct9bL-71f-RNRrX_rRlI4czSTL6ffJbcW28jHX7B6l51z-PBlpLIFcRx8"/>
+</div>
+<div class="w-2/3 p-4 flex flex-col justify-center">
+<h4 class="font-bold text-base">Álbuns de Fotos</h4>
+<p class="text-xs text-slate-500 mb-3">Capa dura, papel premium e linho.</p>
+<div class="flex gap-2">
+<button class="bg-primary text-white text-xs font-bold px-4 py-2 rounded-lg hover:bg-primary/90 transition-all">Criar Agora</button>
+</div>
+</div>
+</div>
+<!-- Canvas -->
+<div class="flex bg-white dark:bg-slate-900 rounded-xl overflow-hidden shadow-sm border border-slate-100 dark:border-slate-800">
+<div class="w-1/3 h-32 relative">
+<img alt="Quadros" class="absolute inset-0 w-full h-full object-cover" data-alt="Modern living room with family photo canvas art" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBDRU2yQf8DOHCBiGd-LYbtd40Ohp7JCdGB9Mq5TSkShUrvIjeIa5KjGo7g9VihFWGccWdfq3GhmoB4w4SisTue6lBF7R_2i1arjeo3FW6daDLM0-WWoxhCgLZywc6CKs9XpX7f3QR5FoRk-kHPGI6aDMG3a1wF04QflN_0-UcBe652mT7WIySh-J-qcoBMKf5biHSzngKlTbtCfBS8A05RhfQDZ5srfrRHcsznlN2miitumia6r_0fjdtHS1BuZZjEmy3YOm5aLAo"/>
+</div>
+<div class="w-2/3 p-4 flex flex-col justify-center">
+<h4 class="font-bold text-base">Quadros e Telas</h4>
+<p class="text-xs text-slate-500 mb-3">Decore sua casa com amor e história.</p>
+<div class="flex gap-2">
+<button class="bg-primary text-white text-xs font-bold px-4 py-2 rounded-lg hover:bg-primary/90 transition-all">Ver Formatos</button>
+</div>
+</div>
+</div>
+<!-- Individual Prints -->
+<div class="flex bg-white dark:bg-slate-900 rounded-xl overflow-hidden shadow-sm border border-slate-100 dark:border-slate-800">
+<div class="w-1/3 h-32 relative">
+<img alt="Fotos Avulsas" class="absolute inset-0 w-full h-full object-cover" data-alt="Vintage style individual photo prints on a wooden table" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB8EIeAGQoT6S1BDD9zOVcEAwKAg7FJe4-Fpv2O59UAVESUhGJGPGQjftibvNCJ-IS3IgUfjSjVelgRVL7zDgykMYmRDr267wX1ZAScOd3ZdvvNhdnRUPetGRLE6AqMi_sEsq_1q6prvnPWaSUKHwiz0lE_VI69RDBXZxpqCAmG3yeLcaf5YFdsAQ4i6d31ozFHcEGGdiuiwCVRIb27EWGEn1fOa-kGmaqZ50jvRu3r_G-OCdO5OTvOOziApI8evHuEO1nekImOryk"/>
+</div>
+<div class="w-2/3 p-4 flex flex-col justify-center">
+<h4 class="font-bold text-base">Fotos Avulsas</h4>
+<p class="text-xs text-slate-500 mb-3">O clássico 10x15 e formatos polaroid.</p>
+<div class="flex gap-2">
+<button class="bg-primary text-white text-xs font-bold px-4 py-2 rounded-lg hover:bg-primary/90 transition-all">Escolher Fotos</button>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- AI Suggestions Carousel -->
+<section class="py-6">
+<div class="px-4 mb-4 flex justify-between items-center">
+<h3 class="text-lg font-bold flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">magic_button</span>
+                    Sugestões da IA
+                </h3>
+<button class="text-primary text-xs font-bold">Ver tudo</button>
+</div>
+<div class="flex overflow-x-auto gap-4 px-4 hide-scrollbar">
+<!-- Suggestion 1 -->
+<div class="min-w-[240px] bg-white dark:bg-slate-900 rounded-xl shadow-md overflow-hidden border border-primary/5">
+<div class="h-32 relative">
+<img alt="Sara 2026" class="absolute inset-0 w-full h-full object-cover" data-alt="A photo of a toddler birthday party with balloons" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDB0sXhtk3jl2_H_4kWUyojhrqMWq-WxIoS576iGO2-iX_YtZPEEjpaCmSpCwrDtDcynHRYXwEpNRaqtdAoSykCxKrCQfEfPfx_5o8r4hOpZsPDuO9bEvmDARetb8MvFuoCq5bt1paKSnmRyCupZGbi7PNyfIv5EP1jU1J5_UHC-W9V2eceOrM86oZ1UIQbXxRexMbhNnvoM3JG7qQuDgD4Dc_MWgiOLXedlVgUtRp7KsN0UJqdewrL3kEMpGw9YUt3L6WGM8w5-DU"/>
+<div class="absolute top-2 right-2 bg-white/90 dark:bg-slate-800/90 backdrop-blur px-2 py-1 rounded-full text-[10px] font-bold text-primary">Pronto para imprimir</div>
+</div>
+<div class="p-4">
+<h5 class="font-bold text-sm mb-1">Álbum: Aniversário da Sara</h5>
+<p class="text-[11px] text-slate-400 mb-4">Gerado com 42 fotos de 2026</p>
+<div class="flex gap-2">
+<button class="flex-1 bg-primary text-white text-[11px] font-bold py-2 rounded hover:bg-primary/90">Comprar</button>
+<button class="flex-1 border border-primary text-primary text-[11px] font-bold py-2 rounded hover:bg-primary/5">Personalizar</button>
+</div>
+</div>
+</div>
+<!-- Suggestion 2 -->
+<div class="min-w-[240px] bg-white dark:bg-slate-900 rounded-xl shadow-md overflow-hidden border border-primary/5">
+<div class="h-32 relative">
+<img alt="Viagem Família" class="absolute inset-0 w-full h-full object-cover" data-alt="Family walking on a sunny beach at sunset" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCnD7aGTvH7tSrfsgKj3hCh48UcXNaJWfPP9wNT6wKLQ8fjQjy9JTVGF6TnjwqzLqjcL_c0e6C1DBhuIF4aL-bgrsjnl3ucq7PhPVd7h2pjoZiyucaPgSXhCaifEegFYCc88NmeroSoD33_1lNcIuawGjuPgmd6SuvBO3WY5pWd3U6NY6fgxwjoyoA5k_17Byj9IRC1B3YanruPmaY78hcyEmzmKjvtEN_ykgMq59Wgq5ys4KMPS7OKFBWzTQx1-zs0L4Oflo8tFmQ"/>
+<div class="absolute top-2 right-2 bg-white/90 dark:bg-slate-800/90 backdrop-blur px-2 py-1 rounded-full text-[10px] font-bold text-primary">Mais votado</div>
+</div>
+<div class="p-4">
+<h5 class="font-bold text-sm mb-1">Viagem em Família: Praia</h5>
+<p class="text-[11px] text-slate-400 mb-4">Seleção das melhores memórias</p>
+<div class="flex gap-2">
+<button class="flex-1 bg-primary text-white text-[11px] font-bold py-2 rounded hover:bg-primary/90">Comprar</button>
+<button class="flex-1 border border-primary text-primary text-[11px] font-bold py-2 rounded hover:bg-primary/5">Personalizar</button>
+</div>
+</div>
+</div>
+<!-- Suggestion 3 -->
+<div class="min-w-[240px] bg-white dark:bg-slate-900 rounded-xl shadow-md overflow-hidden border border-primary/5">
+<div class="h-32 relative">
+<img alt="Natal 2025" class="absolute inset-0 w-full h-full object-cover" data-alt="Cozy family dinner during winter holidays" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCoLUFm9S2iXEj4YhtCNNk8dwvLHKc3V4q3GdbVB3fSf8ZO329jdxoOV85gFkzgAWMDPvUlQGniKkSOwqwT9ZjWKbkShmXM9UrI8B0HKGV01lMbDRz1AEDY-jU4kxA6ZPGWubphwb0clPBV_6DESezv-AxOlziAhw5fa6unk_Q-r3OA9rEgXSZXMhDSM2PT-uuJurWQG2a5Ur__rctEuKEoxYobRrqmsgrDdjjAjEByzxOZFjHX_uDsCHgaScXYH473NZCD86F1IDk"/>
+<div class="absolute top-2 right-2 bg-white/90 dark:bg-slate-800/90 backdrop-blur px-2 py-1 rounded-full text-[10px] font-bold text-primary">Edição Natal</div>
+</div>
+<div class="p-4">
+<h5 class="font-bold text-sm mb-1">Natal 2025: Momentos</h5>
+<p class="text-[11px] text-slate-400 mb-4">Crie um presente inesquecível</p>
+<div class="flex gap-2">
+<button class="flex-1 bg-primary text-white text-[11px] font-bold py-2 rounded hover:bg-primary/90">Comprar</button>
+<button class="flex-1 border border-primary text-primary text-[11px] font-bold py-2 rounded hover:bg-primary/5">Personalizar</button>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Saved Drafts Section -->
+<section class="px-4 py-4">
+<div class="bg-primary/5 dark:bg-primary/10 border-2 border-dashed border-primary/20 rounded-xl p-6 text-center">
+<span class="material-symbols-outlined text-primary/60 text-4xl mb-2">history</span>
+<h4 class="font-bold text-base">Projetos em Aberto</h4>
+<p class="text-xs text-slate-500 mb-4">Você tem 2 álbuns aguardando finalização</p>
+<button class="bg-white dark:bg-slate-800 text-primary border border-primary/20 text-xs font-bold px-6 py-2 rounded-lg hover:shadow-md transition-all">Continuar Editando</button>
+</div>
+</section>
+</main>
+<!-- Bottom Navigation Bar -->
+<nav class="fixed bottom-0 left-0 right-0 bg-white dark:bg-slate-900 border-t border-slate-100 dark:border-slate-800 px-2 pb-6 pt-2 z-50">
+<div class="flex justify-around items-center max-w-md mx-auto">
+<a class="flex flex-col items-center gap-1 text-slate-400 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined">home</span>
+<span class="text-[10px] font-medium">Início</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-slate-400 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined">account_tree</span>
+<span class="text-[10px] font-medium">Árvore</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-slate-400 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined">auto_awesome_motion</span>
+<span class="text-[10px] font-medium">Memórias</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-primary transition-colors" href="#">
+<span class="material-symbols-outlined fill-current" style="font-variation-settings: 'FILL' 1;">storefront</span>
+<span class="text-[10px] font-bold">Loja</span>
+</a>
+</div>
+</nav>
+</body></html>

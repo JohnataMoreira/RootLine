@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Rootline - Histórias Orais</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#13ae20",
+                        "background-light": "#f6f8f6",
+                        "background-dark": "#112112",
+                    },
+                    fontFamily: {
+                        "display": ["Manrope"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        body { font-family: 'Manrope', sans-serif; }
+        .waveform-bar {
+            width: 3px;
+            background-color: #13ae20;
+            border-radius: 2px;
+            margin: 0 1px;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen flex flex-col">
+<!-- Top Navigation Bar -->
+<header class="flex items-center justify-between px-4 py-4 sticky top-0 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-md z-10">
+<button class="p-2 hover:bg-primary/10 rounded-full transition-colors">
+<span class="material-symbols-outlined text-slate-900 dark:text-slate-100">arrow_back</span>
+</button>
+<h1 class="text-lg font-bold tracking-tight">Histórias Orais</h1>
+<button class="p-2 hover:bg-primary/10 rounded-full transition-colors">
+<span class="material-symbols-outlined text-slate-900 dark:text-slate-100">more_vert</span>
+</button>
+</header>
+<main class="flex-1 overflow-y-auto pb-32">
+<!-- Prominent Family Photo -->
+<div class="px-4 py-2">
+<div class="relative w-full aspect-[4/3] rounded-xl overflow-hidden shadow-lg border-4 border-white dark:border-slate-800">
+<img alt="Foto de família antiga reunida em um jardim" class="w-full h-full object-cover" data-alt="Family gathering in an old garden vintage photo" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAjNSfUBimdHakKqeP-SX-YfDFeQo1PtQkRAY2Yy8thTy9k3gF4Ik--8qZOTB6g0J2PJxThKFex54UzWEszGX6kCX0clQw9WBchUo-_tkr7xlONoMjFJoMaor1BQFf6TwlkqFXu2FEllI3tiSHVNrlrKgPVOh5BzsGj0QQUHbMmyC_Nqy413iHS7F5v1UjJmzeyvzq5kXEQKZvyThBKTDrr5kKZlu5QBAw8taAF944-eOj_r0grDHT3jxRYAKb68DOOrjmeVMgcCgM"/>
+<div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-4">
+<p class="text-white text-sm font-medium">Reunião de Natal, 1984</p>
+</div>
+</div>
+</div>
+<!-- Instructions -->
+<div class="px-6 py-6 text-center">
+<h2 class="text-xl font-bold text-slate-900 dark:text-slate-100 mb-1">Conte a história por trás desta foto...</h2>
+<p class="text-slate-500 dark:text-slate-400 text-sm">Sua voz preserva a memória da nossa família.</p>
+</div>
+<!-- Recording Interface -->
+<div class="px-6 pb-8">
+<div class="bg-primary/5 dark:bg-primary/10 rounded-xl p-6 flex flex-col items-center border border-primary/20">
+<!-- Timer -->
+<div class="text-4xl font-bold text-primary mb-4 tabular-nums">00:42</div>
+<!-- Waveform Visualization (Static Placeholder) -->
+<div class="flex items-end justify-center h-12 w-full mb-8 gap-[2px]">
+<div class="waveform-bar h-4 opacity-40"></div>
+<div class="waveform-bar h-6 opacity-50"></div>
+<div class="waveform-bar h-10 opacity-60"></div>
+<div class="waveform-bar h-8 opacity-70"></div>
+<div class="waveform-bar h-12 opacity-80"></div>
+<div class="waveform-bar h-6 opacity-90"></div>
+<div class="waveform-bar h-10 opacity-100"></div>
+<div class="waveform-bar h-12 opacity-90"></div>
+<div class="waveform-bar h-7 opacity-80"></div>
+<div class="waveform-bar h-9 opacity-70"></div>
+<div class="waveform-bar h-5 opacity-60"></div>
+<div class="waveform-bar h-3 opacity-50"></div>
+<div class="waveform-bar h-6 opacity-40"></div>
+<div class="waveform-bar h-2 opacity-30"></div>
+</div>
+<!-- Record Button -->
+<div class="relative flex items-center justify-center">
+<div class="absolute w-20 h-20 bg-primary/20 rounded-full animate-ping"></div>
+<button class="relative z-10 w-16 h-16 bg-primary text-white rounded-full flex items-center justify-center shadow-xl hover:scale-105 active:scale-95 transition-transform">
+<span class="material-symbols-outlined text-4xl" style="font-variation-settings: 'FILL' 1">pause</span>
+</button>
+</div>
+<p class="mt-4 text-xs font-semibold text-primary uppercase tracking-widest">Gravando...</p>
+</div>
+</div>
+<!-- Saved Recordings List -->
+<div class="px-6 mb-8">
+<div class="flex items-center justify-between mb-4">
+<h3 class="text-base font-bold text-slate-800 dark:text-slate-200">Arquivo de Voz</h3>
+<span class="text-xs text-slate-500 dark:text-slate-400">2 gravações</span>
+</div>
+<div class="space-y-3">
+<!-- Recording Item 1 -->
+<div class="flex items-center bg-white dark:bg-slate-800/50 p-3 rounded-lg border border-slate-100 dark:border-slate-700 shadow-sm">
+<div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center mr-3 shrink-0">
+<span class="material-symbols-outlined text-primary">play_arrow</span>
+</div>
+<div class="flex-1">
+<p class="text-sm font-bold">Vovó Maria Helena</p>
+<p class="text-[10px] text-slate-500 dark:text-slate-400 uppercase tracking-tighter">Ontem • 02:45</p>
+</div>
+<button class="p-2 text-slate-400 hover:text-slate-600">
+<span class="material-symbols-outlined">share</span>
+</button>
+</div>
+<!-- Recording Item 2 -->
+<div class="flex items-center bg-white dark:bg-slate-800/50 p-3 rounded-lg border border-slate-100 dark:border-slate-700 shadow-sm">
+<div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center mr-3 shrink-0">
+<span class="material-symbols-outlined text-primary">play_arrow</span>
+</div>
+<div class="flex-1">
+<p class="text-sm font-bold">Tio Carlos Eduardo</p>
+<p class="text-[10px] text-slate-500 dark:text-slate-400 uppercase tracking-tighter">15 Out 2023 • 01:12</p>
+</div>
+<button class="p-2 text-slate-400 hover:text-slate-600">
+<span class="material-symbols-outlined">share</span>
+</button>
+</div>
+</div>
+</div>
+</main>
+<!-- Bottom Navigation Bar (Reuse component style) -->
+<nav class="fixed bottom-0 left-0 right-0 bg-background-light dark:bg-background-dark border-t border-slate-200 dark:border-slate-800 px-4 pb-4 pt-2">
+<div class="flex justify-around items-center max-w-md mx-auto">
+<a class="flex flex-col items-center gap-1 text-slate-400 dark:text-slate-500" href="#">
+<span class="material-symbols-outlined">home</span>
+<p class="text-[10px] font-medium uppercase tracking-wider">Início</p>
+</a>
+<a class="flex flex-col items-center gap-1 text-slate-400 dark:text-slate-500" href="#">
+<span class="material-symbols-outlined">account_tree</span>
+<p class="text-[10px] font-medium uppercase tracking-wider">Árvore</p>
+</a>
+<a class="flex flex-col items-center gap-1 text-primary" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1">mic</span>
+<p class="text-[10px] font-medium uppercase tracking-wider">Histórias</p>
+</a>
+<a class="flex flex-col items-center gap-1 text-slate-400 dark:text-slate-500" href="#">
+<span class="material-symbols-outlined">person</span>
+<p class="text-[10px] font-medium uppercase tracking-wider">Perfil</p>
+</a>
+</div>
+</nav>
+</body></html>

@@ -1,7 +1,7 @@
 'use client'
 
-import { useRouter } from 'next/navigation'
 import { useState } from 'react'
+import { userSelectsActiveFamily } from '@/app/(authed)/actions/set-active-family'
 
 type PreviewMember = {
     id: string
@@ -23,7 +23,6 @@ type Props = {
 }
 
 export function FamilyList({ families, activeFamilyId }: Props) {
-    const router = useRouter()
     const [loadingId, setLoadingId] = useState<string | null>(null)
 
     async function handleSwitch(familyId: string, redirectTo: string) {
@@ -31,23 +30,11 @@ export function FamilyList({ families, activeFamilyId }: Props) {
 
         setLoadingId(familyId)
         try {
-            const res = await fetch('/api/family/switch', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ family_id: familyId }),
-            })
-
-            if (res.ok) {
-                router.push(redirectTo)
-                router.refresh()
-            } else {
-                const error = await res.text()
-                console.error('Failed to switch family:', error)
-                alert('Erro ao trocar de família. Verifique sua conexão.')
-            }
+            await userSelectsActiveFamily(familyId, redirectTo)
+            // No need to handle success, redirect happens seamlessly in server action
         } catch (err) {
-            console.error('Network error switching family:', err)
-            alert('Erro de rede ao trocar de família.')
+            console.error('Action error switching family:', err)
+            alert('Erro ao entrar na família.')
         } finally {
             setLoadingId(null)
         }
@@ -59,8 +46,8 @@ export function FamilyList({ families, activeFamilyId }: Props) {
                 <div
                     key={f.familyId}
                     className={`relative p-6 bg-white rounded-xl border transition-all shadow-sm flex flex-col ${f.familyId === activeFamilyId
-                            ? 'border-indigo-500 ring-1 ring-indigo-500'
-                            : 'border-gray-200 hover:border-gray-300'
+                        ? 'border-indigo-500 ring-1 ring-indigo-500'
+                        : 'border-gray-200 hover:border-gray-300'
                         }`}
                 >
                     {f.familyId === activeFamilyId && (
@@ -114,8 +101,8 @@ export function FamilyList({ families, activeFamilyId }: Props) {
                             onClick={() => handleSwitch(f.familyId, '/timeline')}
                             disabled={loadingId !== null}
                             className={`flex-1 py-2 px-4 rounded-lg text-sm font-semibold transition-colors ${f.familyId === activeFamilyId
-                                    ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
-                                    : 'bg-indigo-600 hover:bg-indigo-700 text-white shadow-sm'
+                                ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                                : 'bg-indigo-600 hover:bg-indigo-700 text-white shadow-sm'
                                 }`}
                         >
                             {loadingId === f.familyId ? 'Entrando...' : 'Entrar'}

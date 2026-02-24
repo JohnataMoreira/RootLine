@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+
+<html class="light" lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Rootline - Árvore Genealógica</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#13ae20",
+                        "background-light": "#f6f8f6",
+                        "background-dark": "#112112",
+                    },
+                    fontFamily: {
+                        "display": ["Manrope", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Manrope', sans-serif;
+        }
+        .tree-line {
+            position: absolute;
+            background-color: #d1d5db; /* gray-300 transition based on primary hue */
+            z-index: 0;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen flex flex-col">
+<!-- Header -->
+<header class="sticky top-0 z-50 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-md border-b border-primary/10 px-4 py-4 flex items-center justify-between">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary">arrow_back</span>
+<h1 class="text-lg font-bold tracking-tight">Árvore Genealógica</h1>
+</div>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-slate-600 dark:text-slate-400">search</span>
+<span class="material-symbols-outlined text-slate-600 dark:text-slate-400">settings</span>
+</div>
+</header>
+<main class="flex-1 overflow-y-auto pb-24">
+<div class="px-4 pt-6 pb-2 text-center">
+<h2 class="text-2xl font-bold text-slate-900 dark:text-slate-100">Nossa Árvore</h2>
+<p class="text-sm text-slate-500 dark:text-slate-400 mt-1">Explore as conexões da sua linhagem</p>
+</div>
+<!-- Tree Canvas Area -->
+<div class="relative w-full overflow-x-auto py-12 px-4 flex justify-center">
+<div class="relative min-w-[600px] flex flex-col items-center gap-16">
+<!-- Level 3: Grandparents -->
+<div class="flex justify-between w-full max-w-4xl px-4">
+<!-- Paternal Grandparents -->
+<div class="flex gap-8 relative">
+<!-- Connecting Line for Paternal GP -->
+<div class="absolute -bottom-8 left-1/2 w-px h-8 bg-slate-300 dark:bg-slate-700"></div>
+<div class="absolute -bottom-8 left-1/4 right-1/4 h-px bg-slate-300 dark:bg-slate-700"></div>
+<div class="flex flex-col items-center gap-2">
+<div class="size-14 rounded-full border-2 border-primary/40 p-0.5 bg-background-light dark:bg-background-dark overflow-hidden">
+<img class="w-full h-full object-cover rounded-full" data-alt="Retrato de um senhor idoso sorrindo" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAeRPVAJNnYcNmGBrlZndvcJuB4DV9afMUKyUBM_CyIYZZdtrRsuB09oT8tmGyW_ctPpvB79B0JHrGZIb98_BKjI-XE-ixC57qac_LKJ8pT7MoRtm5aMgxCPleQdDWWBjQcLYxsGYuKSa0v-iphSW7xBPiTGZO8uOWZj5gs2G9jigMFWFTxHEmgVGdXJV95IFgRVVCxXsXwRQWM79jGB9V7aBV0_t0dLuNbqWBRolgze-RMi2p2Ou-5pzgJ5EdiuL5IFVKLgNUBs88"/>
+</div>
+<span class="text-xs font-medium">Avô P.</span>
+</div>
+<div class="flex flex-col items-center gap-2">
+<div class="size-14 rounded-full border-2 border-primary/40 p-0.5 bg-background-light dark:bg-background-dark overflow-hidden">
+<img class="w-full h-full object-cover rounded-full" data-alt="Retrato de uma senhora idosa sorrindo" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBawhhThtJJimLIBBN6QxAQ_2h2rn_5AE21cxlLQDoW3RtBf8qozvCYff7QaLYfKAEOn_cxMHj-S5jymMX0QSC3uv-Km7nsW0EO4meXhl5IQRLsniVqP-wrfuGxFG4kodA2mdXVHEmY1Gw2qOtJDm6dDtwmtzlugUP5btcUypoUFvnG1a7UG8BgT437aTH7UeBO9vnBYlCgJ8QSwhJplulXCrLSgMvikOpLxQ0LAvAv1EKvNasirIcoqYYtdd7NVn3h11C_sklhPOA"/>
+</div>
+<span class="text-xs font-medium">Avó P.</span>
+</div>
+</div>
+<!-- Materna Grandparents -->
+<div class="flex gap-8 relative">
+<!-- Connecting Line for Maternal GP -->
+<div class="absolute -bottom-8 left-1/2 w-px h-8 bg-slate-300 dark:bg-slate-700"></div>
+<div class="absolute -bottom-8 left-1/4 right-1/4 h-px bg-slate-300 dark:bg-slate-700"></div>
+<div class="flex flex-col items-center gap-2">
+<div class="size-14 rounded-full border-2 border-primary/40 p-0.5 bg-background-light dark:bg-background-dark overflow-hidden">
+<img class="w-full h-full object-cover rounded-full" data-alt="Retrato de um senhor idoso elegante" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBgHGjTdEmru4iBjT_y_UXLejB5zUCmPKcczmcZ5Lmua4-q1dB-OOZ8Rxf4tule3d1J8IGlVRRuLYWDZVjHQnu1Q4yoPZK5-RJ9xBIdbt_K9HEPQDnIiV50zWG7NUEze1qYO9jS_VkEDQ4Fd5S6SuCJQ-6WBmS7TOe2zKb87HwwAFbpE-TNiRBvOWRXhi5oJc-9bTqC4m6BN1KxgCfmcTe64pUPhtpJ9_-AvMzmEuJuRJnrL861NTo8al7RuvhuO7QrFlz0mqzL0AE"/>
+</div>
+<span class="text-xs font-medium">Avô M.</span>
+</div>
+<div class="flex flex-col items-center gap-2">
+<div class="size-14 rounded-full border-2 border-primary/40 p-0.5 border-dashed bg-slate-100 dark:bg-slate-800 flex items-center justify-center">
+<span class="material-symbols-outlined text-slate-400">add</span>
+</div>
+<span class="text-xs font-medium text-slate-400">Adicionar</span>
+</div>
+</div>
+</div>
+<!-- Horizontal connector between parents parents -->
+<div class="absolute top-[88px] left-[15%] right-[15%] h-px bg-slate-300 dark:bg-slate-700 -z-10"></div>
+<!-- Level 2: Parents -->
+<div class="flex justify-around w-full max-w-2xl px-12 relative">
+<!-- Connecting Line for Parents to You -->
+<div class="absolute -bottom-8 left-1/2 w-px h-8 bg-primary/40"></div>
+<div class="absolute -bottom-8 left-1/4 right-1/4 h-px bg-primary/40"></div>
+<div class="flex flex-col items-center gap-2">
+<div class="size-16 rounded-full border-2 border-primary/60 p-0.5 bg-background-light dark:bg-background-dark overflow-hidden shadow-sm">
+<img class="w-full h-full object-cover rounded-full" data-alt="Retrato de um homem de meia idade" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDu1PJ5G8_VeMayT3deR8ZN4EvZVADmTzINVmPvu_-l-u82pgMMDnGosb3iOlCxZbJfqAIkgZfWxa0TA5YaqfQs0WXW8FRv4ggK_LOI2piVL5C7-ryaSGsBjbl37EkrHTqFHmX0g4XX72hOj5KEcDlupKoqRdNsD1FpfXL9Yl6e_4b1IPIBoelpGvzI0p5aFVahFrkvC-YFUrK1834f0SkA2f6G06fgbMTXq_cV6No0FkcLs6rrEaYR1qplwx4JJMiajBv2EgkRsf0"/>
+</div>
+<span class="text-sm font-semibold">Pai</span>
+</div>
+<div class="flex flex-col items-center gap-2">
+<div class="size-16 rounded-full border-2 border-primary/60 p-0.5 bg-background-light dark:bg-background-dark overflow-hidden shadow-sm">
+<img class="w-full h-full object-cover rounded-full" data-alt="Retrato de uma mulher de meia idade" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBkCL6llm49m65pOlbPvdXoWGWVYpL7CHfdNACgLqDbENXdJWYzAhjiLkGqDCRCtvA_2ty2YhvTTGHv3yEuMe8rT-S0YqDOuMoB0NCUIViRmfEWoU5oeG-ZG6glIUM6XJl-ksklBe6KCFEJQOydg1Gd1gPLcm5z1iFuuOJNg4geJP8gdluFrJCQhIzrmkFwexJSIZCLndOcV1ocxsWPjIh7OM7wY4Wxe1y808ouNAsbefzJFSonR7EJPLOjHlFK7zYc4rOzGm0WJOo"/>
+</div>
+<span class="text-sm font-semibold">Mãe</span>
+</div>
+</div>
+<!-- Level 1: You -->
+<div class="flex flex-col items-center gap-2 relative">
+<div class="size-20 rounded-full border-4 border-primary p-1 bg-background-light dark:bg-background-dark overflow-hidden shadow-lg ring-4 ring-primary/10">
+<img class="w-full h-full object-cover rounded-full" data-alt="Sua foto de perfil sorrindo" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDwYntXE93hvJPWEm7YIonSDGLSawXFaTkYg8e4W5gthga1AM72aSiSGr_9v1NbUYxeN2Q-vxtKfB1t67pa4RuEN5ZKGRydF-IKAb4StGx36opqvXCSZTohEq2g01AQnlkKoLdPTB878wXr8qakYbgtD69aA_c98SPXQhi9z1sxLGiXBqzTSbWtkLe5a0t7XHUfj4AMXLSJHcHmRmNr1cEVgxqd1IBif8QMZNUJFXHthmoSPdYzq4BHDM21dYEr-wn8kzjYf2aSPz8"/>
+</div>
+<span class="text-base font-bold text-primary">Você</span>
+</div>
+<!-- Add Relative FAB Position -->
+<button class="flex items-center gap-2 bg-primary text-white px-6 py-3 rounded-full font-bold shadow-xl hover:bg-primary/90 transition-all mt-4">
+<span class="material-symbols-outlined">person_add</span>
+<span>Adicionar Familiar</span>
+</button>
+</div>
+</div>
+<!-- Próximos Passos Section -->
+<section class="px-4 mt-8">
+<h3 class="text-lg font-bold mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">bolt</span>
+                Próximos Passos
+            </h3>
+<div class="bg-white dark:bg-slate-800 rounded-xl p-5 border border-primary/10 shadow-sm">
+<div class="flex items-start gap-4">
+<div class="size-12 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-primary">group_add</span>
+</div>
+<div class="flex-1">
+<h4 class="font-bold text-slate-900 dark:text-slate-100 text-base">Trabalho em Equipe</h4>
+<p class="text-sm text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">
+                            Convide familiares para colaborar na construção da árvore e compartilhar memórias.
+                        </p>
+<button class="mt-4 w-full bg-primary text-white py-2.5 rounded-lg font-bold text-sm">
+                            Convidar Familiares
+                        </button>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Bottom Navigation Bar -->
+<nav class="fixed bottom-0 left-0 right-0 bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 px-4 py-2 flex justify-around items-center z-50">
+<a class="flex flex-col items-center gap-1 text-slate-400 dark:text-slate-500" href="#">
+<span class="material-symbols-outlined">home</span>
+<span class="text-[10px] font-medium">Início</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-primary" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1">account_tree</span>
+<span class="text-[10px] font-medium">Árvore</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-slate-400 dark:text-slate-500" href="#">
+<span class="material-symbols-outlined">menu_book</span>
+<span class="text-[10px] font-medium">Memórias</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-slate-400 dark:text-slate-500" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="text-[10px] font-medium">Perfil</span>
+</a>
+</nav>
+</body></html>

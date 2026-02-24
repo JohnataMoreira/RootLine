@@ -1,0 +1,75 @@
+﻿import { test, expect } from '@playwright/test'
+
+test.describe.serial('Invite Member Flow', () => {
+    test('generates an invite link and allows an authenticated user to accept it', async ({ page }) => {
+        // 1. Navigate to timeline, wait for redirect to settle
+        await page.goto('/timeline')
+        await page.waitForURL(/.*(\/timeline|\/onboarding|\/families|\/login)/, { timeout: 10000 })
+
+        // If redirected to families (test user has multiple families from previous runs), select one
+        if (page.url().includes('/families')) {
+            const firstEnterButton = page.locator('button', { hasText: 'Entrar' }).first()
+            await expect(firstEnterButton).toBeVisible({ timeout: 10000 })
+            await firstEnterButton.click()
+            await page.waitForURL(/.*\/timeline/, { timeout: 15000 })
+        }
+
+        // If redirected to onboarding, create a prerequisite family first
+        if (page.url().includes('/onboarding')) {
+            const familyName = `[E2E] Prerequisite Family ${Date.now()}`
+            await expect(page.getByTestId('onboarding-heading')).toBeVisible({ timeout: 15000 })
+            const nameInput = page.locator('input[name="familyName"]')
+            await nameInput.fill(familyName)
+            await page.locator('button', { hasText: 'Começar agora' }).click()
+            await page.waitForURL(/.*\/timeline/, { timeout: 15000 })
+        }
+
+        // 2. Navigate to /tree (invite modal lives here)
+        await page.goto('/tree')
+        await page.waitForURL(/.*\/tree/, { timeout: 10000 })
+
+        // 3. Click the "Convidar Familiares" trigger button
+        const openButton = page.getByTestId('invite-open')
+        await expect(openButton).toBeVisible({ timeout: 10000 })
+        await openButton.click()
+
+        // 4. Wait for the modal to appear
+        const modal = page.getByTestId('invite-modal')
+        await expect(modal).toBeVisible({ timeout: 5000 })
+
+        // 5. Fill in the invite email
+        // We MUST use the authenticated test user's email here because the accept_invite_by_token RPC
+        // explicitly validates that the email of the person clicking the link matches the invited email.
+        const inviteEmail = process.env.TEST_USER_EMAIL || 'test@example.com'
+        const emailInput = page.getByTestId('invite-email')
+        await expect(emailInput).toBeVisible()
+        await emailInput.fill(inviteEmail)
+
+        // 6. Submit the invite form
+        const submitButton = page.getByTestId('invite-submit')
+        await submitButton.click()
+
+        // 7. Wait for the invite link to appear in the success state
+        const inviteLinkEl = page.getByTestId('invite-link')
+        await expect(inviteLinkEl).toBeVisible({ timeout: 15000 })
+        const inviteLink = await inviteLinkEl.getAttribute('href') ?? await inviteLinkEl.innerText()
+        expect(inviteLink).toContain('/invite/')
+
+        // 8. Navigate to the invite acceptance page
+        await page.goto(inviteLink)
+        await page.waitForURL(/.*\/invite\/.*/, { timeout: 10000 })
+
+        // 9. Accept the invite — the "Join Family" button
+        const joinButton = page.locator('button[type="submit"]')
+        await expect(joinButton).toBeVisible({ timeout: 10000 })
+        await Promise.all([
+            page.waitForNavigation({ url: /.*\/timeline/, timeout: 15000 }),
+            joinButton.click()
+        ])
+
+        // 10. Confirm we landed on timeline
+        await expect(page).toHaveURL(/.*\/timeline/)
+    })
+})
+
+

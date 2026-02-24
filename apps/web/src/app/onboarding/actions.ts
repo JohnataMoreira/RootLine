@@ -2,6 +2,7 @@
 
 import { createClient } from '@/utils/supabase/server'
 import { redirect } from 'next/navigation'
+import { setActiveFamilyId } from '@/lib/family/active-family'
 
 export async function createFamily(formData: FormData) {
     const supabase = await createClient()
@@ -16,31 +17,18 @@ export async function createFamily(formData: FormData) {
         redirect('/onboarding?message=Family name is required')
     }
 
-    // 1. Create family
-    const { data: family, error: familyError } = await supabase
-        .from('families')
-        .insert({ name: familyName.trim(), created_by: user.id })
-        .select('id')
-        .single()
+    // 1. Create family and join atomically via RPC
+    const { data: familyId, error: rpcError } = await supabase
+        .rpc('create_family_and_join', { p_name: familyName.trim() })
 
-    if (familyError || !family) {
-        console.error('Family Error:', familyError)
+    if (rpcError || !familyId) {
+        console.error('RPC Error:', rpcError)
         redirect('/onboarding?message=Failed to create family')
     }
 
-    // 2. Add creator as admin
-    const { error: memberError } = await supabase
-        .from('members')
-        .insert({
-            family_id: family.id,
-            profile_id: user.id,
-            role: 'admin'
-        })
+    // 2. Persist the active family context via SSR cookie
+    await setActiveFamilyId(familyId)
 
-    if (memberError) {
-        console.error('Member Error:', memberError)
-        redirect('/onboarding?message=Failed to assign owner to family')
-    }
-
-    redirect('/timeline') // temporary redirect, Task 2.4 builds the tree
+    // 3. Navigate directly to timeline
+    redirect('/timeline')
 }

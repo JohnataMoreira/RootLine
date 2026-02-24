@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Rootline - Linha do Tempo Inteligente</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#13ae20",
+                        "background-light": "#f6f8f6",
+                        "background-dark": "#112112",
+                    },
+                    fontFamily: {
+                        "display": ["Manrope", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Manrope', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen flex flex-col">
+<!-- Header -->
+<header class="sticky top-0 z-30 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-md px-4 pt-6 pb-2">
+<div class="flex items-center justify-between mb-4">
+<h1 class="text-2xl font-800 tracking-tight text-slate-900 dark:text-white">Linha do Tempo</h1>
+<button class="w-10 h-10 flex items-center justify-center rounded-full bg-primary/10 text-primary">
+<span class="material-symbols-outlined text-2xl">search</span>
+</button>
+</div>
+<!-- Family Member Filter -->
+<div class="flex gap-4 overflow-x-auto hide-scrollbar py-2 -mx-4 px-4">
+<div class="flex flex-col items-center gap-2 shrink-0">
+<div class="w-16 h-16 rounded-full border-2 border-primary p-0.5">
+<div class="w-full h-full rounded-full bg-primary flex items-center justify-center text-white">
+<span class="material-symbols-outlined">groups</span>
+</div>
+</div>
+<span class="text-xs font-semibold text-primary">Todos</span>
+</div>
+<div class="flex flex-col items-center gap-2 shrink-0 opacity-60">
+<div class="w-16 h-16 rounded-full border-2 border-transparent p-0.5">
+<img alt="" class="w-full h-full rounded-full object-cover" data-alt="Close up portrait of an older man with glasses" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB0IthuJ5vZLhQOxrTft7UENVr6VF6mGGydT1-JWbAN143qCQuJCFFM3yl2HgLYDXA8Ib3nNwtDiE6OE6zJWbQ43oGzIZLpbOdyjIxqFapjRKHGuFgwYfPJdMSAAirSZy70PCjowDJSEuD3odnHnZ0CwLA8nfRG3mdhcvxiG-RWPAAoqemvJHpXccGc9hQ5nUBeRFrGHnxwQFs2O8nCz3pd7x_XtO4dNwNX_IjnP5JQYACn_JCWzb0m7-j8Wv3mqduGRoPSa4UfDGQ"/>
+</div>
+<span class="text-xs font-medium">Pai</span>
+</div>
+<div class="flex flex-col items-center gap-2 shrink-0 opacity-60">
+<div class="w-16 h-16 rounded-full border-2 border-transparent p-0.5">
+<img alt="" class="w-full h-full rounded-full object-cover" data-alt="Portrait of a smiling middle aged woman" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAOM47iHZIvuQWED2y2kxizH7admEsoRXOb6eROuzyMgXV8dHKnVgol4oANjxYfy3lSXHex8oTmeL6DER8pH7Obxh-BSZwO5vj27Fja71SPozZy4TbCrD2QrMNHXC3yLDibsMWKSrkOAp0nT-R4lfibyFjaQJcSljP7HymCrh1D3bH97ico-J0mrvTzQBKMncxSBc3TMhm3H5hJEaRQlD8EdUkq5hNiDdrqkubOBq6t5Jy4b5m3KvMjKA-RNmbCY8_-67pRqt-MatA"/>
+</div>
+<span class="text-xs font-medium">Mãe</span>
+</div>
+<div class="flex flex-col items-center gap-2 shrink-0 opacity-60">
+<div class="w-16 h-16 rounded-full border-2 border-transparent p-0.5">
+<img alt="" class="w-full h-full rounded-full object-cover" data-alt="Young man smiling looking at camera" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA9cqfWQr4H_9daiT1YCogKjQw4GnWf7JMw6egq37qZtnALmKLFldG6-2pMWiYL48klpRBgZ4qDfT_zFkX6poiFrNUNOAYbbiIrvFIJwxY-D7uxvHaBbp31az4_CV9XK75CQgV-asCHgJMckwKMJp5iItIp3LTiotmEG6EZYwjt64JhY3MCD-5FFD48BykzY_m_VPnofWHliP7k942Q6oHmIHFGm2k0K4OJBcgTSXOF2scT_J9Hs2UdAWyotlWPv50uJfINS-lv1pA"/>
+</div>
+<span class="text-xs font-medium">Você</span>
+</div>
+<div class="flex flex-col items-center gap-2 shrink-0 opacity-60">
+<div class="w-16 h-16 rounded-full border-2 border-transparent p-0.5">
+<img alt="" class="w-full h-full rounded-full object-cover" data-alt="Close up of an elderly woman smiling" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAnVV3c8SrBE6SBCjMCRuHzYFUewIIM74h6ggTlm-U5yCgqhzxnYTb947BUOG0r6RkrV10itCckMYB7z9gByaRqtdIVdNRH6HeWB_0arOhzWRueZ1zi0MdtE_ohx_NgBDpZ7W5nvCp2wIyNVsocH8E7hK8dc28dYQ-hXtpN7skDnh0kwwHyg1hf_u2M-hjDtAYk0UjCxC8Ifgp_mU2shFTGhwIMK-bey4sOuvGnt537_2ArT5PR3x-hxX1GOaVpG4ryhLqFBbDjkrI"/>
+</div>
+<span class="text-xs font-medium">Avó P.</span>
+</div>
+</div>
+<!-- Event Filter Chips -->
+<div class="flex gap-2 overflow-x-auto hide-scrollbar py-3">
+<button class="px-4 py-1.5 rounded-full bg-primary text-white text-sm font-medium whitespace-nowrap">Eventos</button>
+<button class="px-4 py-1.5 rounded-full bg-primary/10 text-primary border border-primary/20 text-sm font-medium whitespace-nowrap flex items-center gap-1">
+                Aniversários <span class="material-symbols-outlined text-sm">keyboard_arrow_down</span>
+</button>
+<button class="px-4 py-1.5 rounded-full bg-primary/10 text-primary border border-primary/20 text-sm font-medium whitespace-nowrap flex items-center gap-1">
+                Férias <span class="material-symbols-outlined text-sm">keyboard_arrow_down</span>
+</button>
+<button class="px-4 py-1.5 rounded-full bg-primary/10 text-primary border border-primary/20 text-sm font-medium whitespace-nowrap flex items-center gap-1">
+                Natal <span class="material-symbols-outlined text-sm">keyboard_arrow_down</span>
+</button>
+<button class="px-4 py-1.5 rounded-full bg-primary/10 text-primary border border-primary/20 text-sm font-medium whitespace-nowrap flex items-center gap-1">
+                Datas <span class="material-symbols-outlined text-sm">calendar_today</span>
+</button>
+</div>
+</header>
+<!-- Main Content -->
+<main class="flex-1 px-4 pb-24">
+<!-- Timeline Section 1 -->
+<section class="mt-4">
+<div class="flex items-center gap-3 mb-4 sticky top-[180px] z-20 bg-background-light dark:bg-background-dark py-2">
+<div class="w-2 h-2 rounded-full bg-primary ring-4 ring-primary/20"></div>
+<h2 class="text-lg font-bold text-slate-900 dark:text-white">Janeiro 2026</h2>
+</div>
+<!-- Masonry-like Grid -->
+<div class="grid grid-cols-2 gap-3 mb-6">
+<!-- Large Card -->
+<div class="col-span-2 relative rounded-xl overflow-hidden group">
+<img alt="" class="w-full h-64 object-cover transform transition duration-500 group-hover:scale-110" data-alt="A colorful birthday cake with lit candles" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBP8YmM41NAX0TMGoTvmCGFFsDWzps4YcEFNbvLSL2kY2pyy9q1RJPsrR9ICPnXprnqlnnVMaNxuO8OrduAxxFY68SZZZrMgnS5iQcQig-IEE7cLMRLkQlgdm29ru7eAqlLwlik4g_jsW07XQ1D7xhNd1dbGY3DTE5qSpxErCrxJn2oWTposJ4CNFPGN0VRg-af4gpj-Z5Qddnn6_Z7iDKkMHFwdMLZYpFAsUI4XMGzsetk0PdPp-TyQDhaDlFitU4i_6raxwwp_78"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+<div class="absolute bottom-4 left-4 flex flex-col gap-1">
+<span class="w-fit bg-primary text-white text-[10px] font-extrabold uppercase tracking-widest px-3 py-1 rounded-full shadow-lg shadow-black/20">Aniversário da Sara</span>
+<span class="text-white/90 text-xs font-medium ml-1">12 de Janeiro</span>
+</div>
+</div><div class="mt-3 flex flex-col gap-3 px-1">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<div class="flex -space-x-2">
+<img alt="Pai" class="w-7 h-7 rounded-full border-2 border-white dark:border-background-dark object-cover shadow-sm" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB0IthuJ5vZLhQOxrTft7UENVr6VF6mGGydT1-JWbAN143qCQuJCFFM3yl2HgLYDXA8Ib3nNwtDiE6OE6zJWbQ43oGzIZLpbOdyjIxqFapjRKHGuFgwYfPJdMSAAirSZy70PCjowDJSEuD3odnHnZ0CwLA8nfRG3mdhcvxiG-RWPAAoqemvJHpXccGc9hQ5nUBeRFrGHnxwQFs2O8nCz3pd7x_XtO4dNwNX_IjnP5JQYACn_JCWzb0m7-j8Wv3mqduGRoPSa4UfDGQ"/>
+<img alt="Mãe" class="w-7 h-7 rounded-full border-2 border-white dark:border-background-dark object-cover shadow-sm" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAOM47iHZIvuQWED2y2kxizH7admEsoRXOb6eROuzyMgXV8dHKnVgol4oANjxYfy3lSXHex8oTmeL6DER8pH7Obxh-BSZwO5vj27Fja71SPozZy4TbCrD2QrMNHXC3yLDibsMWKSrkOAp0nT-R4lfibyFjaQJcSljP7HymCrh1D3bH97ico-J0mrvTzQBKMncxSBc3TMhm3H5hJEaRQlD8EdUkq5hNiDdrqkubOBq6t5Jy4b5m3KvMjKA-RNmbCY8_-67pRqt-MatA"/>
+</div>
+<span class="text-[11px] font-semibold text-slate-500">Reagido por Pai e outros</span>
+</div>
+<div class="flex gap-4 text-slate-500">
+<button class="flex items-center gap-1.5 hover:text-primary transition-colors group">
+<span class="material-symbols-outlined text-xl group-active:scale-125 transition-transform">favorite</span>
+<span class="text-xs font-bold">12</span>
+</button>
+<button class="flex items-center gap-1.5 hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-xl">chat_bubble</span>
+<span class="text-xs font-bold">4</span>
+</button>
+</div>
+</div>
+<div class="bg-slate-100/50 dark:bg-white/5 rounded-2xl p-2 pl-3 flex gap-3 items-center border border-slate-200/50 dark:border-white/10">
+<img alt="Você" class="w-7 h-7 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA9cqfWQr4H_9daiT1YCogKjQw4GnWf7JMw6egq37qZtnALmKLFldG6-2pMWiYL48klpRBgZ4qDfT_zFkX6poiFrNUNOAYbbiIrvFIJwxY-D7uxvHaBbp31az4_CV9XK75CQgV-asCHgJMckwKMJp5iItIp3LTiotmEG6EZYwjt64JhY3MCD-5FFD48BykzY_m_VPnofWHliP7k942Q6oHmIHFGm2k0K4OJBcgTSXOF2scT_J9Hs2UdAWyotlWPv50uJfINS-lv1pA"/>
+<input class="flex-1 bg-transparent border-none focus:ring-0 text-sm py-1 placeholder:text-slate-400" placeholder="Adicione um comentário..." type="text"/>
+<button class="text-primary pr-2">
+<span class="material-symbols-outlined text-xl">send</span>
+</button>
+</div>
+</div>
+<!-- Small Card 1 -->
+<div class="relative rounded-xl overflow-hidden aspect-square group">
+<img alt="" class="w-full h-full object-cover transform transition duration-500 group-hover:scale-110" data-alt="Beautiful snowy mountain range at sunset" src="https://lh3.googleusercontent.com/aida-public/AB6AXuABDUBZ3HJthN09Z7NZ5SZIEBjZO3RaoGAKh8YcjgLdx46TA_0UrMx73QKd2HLQuJl-g6gu4TjcmtIbe_2I5savrND1QqBx8UiiR9npIQfJWNqYlnM4vkwUHQGHnPi3nvx_hNxj7eSX23fOiFwu8LIgCXstGv24xDHTwaXYEEiOOzyZz-7FsZVcM48Cun7nujzgJULqR31wXGk0K4J1MNXcd5NJhNFSuXIkCGkbHRvNgka9FfcHmRQRZFCG6yuz2Qs6T2c1eIptxQc"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+<div class="absolute bottom-2 left-2">
+<span class="bg-black/40 backdrop-blur-md text-white text-[10px] font-bold px-3 py-1 rounded-full border border-white/20">Viagem à Montanha</span>
+</div>
+<div class="absolute top-2 right-2 flex gap-1.5">
+<div class="bg-black/30 backdrop-blur-md rounded-full px-2 py-0.5 flex items-center gap-1 text-white">
+<span class="material-symbols-outlined text-[14px]">favorite</span>
+<span class="text-[10px] font-bold">5</span>
+</div>
+</div></div>
+<!-- Small Card 2 -->
+<div class="relative rounded-xl overflow-hidden aspect-square group">
+<img alt="" class="w-full h-full object-cover transform transition duration-500 group-hover:scale-110" data-alt="Family dinner party with warm lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBc3JEl_hI65oWRQ27QVuJ-Dz_Vw6mYxhfluYCbhwAs8Yc7se3SO1UETMot2YofJc4AHp3arqhIyXX6nVQL3G48z5Y-zLvfKC0X_rfq_3IXL-ctM6veie45ySl0YK15QUAIZIAYejbftJuzgzGjoIvIwbIynjk0cKu_2KVNLohgavD4xY-10y3OTvmGLlrA8RQLTE6kZ8gKCWZLfL2gOyoV6C2sEJuEFZuYeRgcMXaiw8cDPBUqcg2S1tKjG8DcIOgRb9sx43nMvdg"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+<div class="absolute bottom-2 left-2">
+<span class="bg-black/40 backdrop-blur-md text-white text-[10px] font-bold px-3 py-1 rounded-full border border-white/20">Viagem à Montanha</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Timeline Section 2 -->
+<section class="mt-8">
+<div class="flex items-center gap-3 mb-4 sticky top-[180px] z-20 bg-background-light dark:bg-background-dark py-2">
+<div class="w-2 h-2 rounded-full bg-slate-300 dark:bg-slate-600 ring-4 ring-slate-100 dark:ring-slate-800"></div>
+<h2 class="text-lg font-bold text-slate-900 dark:text-white opacity-60">Dezembro 2025</h2>
+</div>
+<div class="grid grid-cols-3 gap-2">
+<div class="rounded-lg overflow-hidden aspect-[3/4]">
+<img alt="" class="w-full h-full object-cover" data-alt="Christmas tree with glowing lights" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAUliOcAyNoCMjDHHHxZ-uunfUJWjGsyZekYZNdyp0SoKPPTlbQbmwS7T43Fgd_PeCoLDHsuiAQCHNL__9tlExtNNgc6PUjQ1UFWHl0ojhCXRnX2Hlmd_TjArlp9t_AqXBPAG-Pztq4NokD8dgOA7jC2grezjDJTBvUCVGZtx1xKok5DVn4tUbIvHvXVME4Q24iJ1Q35hELRIaqoDU6iNAMI6Lis5OW7M4XWAlBWPZ0rrWU2q5uXsh1v2Z7VVUYnvYcFbJ3VAQM95o"/>
+</div>
+<div class="rounded-lg overflow-hidden aspect-[3/4]">
+<img alt="" class="w-full h-full object-cover" data-alt="Wrapped holiday gifts on floor" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAkTWLl1JFzDTNgK8anpJNgchbdOQfAC5-AM1XA9DC27D9GBTuHjekSA-wXdQ5upC1nZEox_yYTezfd7CY-32VWNy0RltA4IQOwIxPRZfCLVQxIdbiRuErbw56iqTFbFXvUmWyn1YwOKAzRpmkUdgZsC8hxVeEk9PAIKkZiNMygdllSepMvOTBFzhmLuHiUNqNv9KvO3xRo8JMhQ7hMXuMS8YeZmAZCupahvI4L0xlZq8pKGbSmlFwBlhFQeIPrC_dsosg6EgpJ-nw"/>
+</div>
+<div class="rounded-lg overflow-hidden aspect-[3/4]">
+<img alt="" class="w-full h-full object-cover" data-alt="Snowy winter street scene" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC2R5MgwOCNpzSIxNsrWjrDtrvAQj5tOZDO4fD7-2dHfCexB86MnC14txkYLjLLOuwXsLXXz7lGIp5GNUDFdyIudn5p1l1wKU_d4sirbIyHM7Y6OJ1VJ89bcArUxAW_s0jA3lb0XImCDDlug761pzDYmUb9rdVHMgMexvuyIAQbbcRkcOrA01_67-rnSCKFOlmOP91HGTyfLwN6uNRVJhkJ-a9Uof78bDddubHMwlGiWsGMrD7HhY6aFaKferRAJFJKpBzE4SPxYkQ"/>
+</div>
+<div class="col-span-3 relative rounded-xl overflow-hidden h-40">
+<img alt="" class="w-full h-full object-cover" data-alt="Large family gathering around dinner table" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB49AalWz-_NKZC5L6gSw49XxQ2eWtks6OfR3TOTNv9NlSZ10B_UQewzt2LEPr1yStZEKNvVY7vNP7Mc9QfcE6nOpwSosruEB1FDKbdpjSgovUe1sRjfm7YGxEqmg9iOK7tID2Jr2Hzz4sP-gusW1aWoHq5VAdviVgPKbLnPT5pY9_iz2lkMxB8UYnDuodNfVcH-QtBbFBAik67B7kCqE5ntBXI3-PH7mU6yQOhpEFuoSxMJoErpWR2FUju9QgzXYYN1grxGJXxRzk"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent flex items-end p-3">
+<span class="bg-primary text-white text-[10px] font-bold uppercase px-2 py-0.5 rounded-lg">Natal em Família</span>
+</div>
+</div><div class="col-span-3 mt-1 flex items-center justify-between px-1">
+<div class="flex items-center gap-2">
+<div class="flex -space-x-1.5">
+<img alt="Avó" class="w-5 h-5 rounded-full border border-white dark:border-background-dark object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAnVV3c8SrBE6SBCjMCRuHzYFUewIIM74h6ggTlm-U5yCgqhzxnYTb947BUOG0r6RkrV10itCckMYB7z9gByaRqtdIVdNRH6HeWB_0arOhzWRueZ1zi0MdtE_ohx_NgBDpZ7W5nvCp2wIyNVsocH8E7hK8dc28dYQ-hXtpN7skDnh0kwwHyg1hf_u2M-hjDtAYk0UjCxC8Ifgp_mU2shFTGhwIMK-bey4sOuvGnt537_2ArT5PR3x-hxX1GOaVpG4ryhLqFBbDjkrI"/>
+<div class="w-5 h-5 rounded-full bg-primary/10 border border-white dark:border-background-dark flex items-center justify-center text-[8px] font-bold text-primary">+8</div>
+</div>
+<span class="text-[10px] font-medium text-slate-500">Família reagiu</span>
+</div>
+<div class="flex gap-2">
+<button class="w-8 h-8 rounded-full bg-primary/5 flex items-center justify-center text-primary"><span class="material-symbols-outlined text-lg">favorite</span></button>
+<button class="w-8 h-8 rounded-full bg-primary/5 flex items-center justify-center text-primary"><span class="material-symbols-outlined text-lg">chat_bubble</span></button>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Floating Action Button -->
+<button class="fixed bottom-24 right-6 w-14 h-14 bg-primary text-white rounded-full shadow-lg shadow-primary/30 flex items-center justify-center z-40">
+<span class="material-symbols-outlined text-3xl">add</span>
+</button>
+<!-- Bottom Navigation Bar -->
+<nav class="fixed bottom-0 left-0 right-0 bg-white dark:bg-background-dark border-t border-slate-200 dark:border-slate-800 px-6 py-3 pb-6 z-50">
+<div class="flex justify-between items-center max-w-md mx-auto">
+<a class="flex flex-col items-center gap-1 text-slate-400" href="#">
+<span class="material-symbols-outlined">home</span>
+<span class="text-[10px] font-medium">Início</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-slate-400" href="#">
+<span class="material-symbols-outlined">account_tree</span>
+<span class="text-[10px] font-medium">Árvore</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-primary" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1">auto_awesome_motion</span>
+<span class="text-[10px] font-bold">Memórias</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-slate-400" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="text-[10px] font-medium">Perfil</span>
+</a>
+</div>
+</nav>
+</body></html>

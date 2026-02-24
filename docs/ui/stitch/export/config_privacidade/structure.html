@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Configurações de Privacidade - Rootline</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#13ae20",
+                        "background-light": "#f6f8f6",
+                        "background-dark": "#112112",
+                    },
+                    fontFamily: {
+                        "display": ["Manrope", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Manrope', sans-serif;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #13ae2044;
+            border-radius: 10px;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen flex flex-col">
+<!-- Header -->
+<header class="sticky top-0 z-10 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-md border-b border-primary/10">
+<div class="flex items-center p-4 max-w-2xl mx-auto w-full">
+<button class="p-2 -ml-2 hover:bg-primary/10 rounded-full transition-colors">
+<span class="material-symbols-outlined text-slate-900 dark:text-slate-100">arrow_back</span>
+</button>
+<h1 class="text-xl font-bold ml-2">Privacidade</h1>
+</div>
+</header>
+<main class="flex-1 max-w-2xl mx-auto w-full pb-24">
+<!-- Visibilidade das Memórias -->
+<section class="p-4">
+<h2 class="text-sm font-bold uppercase tracking-wider text-primary mb-4">Visibilidade das Memórias</h2>
+<div class="space-y-3">
+<div class="bg-white dark:bg-slate-800/50 p-4 rounded-xl shadow-sm border border-primary/5 flex items-center justify-between">
+<div class="flex-1 pr-4">
+<p class="font-semibold text-base">Perfil Público na Árvore</p>
+<p class="text-sm text-slate-500 dark:text-slate-400">Permite que outros membros vejam sua árvore genealógica.</p>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox" value=""/>
+<div class="w-11 h-6 bg-slate-200 peer-focus:outline-none rounded-full peer dark:bg-slate-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary"></div>
+</label>
+</div>
+<div class="bg-white dark:bg-slate-800/50 p-4 rounded-xl shadow-sm border border-primary/5 flex items-center justify-between">
+<div class="flex-1 pr-4">
+<p class="font-semibold text-base">Compartilhamento Automático</p>
+<p class="text-sm text-slate-500 dark:text-slate-400">Compartilhar novas memórias automaticamente com a família.</p>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input class="sr-only peer" type="checkbox" value=""/>
+<div class="w-11 h-6 bg-slate-200 peer-focus:outline-none rounded-full peer dark:bg-slate-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary"></div>
+</label>
+</div>
+</div>
+</section>
+<!-- Controle de Acesso -->
+<section class="p-4">
+<div class="flex items-center justify-between mb-4">
+<h2 class="text-sm font-bold uppercase tracking-wider text-primary">Controle de Acesso</h2>
+<button class="text-xs font-bold text-primary hover:underline">GERENCIAR TODOS</button>
+</div>
+<div class="bg-white dark:bg-slate-800/50 rounded-xl shadow-sm border border-primary/5 overflow-hidden">
+<!-- Member 1 -->
+<div class="flex items-center p-4 hover:bg-primary/5 transition-colors border-b border-primary/5 cursor-pointer">
+<img class="w-10 h-10 rounded-full object-cover" data-alt="Portrait of a smiling middle-aged man" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAF7RJJ9gg2QMrqd3BntS2C0aslmuyjK7wPYqqlNNgNGR4cMmyATTq_p4mmtnPD0rEMUmUei9KcZVjrSjBx7yOa1nEuWJ_ez4K4Mzv_PF6jlNQdkEWJkJvQZLTNNWu5jZklaPEJyRHKUBogUHqYXYVATOaP_oudLrobOmSr-cUKVrQ0DwFwQKGK4DBpKtqxVu1q6bapuj5gTtsI2Xn-87k3b73REXYuxr_Cxw7sMjPJXnAEQ1V_c4lCe6tsgSOxAVM9JkhaJ7AIKTA"/>
+<div class="ml-3 flex-1">
+<p class="font-semibold">Carlos Silveira</p>
+<p class="text-xs text-slate-500">Pai</p>
+</div>
+<div class="flex items-center gap-2">
+<span class="px-2 py-1 bg-primary/20 text-primary text-[10px] font-bold rounded-full">ADMIN</span>
+<span class="material-symbols-outlined text-slate-400">chevron_right</span>
+</div>
+</div>
+<!-- Member 2 -->
+<div class="flex items-center p-4 hover:bg-primary/5 transition-colors border-b border-primary/5 cursor-pointer">
+<img class="w-10 h-10 rounded-full object-cover" data-alt="Portrait of a young woman smiling" src="https://lh3.googleusercontent.com/aida-public/AB6AXuADwlN1YgrGLpet1vcufK1ij7EIYJ0qDVnESZJNsvb4aVZiJ0Oi1COnfwlWYa84l15bwvp5VQ_v53YUosy1s5GV6xFkcifaxXuHBVsSwI5ATQt-dw4L2aWV5oK-jU2urYLrEH3uk3IOAybjoIKqhFatG8PJxHNCCfBLJ-s6A_mfwfMmOKttX1HNiqvnxNyp8PesRdKnHoYlndq61lmYLW985eGcbSEvF19C3Xxxmj6XDixFZi0Abs93_WBv6qd3iQsmW0apdD16sCY"/>
+<div class="ml-3 flex-1">
+<p class="font-semibold">Beatriz Mendes</p>
+<p class="text-xs text-slate-500">Irmã</p>
+</div>
+<div class="flex items-center gap-2">
+<span class="px-2 py-1 bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 text-[10px] font-bold rounded-full">COLABORADOR</span>
+<span class="material-symbols-outlined text-slate-400">chevron_right</span>
+</div>
+</div>
+<!-- Member 3 -->
+<div class="flex items-center p-4 hover:bg-primary/5 transition-colors cursor-pointer">
+<div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold">RM</div>
+<div class="ml-3 flex-1">
+<p class="font-semibold">Ricardo Matos</p>
+<p class="text-xs text-slate-500">Tio</p>
+</div>
+<div class="flex items-center gap-2">
+<span class="px-2 py-1 bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 text-[10px] font-bold rounded-full">OBSERVADOR</span>
+<span class="material-symbols-outlined text-slate-400">chevron_right</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Segurança dos Dados -->
+<section class="p-4">
+<h2 class="text-sm font-bold uppercase tracking-wider text-primary mb-4">Segurança dos Dados</h2>
+<div class="bg-white dark:bg-slate-800/50 rounded-xl shadow-sm border border-primary/5 divide-y divide-primary/5">
+<div class="p-4 flex items-center justify-between">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary">verified_user</span>
+<div>
+<p class="font-semibold">Criptografia de Ponta a Ponta</p>
+<p class="text-xs text-primary font-medium">Ativa e Protegida</p>
+</div>
+</div>
+</div>
+<div class="p-4">
+<div class="flex items-center gap-3 mb-3">
+<span class="material-symbols-outlined text-primary">history_edu</span>
+<div>
+<p class="font-semibold">Exportação de Dados</p>
+<p class="text-xs text-slate-500 dark:text-slate-400">Conforme o compromisso Forever Architecture.</p>
+</div>
+</div>
+<button class="w-full py-2 bg-primary text-white font-bold rounded-lg hover:bg-primary/90 transition-colors text-sm">
+                        EXPORTAR AGORA
+                    </button>
+</div>
+<div class="p-4 flex justify-center">
+<button class="text-sm font-bold text-red-500 hover:text-red-600 transition-colors py-2 px-4 rounded-lg hover:bg-red-50 dark:hover:bg-red-900/10">
+                        EXCLUIR CONTA DEFINITIVAMENTE
+                    </button>
+</div>
+</div>
+</section>
+<!-- Privacidade de Menores -->
+<section class="p-4">
+<h2 class="text-sm font-bold uppercase tracking-wider text-primary mb-4">Privacidade de Menores</h2>
+<div class="bg-primary/5 dark:bg-primary/10 rounded-xl p-4 border border-primary/20">
+<div class="flex items-start gap-3">
+<span class="material-symbols-outlined text-primary mt-1">family_restroom</span>
+<div>
+<p class="font-bold mb-1">Controles Parentais</p>
+<p class="text-sm text-slate-600 dark:text-slate-300 mb-3">
+                            Gerencie como as informações de menores de idade são compartilhadas e visualizadas na rede familiar.
+                        </p>
+<div class="flex items-center gap-2 text-xs font-semibold text-primary mb-4">
+<span class="material-symbols-outlined text-xs">info</span>
+                            EM CONFORMIDADE COM COPPA
+                        </div>
+<button class="text-sm font-bold text-primary border-b border-primary/30 pb-0.5 hover:border-primary transition-all">
+                            Configurar restrições de idade
+                        </button>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Bottom Navigation Bar -->
+<nav class="fixed bottom-0 left-0 right-0 bg-background-light dark:bg-background-dark border-t border-primary/10 px-4 pb-6 pt-2 flex justify-between items-center max-w-2xl mx-auto z-20">
+<a class="flex flex-col items-center gap-1 text-slate-400 hover:text-primary transition-colors flex-1" href="#">
+<span class="material-symbols-outlined">home</span>
+<span class="text-[10px] font-bold">INÍCIO</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-slate-400 hover:text-primary transition-colors flex-1" href="#">
+<span class="material-symbols-outlined">account_tree</span>
+<span class="text-[10px] font-bold">ÁRVORE</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-slate-400 hover:text-primary transition-colors flex-1" href="#">
+<span class="material-symbols-outlined">auto_stories</span>
+<span class="text-[10px] font-bold">MEMÓRIAS</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-primary flex-1" href="#">
+<span class="material-symbols-outlined fill-1" style="font-variation-settings: 'FILL' 1;">settings</span>
+<span class="text-[10px] font-bold">CONFIG</span>
+</a>
+</nav>
+<!-- Toast Notification (Simulated) -->
+<div class="fixed bottom-24 left-1/2 -translate-x-1/2 bg-slate-900 text-white px-6 py-3 rounded-full text-sm font-medium shadow-xl opacity-0 translate-y-4 pointer-events-none transition-all duration-300" id="toast">
+        Configuração salva com sucesso
+    </div>
+</body></html>

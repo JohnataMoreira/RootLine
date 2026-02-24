@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#13ae20",
+                        "background-light": "#f6f8f6",
+                        "background-dark": "#112112",
+                    },
+                    fontFamily: {
+                        "display": ["Manrope", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Manrope', sans-serif;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .brand-shadow {
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen flex flex-col">
+<!-- Header Navigation -->
+<header class="flex items-center justify-between p-4 bg-background-light dark:bg-background-dark sticky top-0 z-10 border-b border-primary/10">
+<button class="flex items-center justify-center size-10 rounded-full hover:bg-primary/10 transition-colors">
+<span class="material-symbols-outlined text-slate-700 dark:text-slate-300">arrow_back</span>
+</button>
+<h1 class="text-lg font-bold tracking-tight">Configurações</h1>
+<div class="size-10"></div> <!-- Spacer for symmetry -->
+</header>
+<main class="flex-1 max-w-md mx-auto w-full px-6 py-8 flex flex-col items-center text-center">
+<!-- Hero Illustration/Icon -->
+<div class="mb-8 p-6 rounded-full bg-primary/10">
+<span class="material-symbols-outlined text-primary text-6xl">cloud_sync</span>
+</div>
+<!-- Title & Description -->
+<h2 class="text-3xl font-extrabold text-slate-900 dark:text-slate-50 mb-3 leading-tight">
+            Conectar Fontes de Fotos
+        </h2>
+<p class="text-slate-600 dark:text-slate-400 text-base mb-10">
+            A Rootline organiza automaticamente as melhores fotos de suas nuvens para criar memórias incríveis.
+        </p>
+<!-- Connection Options -->
+<div class="w-full space-y-4 mb-8">
+<!-- Google Photos -->
+<button class="w-full flex items-center justify-between p-4 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 brand-shadow hover:border-primary/50 transition-all group">
+<div class="flex items-center gap-4">
+<div class="size-12 rounded-lg flex items-center justify-center bg-slate-50 dark:bg-slate-900 overflow-hidden">
+<span class="material-symbols-outlined text-3xl group-hover:scale-110 transition-transform" style="color: #4285F4;">image</span>
+</div>
+<div class="text-left">
+<span class="block text-sm font-semibold text-slate-400 uppercase tracking-wider">Cloud</span>
+<span class="text-lg font-bold">Google Photos</span>
+</div>
+</div>
+<span class="material-symbols-outlined text-primary">add_circle</span>
+</button>
+<!-- iCloud -->
+<button class="w-full flex items-center justify-between p-4 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 brand-shadow hover:border-primary/50 transition-all group">
+<div class="flex items-center gap-4">
+<div class="size-12 rounded-lg flex items-center justify-center bg-slate-50 dark:bg-slate-900 overflow-hidden">
+<span class="material-symbols-outlined text-3xl group-hover:scale-110 transition-transform text-slate-700 dark:text-slate-200">cloud</span>
+</div>
+<div class="text-left">
+<span class="block text-sm font-semibold text-slate-400 uppercase tracking-wider">Apple</span>
+<span class="text-lg font-bold">iCloud</span>
+</div>
+</div>
+<span class="material-symbols-outlined text-primary">add_circle</span>
+</button>
+<!-- Divider -->
+<div class="flex items-center gap-4 py-2">
+<div class="h-px flex-1 bg-slate-200 dark:bg-slate-700"></div>
+<span class="text-xs font-bold text-slate-400 uppercase">ou</span>
+<div class="h-px flex-1 bg-slate-200 dark:bg-slate-700"></div>
+</div>
+<!-- Manual Upload -->
+<button class="w-full flex items-center justify-center gap-3 p-4 bg-primary/10 dark:bg-primary/20 text-primary font-bold rounded-xl hover:bg-primary/20 transition-colors border border-primary/20">
+<span class="material-symbols-outlined">upload_file</span>
+<span>Upload Manual de Fotos Físicas</span>
+</button>
+</div>
+<!-- Trust Badge -->
+<div class="mt-auto flex items-center gap-3 bg-slate-100 dark:bg-slate-800/50 px-5 py-3 rounded-full border border-slate-200 dark:border-slate-700">
+<span class="material-symbols-outlined text-primary text-xl">verified_user</span>
+<span class="text-xs font-medium text-slate-600 dark:text-slate-400">Privacidade Prioritária. Conexão Criptografada.</span>
+</div>
+</main>
+<!-- Bottom Navigation Bar -->
+<nav class="bg-background-light dark:bg-background-dark border-t border-slate-200 dark:border-slate-800 pb-8 pt-2 px-4 flex justify-around items-center sticky bottom-0">
+<a class="flex flex-col items-center gap-1 text-slate-400 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined">home</span>
+<span class="text-[10px] font-bold uppercase tracking-tighter">Início</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-slate-400 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined">photo_library</span>
+<span class="text-[10px] font-bold uppercase tracking-tighter">Fotos</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-slate-400 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined">auto_stories</span>
+<span class="text-[10px] font-bold uppercase tracking-tighter">Álbuns</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-primary" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">settings</span>
+<span class="text-[10px] font-bold uppercase tracking-tighter">Ajustes</span>
+</a>
+</nav>
+</body></html>

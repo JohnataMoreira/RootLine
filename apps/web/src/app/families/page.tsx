@@ -1,6 +1,7 @@
 import { createClient } from '@/utils/supabase/server'
 import { redirect } from 'next/navigation'
 import { FamilyList } from './FamilyList'
+import { getActiveFamilyId } from '@/lib/family/active-family'
 
 export default async function FamiliesPage() {
     const supabase = await createClient()
@@ -63,11 +64,7 @@ export default async function FamiliesPage() {
     )
 
     // Get the current active family ID for highlighting
-    const { data: profile } = await supabase
-        .from('profiles')
-        .select('active_family_id')
-        .eq('id', user.id)
-        .single()
+    const activeFamilyId = await getActiveFamilyId()
 
     return (
         <div className="min-h-screen bg-gray-50 p-8">
@@ -81,7 +78,7 @@ export default async function FamiliesPage() {
                     <h2 className="text-xl font-semibold text-gray-800">Minhas Famílias</h2>
                     <FamilyList
                         families={familiesWithDetails}
-                        activeFamilyId={profile?.active_family_id ?? ''}
+                        activeFamilyId={activeFamilyId ?? ''}
                     />
                 </div>
             </div>

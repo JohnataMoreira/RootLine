@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Perfil - Rootline</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#13ae20",
+                        "background-light": "#f6f8f6",
+                        "background-dark": "#112112",
+                    },
+                    fontFamily: {
+                        "display": ["Manrope", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Manrope', sans-serif;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .active-tab {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen flex flex-col">
+<!-- Header Section -->
+<header class="sticky top-0 z-10 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-md px-4 py-4 border-b border-primary/10">
+<div class="flex items-center justify-between max-w-2xl mx-auto w-full">
+<button class="p-2 rounded-full hover:bg-primary/10 transition-colors">
+<span class="material-symbols-outlined text-slate-900 dark:text-slate-100">arrow_back</span>
+</button>
+<h1 class="text-lg font-bold">Meu Perfil</h1>
+<button class="p-2 rounded-full hover:bg-primary/10 transition-colors">
+<span class="material-symbols-outlined text-slate-900 dark:text-slate-100">settings</span>
+</button>
+</div>
+</header>
+<main class="flex-1 max-w-2xl mx-auto w-full pb-32">
+<!-- Profile Info -->
+<section class="flex flex-col items-center pt-8 pb-6 px-4">
+<div class="relative">
+<div class="w-32 h-32 rounded-full border-4 border-primary p-1 bg-background-light dark:bg-background-dark overflow-hidden">
+<img alt="Maria Silva" class="w-full h-full object-cover rounded-full" data-alt="Retrato sorridente de uma mulher madura" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDo8g8IkACnKP60SYdTzN9YPxa7PESlyJRST6z4QXX9UX0BdDXet6I99ntobCpkn8tfyoH75PO47knv5agMwS0V-6QAiaUgCs4V_XTHAB4mbRQaSpTvFm-eUfXwhDCQN5jT6HyVOth5reQZ370zQmZqMjbSe7Fd2uJRb4rpsiLx0XrCb7viC35Dt2XZk4Pyv1iVZ9XLA0BZ0vXgLXLaN_gNRHBP7oE864wGGqCY8clsbqWWEn5NoXaLg9zWSe9NkDrtLzCdZT-Rxjg"/>
+</div>
+<button class="absolute bottom-1 right-1 bg-primary text-white p-2 rounded-full shadow-lg border-2 border-background-light dark:border-background-dark hover:scale-105 transition-transform">
+<span class="material-symbols-outlined text-sm">photo_camera</span>
+</button>
+</div>
+<h2 class="mt-4 text-2xl font-extrabold tracking-tight">Maria Silva</h2>
+<span class="text-primary font-semibold text-sm px-3 py-1 bg-primary/10 rounded-full mt-1">Coordenadora da Família</span>
+</section>
+<!-- Stats Grid (Minhas Contribuições) -->
+<section class="px-4 mb-8">
+<h3 class="text-sm font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-3 ml-1">Minhas Contribuições</h3>
+<div class="grid grid-cols-2 gap-4">
+<div class="bg-primary/5 dark:bg-primary/10 p-5 rounded-xl border border-primary/10 flex flex-col items-center text-center">
+<span class="material-symbols-outlined text-primary mb-2 text-3xl">image</span>
+<span class="text-2xl font-bold">54</span>
+<span class="text-xs text-slate-600 dark:text-slate-400 font-medium">Fotos enviadas</span>
+</div>
+<div class="bg-primary/5 dark:bg-primary/10 p-5 rounded-xl border border-primary/10 flex flex-col items-center text-center">
+<span class="material-symbols-outlined text-primary mb-2 text-3xl">menu_book</span>
+<span class="text-2xl font-bold">12</span>
+<span class="text-xs text-slate-600 dark:text-slate-400 font-medium">Memórias compartilhadas</span>
+</div>
+</div>
+</section>
+<!-- Action List Group -->
+<section class="px-4 space-y-3">
+<!-- Meus Dados -->
+<div class="bg-white dark:bg-slate-800/50 rounded-xl border border-slate-200 dark:border-slate-700 overflow-hidden">
+<button class="w-full flex items-center justify-between p-4 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-lg bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 flex items-center justify-center">
+<span class="material-symbols-outlined">person</span>
+</div>
+<div class="text-left">
+<p class="font-bold text-sm">Meus Dados</p>
+<p class="text-xs text-slate-500">Informações pessoais e contato</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-slate-400">chevron_right</span>
+</button>
+<div class="h-[1px] bg-slate-100 dark:bg-slate-700 mx-4"></div>
+<!-- Privacidade -->
+<button class="w-full flex items-center justify-between p-4 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-lg bg-orange-100 dark:bg-orange-900/30 text-orange-600 dark:text-orange-400 flex items-center justify-center">
+<span class="material-symbols-outlined">shield</span>
+</div>
+<div class="text-left">
+<p class="font-bold text-sm">Privacidade</p>
+<p class="text-xs text-slate-500">Controle quem vê suas memórias</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-slate-400">chevron_right</span>
+</button>
+</div>
+<!-- Subscription Plan -->
+<div class="bg-primary/10 dark:bg-primary/20 rounded-xl border border-primary/20 p-4">
+<div class="flex items-center justify-between mb-3">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary">workspace_premium</span>
+<p class="font-bold text-sm text-primary">Plano Família Base</p>
+</div>
+<span class="text-[10px] font-bold bg-primary text-white px-2 py-0.5 rounded uppercase">Ativo</span>
+</div>
+<p class="text-xs text-slate-600 dark:text-slate-300 mb-4">Seu plano permite até 15 membros na árvore genealógica e 5GB de armazenamento.</p>
+<button class="w-full py-2 bg-primary text-white rounded-lg font-bold text-sm hover:brightness-90 transition-all">Gerenciar Assinatura</button>
+</div>
+<!-- Help & Support -->
+<div class="bg-white dark:bg-slate-800/50 rounded-xl border border-slate-200 dark:border-slate-700">
+<button class="w-full flex items-center justify-between p-4 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-lg bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-400 flex items-center justify-center">
+<span class="material-symbols-outlined">help</span>
+</div>
+<div class="text-left">
+<p class="font-bold text-sm">Central de Ajuda</p>
+<p class="text-xs text-slate-500">Dúvidas frequentes e suporte</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-slate-400">chevron_right</span>
+</button>
+</div>
+<!-- Logout Button -->
+<button class="w-full mt-6 flex items-center justify-center gap-2 p-4 text-red-500 font-bold border border-red-100 dark:border-red-900/30 rounded-xl hover:bg-red-50 dark:hover:bg-red-950/20 transition-colors">
+<span class="material-symbols-outlined">logout</span>
+<span>Sair da Conta</span>
+</button>
+</section>
+</main>
+<!-- Bottom Navigation Bar -->
+<nav class="fixed bottom-0 left-0 right-0 bg-white dark:bg-background-dark border-t border-slate-200 dark:border-slate-800 px-4 pb-6 pt-2 z-20">
+<div class="flex items-center justify-around max-w-2xl mx-auto">
+<a class="flex flex-col items-center gap-1 group" href="#">
+<span class="material-symbols-outlined text-slate-400 group-hover:text-primary transition-colors">house</span>
+<span class="text-[10px] font-medium text-slate-500 group-hover:text-primary">Início</span>
+</a>
+<a class="flex flex-col items-center gap-1 group" href="#">
+<span class="material-symbols-outlined text-slate-400 group-hover:text-primary transition-colors">account_tree</span>
+<span class="text-[10px] font-medium text-slate-500 group-hover:text-primary">Árvore</span>
+</a>
+<a class="flex flex-col items-center gap-1 group" href="#">
+<span class="material-symbols-outlined text-slate-400 group-hover:text-primary transition-colors">auto_stories</span>
+<span class="text-[10px] font-medium text-slate-500 group-hover:text-primary">Memórias</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-primary" href="#">
+<span class="material-symbols-outlined active-tab">person</span>
+<span class="text-[10px] font-bold">Perfil</span>
+</a>
+</div>
+</nav>
+</body></html>
