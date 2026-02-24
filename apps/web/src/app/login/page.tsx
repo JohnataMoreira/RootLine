@@ -1,4 +1,5 @@
 import { login, signup } from './actions'
+import { SubmitButton } from '@/components/SubmitButton'
 
 export default async function LoginPage(props: {
     searchParams: Promise<{ message: string }>
@@ -9,10 +10,10 @@ export default async function LoginPage(props: {
             <form className="animate-in flex-1 flex flex-col w-full justify-center gap-2 text-foreground max-w-md p-8 bg-white rounded-lg shadow-md border border-gray-100">
                 <div className="text-center mb-6">
                     <h1 className="text-2xl font-semibold tracking-tight">RootLine</h1>
-                    <p className="text-sm text-gray-500 mt-2">Sign in to your family archive</p>
+                    <p className="text-sm text-gray-500 mt-2">Acesse o arquivo da sua família</p>
                 </div>
                 <label className="text-sm font-medium text-gray-700" htmlFor="email">
-                    Email
+                    E-mail
                 </label>
                 <input
                     id="email"
@@ -20,11 +21,11 @@ export default async function LoginPage(props: {
                     name="email"
                     type="email"
                     autoComplete="email"
-                    placeholder="you@example.com"
+                    placeholder="voce@exemplo.com"
                     required
                 />
                 <label className="text-sm font-medium text-gray-700" htmlFor="password">
-                    Password
+                    Senha
                 </label>
                 <input
                     id="password"
@@ -36,18 +37,20 @@ export default async function LoginPage(props: {
                     required
                 />
 
-                <button
+                <SubmitButton
                     formAction={login}
-                    className="bg-blue-600 hover:bg-blue-700 text-white rounded-md px-4 py-2 transition-colors font-medium"
+                    pendingText="Entrando..."
+                    className="bg-blue-600 hover:bg-blue-700 text-white rounded-md px-4 py-2 transition-colors font-medium flex justify-center w-full"
                 >
-                    Sign In
-                </button>
-                <button
+                    Entrar
+                </SubmitButton>
+                <SubmitButton
                     formAction={signup}
-                    className="border border-gray-300 hover:bg-gray-50 text-gray-700 rounded-md px-4 py-2 mt-2 transition-colors font-medium"
+                    pendingText="Criando..."
+                    className="border border-gray-300 hover:bg-gray-50 text-gray-700 rounded-md px-4 py-2 mt-2 transition-colors font-medium flex justify-center w-full"
                 >
-                    Sign Up
-                </button>
+                    Criar Conta
+                </SubmitButton>
 
                 {searchParams?.message && (
                     <p className="mt-4 p-4 bg-gray-100 text-gray-900 border border-gray-200 text-center text-sm rounded-md">

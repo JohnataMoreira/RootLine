@@ -36,7 +36,7 @@ Se algo der errado, anote o problema de forma curta.
 
 ## ✅ Checklist Pré-Beta (Admin)
 
-- [x] Confirmar deploy no commit atual (`dcf7978` ou mais recente) no Staging.
+- [x] Confirmar deploy no commit atual (`705376f` ou mais recente) no Staging (inclui Hotfixes P0/P1 do Invite, Upload e Ícones).
 - [x] Confirmar aplicabilidade das migrations essenciais no banco:
   - `0009_fix_rls_recursion.sql`
   - `0010_rpc_create_family_and_join.sql`

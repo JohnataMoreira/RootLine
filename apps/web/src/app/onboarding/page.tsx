@@ -2,6 +2,7 @@ import { createFamily } from './actions'
 import { createClient } from '@/utils/supabase/server'
 import { redirect } from 'next/navigation'
 import { ThemeToggle } from '@/components/theme-toggle'
+import { SubmitButton } from '@/components/SubmitButton'
 
 export default async function OnboardingPage(props: {
     searchParams: Promise<{ message: string }>
@@ -72,15 +73,16 @@ export default async function OnboardingPage(props: {
                         />
                     </div>
 
-                    <button
+                    <SubmitButton
                         type="submit"
+                        pendingText="Criando..."
                         className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-bold py-4 rounded-xl shadow-lg shadow-primary/20 transition-all flex items-center justify-center gap-2 mt-2"
                     >
                         Começar agora
                         <span className="material-symbols-outlined text-[20px]">
                             arrow_forward
                         </span>
-                    </button>
+                    </SubmitButton>
 
                     {searchParams?.message && (
                         <p className="mt-2 p-3 bg-destructive/10 text-destructive border border-destructive/20 text-center text-sm rounded-xl font-medium">
