@@ -34,3 +34,4 @@ Running 2 tests using 1 worker
   1 did not run
 
 [36m  Serving HTML report at http://localhost:60521. Press Ctrl+C to quit.[39m
+^C

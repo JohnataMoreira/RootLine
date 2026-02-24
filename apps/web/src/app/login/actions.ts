@@ -17,7 +17,7 @@ export async function login(formData: FormData) {
     const { error } = await supabase.auth.signInWithPassword(data)
 
     if (error) {
-        return redirect('/login?message=Invalid email or password')
+        return redirect('/login?message=E-mail ou senha inválidos')
     }
 
     revalidatePath('/', 'layout')
@@ -35,9 +35,9 @@ export async function signup(formData: FormData) {
     const { error } = await supabase.auth.signUp(data)
 
     if (error) {
-        return redirect('/login?message=Could not create user account')
+        return redirect('/login?message=Não foi possível criar a conta')
     }
 
     revalidatePath('/', 'layout')
-    redirect('/login?message=Check your email to confirm your account')
+    redirect('/login?message=Verifique seu e-mail para confirmar a conta')
 }

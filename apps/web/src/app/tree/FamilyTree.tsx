@@ -90,7 +90,7 @@ export function FamilyTree({ members, relationships }: Props) {
         target: r.member_b_id,
         animated: r.type === 'spouse',
         type: 'smoothstep',
-        style: { stroke: r.type === 'spouse' ? '#ec4899' : '#13ae20', strokeWidth: 2, strokeDasharray: r.type === 'spouse' ? '5,5' : '0' },
+        style: { stroke: r.type === 'spouse' ? '#ec4899' : '#2563eb', strokeWidth: 2, strokeDasharray: r.type === 'spouse' ? '5,5' : '0' },
     }))
 
     const [nodes, , onNodesChange] = useNodesState(initialNodes)

@@ -34,7 +34,7 @@ export function InviteModal() {
             <button
                 data-testid="invite-open"
                 onClick={() => setOpen(true)}
-                className="mt-4 w-full bg-primary hover:bg-primary/90 text-primary-foreground py-2.5 rounded-lg font-bold text-sm transition-colors shadow-lg shadow-primary/20 flex items-center justify-center gap-2"
+                className="mt-4 w-full bg-primary hover:bg-primary/90 text-primary-foreground py-2.5 rounded-lg font-bold text-sm transition-all shadow-lg shadow-primary/20 flex items-center justify-center gap-2 active:scale-95 active:opacity-80"
             >
                 <span className="material-symbols-outlined text-[18px]">person_add</span>
                 Convidar Familiares
@@ -99,7 +99,7 @@ export function InviteModal() {
                                 data-testid="invite-submit"
                                 type="submit"
                                 disabled={loading}
-                                className="w-full bg-primary hover:bg-primary/90 disabled:opacity-50 text-primary-foreground py-3 rounded-xl font-bold text-sm transition-all shadow-lg shadow-primary/20 flex items-center justify-center gap-2 mt-1"
+                                className="w-full bg-primary hover:bg-primary/90 disabled:opacity-50 text-primary-foreground py-3 rounded-xl font-bold text-sm transition-all shadow-lg shadow-primary/20 flex items-center justify-center gap-2 mt-1 active:scale-95 active:opacity-80"
                             >
                                 {loading ? (
                                     <>

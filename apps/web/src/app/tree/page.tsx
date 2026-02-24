@@ -16,30 +16,41 @@ export default async function TreePage() {
     const { data: { user } } = await supabase.auth.getUser()
     if (!user) redirect('/login')
 
-    const { familyId } = await getActiveFamily(supabase)
+    let members: any[] = []
+    let relationships: any[] = []
+    let errorMsg: string | null = null
 
-    if (!familyId) redirect('/onboarding')
+    try {
+        const { familyId } = await getActiveFamily(supabase)
+        if (!familyId) redirect('/onboarding')
 
-    // Fetch members
-    const { data: members, error: membersError } = await supabase
-        .from('members')
-        .select('id, profile_id, role, joined_at, placeholder_name, profiles(full_name, avatar_url)')
-        .eq('family_id', familyId)
-        .order('joined_at', { ascending: true })
+        // Fetch members
+        const { data: membersData, error: membersError } = await supabase
+            .from('members')
+            .select('id, profile_id, role, joined_at, placeholder_name, profiles(full_name, avatar_url)')
+            .eq('family_id', familyId)
+            .order('joined_at', { ascending: true })
 
-    if (membersError) return <ErrorState message="Falha ao carregar familiares." />
+        if (membersError) throw new Error('Falha ao carregar familiares.')
+        members = membersData || []
 
-    const memberCount = members?.length ?? 0
+        // Fetch relationships
+        const { data: relData, error: relError } = await supabase
+            .from('relationships')
+            .select('id, family_id, member_a_id, member_b_id, type')
+            .eq('family_id', familyId)
 
-    // Fetch relationships
-    const { data: relationships, error: relError } = await supabase
-        .from('relationships')
-        .select('id, family_id, member_a_id, member_b_id, type')
-        .eq('family_id', familyId)
+        if (relError) throw new Error('Falha ao carregar conexões.')
+        relationships = relData || []
+    } catch (err: any) {
+        console.error('TreePage SSR Error:', err)
+        errorMsg = err.message || 'Ocorreu um erro inesperado.'
+    }
 
-    if (relError) return <ErrorState message="Falha ao carregar conexões." />
+    if (errorMsg) return <ErrorState message={errorMsg} />
 
-    const hasRelationships = relationships && relationships.length > 0
+    const memberCount = members.length
+    const hasRelationships = relationships.length > 0
     const isOverCap = memberCount > MAX_MEMBERS
 
     return (
@@ -71,23 +82,23 @@ export default async function TreePage() {
                         </div>
                     )}
 
-                    {members && members.length === 0 ? (
+                    {members.length === 0 ? (
                         <EmptyState
                             icon="family_restroom"
                             title="A árvore está vazia"
-                            description="Convide familiares para começar."
+                            description="Convide familiares ou adicione parentescos para começar a construir seu legado."
                         />
                     ) : !hasRelationships ? (
-                        <EmptyState
-                            icon="hub"
-                            title="Sem relacionamentos"
-                            description="Para visualizar os links, adicione os parentescos desta família."
-                        />
+                        <div className="flex flex-col items-center justify-center p-12 text-center bg-white rounded-2xl border border-slate-200 border-dashed m-4 shadow-sm">
+                            <span className="material-symbols-outlined text-5xl text-blue-500/20 mb-4">hub</span>
+                            <h4 className="text-slate-900 font-black text-lg">Sem conexões</h4>
+                            <p className="text-slate-500 text-sm mt-2 max-w-[200px]">Selecione um membro no mapa para conectar pais, filhos ou cônjuges.</p>
+                        </div>
                     ) : (
                         <div className="w-full h-[500px]">
                             <FamilyTree
-                                members={(isOverCap ? members!.slice(0, MAX_MEMBERS) : members!) as unknown as Parameters<typeof FamilyTree>[0]['members']}
-                                relationships={relationships!}
+                                members={(isOverCap ? members.slice(0, MAX_MEMBERS) : members) as any}
+                                relationships={relationships}
                             />
                         </div>
                     )}

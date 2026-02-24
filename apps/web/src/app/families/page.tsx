@@ -26,7 +26,7 @@ export default async function FamiliesPage() {
 
     if (memError || !memberships) {
         console.error('Error fetching memberships:', memError)
-        return <div className="p-8 text-red-600">Failed to load families.</div>
+        return <div className="p-8 text-red-600 font-bold">Falha ao carregar suas famílias.</div>
     }
 
     // Now, for each family, fetch the member count and a few members for preview
@@ -67,17 +67,17 @@ export default async function FamiliesPage() {
     const activeFamilyId = await getActiveFamilyId()
 
     return (
-        <div className="min-h-screen bg-gray-50 p-8">
+        <div className="min-h-screen bg-slate-50 p-8">
             <div className="max-w-4xl mx-auto">
                 <header className="mb-10">
-                    <h1 className="text-3xl font-bold text-gray-900">Minha Conta</h1>
-                    <p className="text-gray-500 mt-1">Gerencie suas famílias e conexões no RootLine.</p>
+                    <h1 className="text-3xl font-black text-slate-900 tracking-tight">Minha Conta</h1>
+                    <p className="text-slate-500 mt-2 font-medium">Gerencie suas famílias e conexões no RootLine.</p>
                 </header>
 
                 <div className="space-y-6">
-                    <h2 className="text-xl font-semibold text-gray-800">Minhas Famílias</h2>
+                    <h2 className="text-xl font-extrabold text-slate-800">Minhas Famílias</h2>
                     <FamilyList
-                        families={familiesWithDetails}
+                        families={familiesWithDetails as any}
                         activeFamilyId={activeFamilyId ?? ''}
                     />
                 </div>

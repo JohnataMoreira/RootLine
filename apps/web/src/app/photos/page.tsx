@@ -76,27 +76,34 @@ export default async function PhotosPage(props: {
             <div className="max-w-6xl mx-auto">
                 <div className="flex items-center justify-between mb-6">
                     <div>
-                        <h1 className="text-2xl font-bold text-gray-900">{familyName} — Photos</h1>
-                        <FamilySwitcher activeFamilyId={familyId} families={allFamilies} />
-                        <p className="text-sm text-gray-500 mt-0.5">{photosWithUrls.length} photos in this archive</p>
+                        <h1 className="text-2xl font-black text-slate-900 tracking-tight">{familyName} — Fotos</h1>
+                        <div className="flex items-center gap-3 mt-1">
+                            <FamilySwitcher activeFamilyId={familyId} families={allFamilies} />
+                            <span className="text-xs text-slate-400 font-medium">• {photosWithUrls.length} fotos neste arquivo</span>
+                        </div>
                     </div>
-                    <div className="flex items-center gap-4">
-                        <a href="/families" className="text-sm font-medium text-gray-400 hover:text-indigo-600 transition-colors">
+                    <div className="flex items-center gap-3">
+                        <a href="/profile" className="text-xs font-bold text-slate-500 hover:text-primary transition-colors px-3 py-1.5 rounded-lg bg-white border border-slate-200 shadow-sm">
                             Minha Conta
                         </a>
-                        <a href="/timeline" className="text-sm text-blue-600 hover:underline">← Back</a>
+                        <a href="/timeline" className="text-xs font-bold text-white bg-slate-900 px-3 py-1.5 rounded-lg hover:bg-slate-800 transition-colors flex items-center gap-1 shadow-sm">
+                            <span className="material-symbols-outlined text-[14px]">arrow_back</span>
+                            Voltar
+                        </a>
                     </div>
                 </div>
 
                 {/* Feedback banners from Google OAuth */}
                 {searchParams.google_connected && (
-                    <div className="mb-4 p-3 bg-green-50 border border-green-200 text-green-800 text-sm rounded-lg">
-                        ✅ Google Photos connected successfully! You can now import your library.
+                    <div className="mb-4 p-3 bg-green-50 border border-green-200 text-green-800 text-sm rounded-lg font-medium flex items-center gap-2">
+                        <span className="material-symbols-outlined text-[18px]">check_circle</span>
+                        Google Photos conectado com sucesso! Agora você pode importar suas memórias.
                     </div>
                 )}
                 {searchParams.google_error && (
-                    <div className="mb-4 p-3 bg-red-50 border border-red-200 text-red-800 text-sm rounded-lg">
-                        ⚠️ Google Photos error: {searchParams.google_error.replace(/_/g, ' ')}
+                    <div className="mb-4 p-3 bg-red-50 border border-red-200 text-red-800 text-sm rounded-lg font-medium flex items-center gap-2">
+                        <span className="material-symbols-outlined text-[18px]">error</span>
+                        Erro no Google Photos: {searchParams.google_error.replace(/_/g, ' ')}
                     </div>
                 )}
 
@@ -112,14 +119,16 @@ export default async function PhotosPage(props: {
                     {/* Photo grid */}
                     <div className={canUpload ? 'lg:col-span-3' : 'lg:col-span-4'}>
                         {error ? (
-                            <div className="flex items-center justify-center h-48 bg-red-50 rounded-xl border border-red-200">
-                                <p className="text-red-700 text-sm">⚠️ Failed to load photos.</p>
+                            <div className="flex flex-col items-center justify-center p-12 bg-red-50 rounded-2xl border border-red-100 text-center">
+                                <span className="material-symbols-outlined text-4xl text-red-300 mb-2">cloud_off</span>
+                                <p className="text-red-900 font-bold">Falha ao carregar fotos</p>
+                                <p className="text-red-600 text-xs mt-1">Tente atualizar a página ou verifique sua conexão.</p>
                             </div>
                         ) : photosWithUrls.length === 0 ? (
-                            <div className="flex flex-col items-center justify-center h-64 bg-white rounded-xl border border-gray-200 border-dashed">
-                                <p className="text-4xl mb-3">📷</p>
-                                <p className="text-gray-700 font-medium">No photos yet</p>
-                                <p className="text-sm text-gray-400 mt-1">Upload or import from Google Photos to get started.</p>
+                            <div className="flex flex-col items-center justify-center p-16 bg-white rounded-2xl border border-slate-200 border-dashed text-center">
+                                <span className="material-symbols-outlined text-5xl text-slate-300 mb-4">photo_library</span>
+                                <p className="text-slate-900 font-black text-lg">Nenhuma foto ainda</p>
+                                <p className="text-sm text-slate-500 mt-2 max-w-xs leading-relaxed">Faça upload ou importe do Google Photos para começar a construir o legado da sua família.</p>
                             </div>
                         ) : (
                             <PhotoGrid photos={photosWithUrls} />

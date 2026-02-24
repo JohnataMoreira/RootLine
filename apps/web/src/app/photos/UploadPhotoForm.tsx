@@ -20,9 +20,21 @@ export function UploadPhotoForm() {
         e.preventDefault()
         setLoading(true)
         setResult(null)
+
+        // Timeout to prevent infinite loading
+        const timeoutPromise = new Promise<{ error: string }>((_, reject) =>
+            setTimeout(() => reject(new Error('Puxa, o envio demorou demais. Tente uma foto menor ou com melhor conexão.')), 15000)
+        )
+
         try {
             const formData = new FormData(e.currentTarget)
-            const res = await uploadPhoto(formData)
+
+            // Race the upload against the timeout
+            const res = await Promise.race([
+                uploadPhoto(formData),
+                timeoutPromise
+            ]) as { success?: boolean; error?: string }
+
             setResult(res)
             if (res.success) {
                 setPreview(null)
@@ -30,29 +42,29 @@ export function UploadPhotoForm() {
             }
         } catch (error: any) {
             console.error('Photo upload failed:', error)
-            setResult({ error: error.message || 'An unexpected error occurred during upload.' })
+            setResult({ error: error.message || 'Ocorreu um erro inesperado ao enviar a foto.' })
         } finally {
             setLoading(false)
         }
     }
 
     return (
-        <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
-            <h3 className="text-base font-semibold text-gray-900 mb-4">Upload Photo</h3>
-            <form onSubmit={handleSubmit} className="flex flex-col gap-3">
+        <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+            <h3 className="text-base font-black text-slate-900 mb-4 tracking-tight">Enviar Foto</h3>
+            <form onSubmit={handleSubmit} className="flex flex-col gap-4">
                 {/* Drop zone */}
                 <label
                     htmlFor="photo-input"
-                    className="flex flex-col items-center justify-center w-full h-36 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:bg-gray-50 transition-colors overflow-hidden"
+                    className="flex flex-col items-center justify-center w-full h-40 border-2 border-dashed border-slate-200 rounded-2xl cursor-pointer hover:bg-slate-50 hover:border-blue-400 transition-all overflow-hidden bg-slate-50/30 group"
                 >
                     {preview ? (
                         // eslint-disable-next-line @next/next/no-img-element
                         <img src={preview} alt="Preview" className="h-full w-full object-cover" />
                     ) : (
-                        <div className="text-center text-gray-400 text-sm">
-                            <p className="text-2xl mb-1">📷</p>
-                            <p>Click or drag photo here</p>
-                            <p className="text-xs mt-0.5">JPEG, PNG, WebP, HEIC — max 10 MB</p>
+                        <div className="text-center text-slate-400 text-sm p-4">
+                            <span className="material-symbols-outlined text-4xl mb-2 text-slate-300 group-hover:text-blue-500 transition-colors">add_a_photo</span>
+                            <p className="font-bold text-slate-600">Clique ou arraste a foto aqui</p>
+                            <p className="text-[10px] uppercase font-bold tracking-widest mt-1 opacity-60">JPEG, PNG, WebP, HEIC — máx 10 MB</p>
                         </div>
                     )}
                 </label>
@@ -67,28 +79,46 @@ export function UploadPhotoForm() {
                     required
                 />
 
-                <div>
-                    <label className="text-xs font-medium text-gray-500 block mb-1">Date Taken (optional)</label>
-                    <input
-                        name="taken_at"
-                        type="date"
-                        className="w-full rounded-md px-3 py-1.5 text-sm border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:outline-none"
-                    />
+                <div className="flex flex-col sm:flex-row gap-4">
+                    <div className="flex-1">
+                        <label className="text-[10px] font-black uppercase tracking-widest text-slate-500 block mb-1.5 ml-1">Legenda (Opcional)</label>
+                        <textarea
+                            name="description"
+                            placeholder="O que está acontecendo nesta foto?"
+                            rows={2}
+                            className="w-full rounded-xl px-4 py-2.5 text-sm border border-slate-200 focus:ring-2 focus:ring-blue-500 focus:outline-none bg-white font-medium text-slate-900 shadow-sm resize-none"
+                        />
+                    </div>
+                    <div className="sm:w-1/3">
+                        <label className="text-[10px] font-black uppercase tracking-widest text-slate-500 block mb-1.5 ml-1">Data (Opcional)</label>
+                        <input
+                            name="taken_at"
+                            type="date"
+                            className="w-full rounded-xl px-4 py-2.5 text-sm border border-slate-200 focus:ring-2 focus:ring-blue-500 focus:outline-none bg-white font-medium text-slate-900 shadow-sm h-[42px]"
+                        />
+                    </div>
                 </div>
 
                 <button
                     type="submit"
                     disabled={loading || !preview}
-                    className="w-full bg-indigo-600 hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed text-white rounded-md px-4 py-2 transition-colors font-medium text-sm"
+                    className="w-full bg-blue-600 hover:bg-blue-700 disabled:opacity-30 disabled:grayscale disabled:cursor-not-allowed text-white rounded-xl px-4 py-3.5 transition-all font-bold text-sm shadow-lg shadow-blue-200 active:scale-95 flex items-center justify-center gap-2"
                 >
-                    {loading ? 'Uploading...' : 'Upload Photo'}
+                    <span className="material-symbols-outlined text-[18px]">{loading ? 'sync' : 'cloud_upload'}</span>
+                    {loading ? 'Enviando...' : 'Enviar Foto'}
                 </button>
 
                 {result?.error && (
-                    <p className="p-3 bg-red-50 text-red-800 border border-red-200 text-sm rounded-md">{result.error}</p>
+                    <div className="flex items-start gap-2 p-4 bg-red-50 text-red-900 border border-red-100 text-xs rounded-xl font-medium leading-relaxed">
+                        <span className="material-symbols-outlined text-[16px] shrink-0">error</span>
+                        <p>{result.error}</p>
+                    </div>
                 )}
                 {result?.success && (
-                    <p className="p-3 bg-green-50 text-green-800 border border-green-200 text-sm rounded-md">✅ Photo uploaded successfully!</p>
+                    <div className="flex items-center gap-2 p-4 bg-green-50 text-green-900 border border-green-100 text-xs rounded-xl font-medium animate-in zoom-in-95">
+                        <span className="material-symbols-outlined text-[16px]">check_circle</span>
+                        <p>Foto enviada com sucesso!</p>
+                    </div>
                 )}
             </form>
         </div>

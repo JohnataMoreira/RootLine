@@ -11,10 +11,10 @@ type EmptyStateProps = {
 
 export function EmptyState({ icon, title, description, actionLabel, actionHref, onAction }: EmptyStateProps) {
     return (
-        <div className="bg-surface-2/50 p-10 rounded-2xl border border-border border-dashed text-center mt-8 flex flex-col items-center justify-center min-h-[300px]">
-            <span className="material-symbols-outlined text-5xl text-muted-foreground/60 mb-4">{icon}</span>
-            <h3 className="text-xl font-extrabold text-text tracking-tight">{title}</h3>
-            <p className="text-muted-foreground mt-3 max-w-xs mx-auto leading-relaxed text-sm">
+        <div className="bg-white p-10 rounded-2xl border border-slate-200 border-dashed text-center mt-8 flex flex-col items-center justify-center min-h-[300px] shadow-sm">
+            <span className="material-symbols-outlined text-5xl text-primary/80 mb-4">{icon}</span>
+            <h3 className="text-xl font-black text-slate-900 tracking-tight">{title}</h3>
+            <p className="text-slate-600 mt-3 max-w-xs mx-auto leading-relaxed text-sm font-medium">
                 {description}
             </p>
 

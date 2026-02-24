@@ -40,7 +40,7 @@ export default async function OnboardingPage(props: {
                     Rootline
                 </h2>
                 <div className="w-10 flex justify-end">
-                    <ThemeToggle />
+                    {/* Theme toggle disabled for Beta */}
                 </div>
             </div>
 
@@ -76,7 +76,7 @@ export default async function OnboardingPage(props: {
                     <SubmitButton
                         type="submit"
                         pendingText="Criando..."
-                        className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-bold py-4 rounded-xl shadow-lg shadow-primary/20 transition-all flex items-center justify-center gap-2 mt-2"
+                        className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-bold py-4 rounded-xl shadow-lg shadow-primary/20 transition-all flex items-center justify-center gap-2 mt-2 active:scale-95 active:opacity-80"
                     >
                         Começar agora
                         <span className="material-symbols-outlined text-[20px]">

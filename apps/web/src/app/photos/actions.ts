@@ -24,6 +24,7 @@ export async function uploadPhoto(formData: FormData) {
 
     const file = formData.get('photo') as File | null
     const takenAt = formData.get('taken_at') as string | null
+    const description = formData.get('description') as string | null
 
     if (!file || file.size === 0) {
         return { error: 'No file provided' }
@@ -69,6 +70,7 @@ export async function uploadPhoto(formData: FormData) {
             size_bytes: file.size,
             mime_type: file.type,
             taken_at: takenAt || null,
+            description: description || null,
             source: 'manual'
         })
 

@@ -47,23 +47,23 @@ export function FamilySwitcher({ activeFamilyId, families }: Props) {
     }
 
     return (
-        <div className="flex items-center gap-2 text-sm">
-            <span className="text-gray-400 hidden sm:inline">Family:</span>
+        <div className="flex items-center gap-2 text-xs">
+            <span className="text-slate-400 hidden sm:inline font-bold uppercase tracking-wider">Família:</span>
             <select
                 value={activeFamilyId}
                 onChange={handleChange}
                 disabled={switching}
-                className="rounded-md border border-gray-300 bg-white px-2 py-1.5 text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 disabled:opacity-50 max-w-[180px] truncate"
-                aria-label="Switch active family"
+                className="rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-xs text-slate-900 font-bold focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50 max-w-[150px] truncate shadow-sm transition-all"
+                aria-label="Trocar família ativa"
             >
                 {families.map((f) => (
                     <option key={f.familyId} value={f.familyId}>
-                        {f.familyName} ({f.role})
+                        {f.familyName}
                     </option>
                 ))}
             </select>
             {switching && (
-                <span className="text-xs text-gray-400 animate-pulse">Switching…</span>
+                <span className="text-[10px] text-blue-500 font-bold animate-pulse uppercase tracking-widest">Trocando…</span>
             )}
         </div>
     )
