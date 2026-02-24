@@ -23,7 +23,7 @@ export default async function TreePage() {
     // Fetch members
     const { data: members, error: membersError } = await supabase
         .from('members')
-        .select('id, profile_id, role, joined_at, profiles(full_name, avatar_url)')
+        .select('id, profile_id, role, joined_at, placeholder_name, profiles(full_name, avatar_url)')
         .eq('family_id', familyId)
         .order('joined_at', { ascending: true })
 
@@ -34,7 +34,7 @@ export default async function TreePage() {
     // Fetch relationships
     const { data: relationships, error: relError } = await supabase
         .from('relationships')
-        .select('id, member_a_id, member_b_id, type')
+        .select('id, family_id, member_a_id, member_b_id, type')
         .eq('family_id', familyId)
 
     if (relError) return <ErrorState message="Falha ao carregar conexões." />

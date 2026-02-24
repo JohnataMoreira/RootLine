@@ -1,0 +1,36 @@
+[dotenv@17.3.1] injecting env (4) from .env.local -- tip: ÔÜÖ´©Å  override existing env vars with { override: true }
+[1A[2K[WebServer] ÔÜá The "middleware" file convention is deprecated. Please use "proxy" instead. Learn more: https://nextjs.org/docs/messages/middleware-to-proxy
+
+
+Running 2 tests using 1 worker
+
+[1A[2K[dotenv@17.3.1] injecting env (0) from .env.local -- tip: ÔÜí´©Å secrets for agents: https://dotenvx.com/as2
+
+[1A[2K[1/2] [setup] ÔÇ║ tests\auth.setup.ts:6:6 ÔÇ║ authenticate
+[1A[2K  1) [setup] ÔÇ║ tests\auth.setup.ts:6:6 ÔÇ║ authenticate ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+
+    TimeoutError: page.waitForNavigation: Timeout 15000ms exceeded.
+    =========================== logs ===========================
+    waiting for navigation until "load"
+    ============================================================
+
+      77 |     // Explicitly click and wait for navigation in one atomic action
+      78 |     await Promise.all([
+    > 79 |         page.waitForNavigation({ url: /.*(\/timeline|\/onboarding)/, timeout: 15000 }),
+         |              ^
+      80 |         page.click('button:has-text("Sign In")')
+      81 |     ]);
+      82 |
+        at C:\Projetos\Antigravity\apps\RootLine\apps\web\tests\auth.setup.ts:79:14
+
+    Error Context: test-results\auth.setup.ts-authenticate-setup\error-context.md
+
+
+
+­ƒùæ´©Å  Running Playwright Global Teardown...
+ÔÜá´©Å  Skipping database teardown: Missing SUPABASE_SERVICE_ROLE_KEY.
+[1A[2K  1 failed
+    [setup] ÔÇ║ tests\auth.setup.ts:6:6 ÔÇ║ authenticate ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+  1 did not run
+
+[36m  Serving HTML report at http://localhost:60521. Press Ctrl+C to quit.[39m

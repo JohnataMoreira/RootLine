@@ -57,10 +57,12 @@ type Props = {
         profile_id: string | null
         role: string
         joined_at: string
+        placeholder_name: string | null
         profiles: { full_name: string; avatar_url?: string } | null
     }>
     relationships: Array<{
         id: string
+        family_id: string
         member_a_id: string
         member_b_id: string
         type: 'parent_child' | 'spouse'
@@ -75,7 +77,7 @@ export function FamilyTree({ members, relationships }: Props) {
         type: 'member',
         position: { x: (i % 5) * 150, y: Math.floor(i / 5) * 150 },
         data: {
-            label: m.profiles?.full_name?.split(' ')[0] ?? 'Desconhecido', // Simplify name for tree
+            label: m.profiles?.full_name?.split(' ')[0] ?? m.placeholder_name?.split(' ')[0] ?? 'Desconhecido', // Simplify name for tree
             role: m.role,
             joined_at: m.joined_at,
             avatar_url: m.profiles?.avatar_url,
@@ -120,7 +122,7 @@ export function FamilyTree({ members, relationships }: Props) {
 
             {/* Info card panel */}
             {selectedMember && (
-                <div className="absolute top-4 right-4 bg-surface rounded-xl shadow-xl border border-border p-4 min-w-[200px] z-10">
+                <div className="absolute top-4 right-4 bg-surface rounded-xl shadow-xl border border-border p-4 min-w-[250px] z-10">
                     <div className="flex justify-between items-start mb-2 border-b border-border/50 pb-2">
                         <span className="font-bold text-text text-sm">{selectedMember.label}</span>
                         <button
@@ -133,6 +135,60 @@ export function FamilyTree({ members, relationships }: Props) {
                     <div className="text-xs text-muted-foreground space-y-2 mt-2">
                         <p className="flex justify-between"><span className="font-medium text-text">Papel:</span> <span className="capitalize">{selectedMember.role}</span></p>
                         <p className="flex justify-between"><span className="font-medium text-text">Entrou em:</span> <span>{new Date(selectedMember.joined_at).toLocaleDateString('pt-BR')}</span></p>
+                    </div>
+
+                    <div className="mt-4 pt-4 border-t border-border/50">
+                        <p className="text-[10px] font-bold uppercase text-muted-foreground mb-2 tracking-wider">Adicionar Parente</p>
+                        <div className="space-y-2">
+                            <form action={async (formData) => {
+                                formData.append('targetMemberId', selectedMember.id)
+                                formData.append('familyId', relationships[0]?.family_id || '')
+                                formData.append('relationshipType', 'parent')
+                                const name = prompt('Nome do Pai/Mãe:')
+                                if (name) {
+                                    formData.append('name', name)
+                                    // Trigger server action conceptually (will import real action)
+                                    const { addPlaceholderRelative } = await import('./actions')
+                                    await addPlaceholderRelative(formData)
+                                }
+                            }}>
+                                <button type="submit" className="w-full py-1.5 px-3 bg-primary/10 hover:bg-primary/20 text-primary font-medium text-xs rounded transition-colors flex items-center gap-2">
+                                    <span className="material-symbols-outlined text-[14px]">add</span> Pai ou Mãe
+                                </button>
+                            </form>
+
+                            <form action={async (formData) => {
+                                formData.append('targetMemberId', selectedMember.id)
+                                formData.append('familyId', relationships[0]?.family_id || '')
+                                formData.append('relationshipType', 'spouse')
+                                const name = prompt('Nome do Cônjuge:')
+                                if (name) {
+                                    formData.append('name', name)
+                                    const { addPlaceholderRelative } = await import('./actions')
+                                    await addPlaceholderRelative(formData)
+                                }
+                            }}>
+                                <button type="submit" className="w-full py-1.5 px-3 bg-pink-500/10 hover:bg-pink-500/20 text-pink-500 font-medium text-xs rounded transition-colors flex items-center gap-2">
+                                    <span className="material-symbols-outlined text-[14px]">favorite</span> Cônjuge
+                                </button>
+                            </form>
+
+                            <form action={async (formData) => {
+                                formData.append('targetMemberId', selectedMember.id)
+                                formData.append('familyId', relationships[0]?.family_id || '')
+                                formData.append('relationshipType', 'child')
+                                const name = prompt('Nome do Filho/Filha:')
+                                if (name) {
+                                    formData.append('name', name)
+                                    const { addPlaceholderRelative } = await import('./actions')
+                                    await addPlaceholderRelative(formData)
+                                }
+                            }}>
+                                <button type="submit" className="w-full py-1.5 px-3 bg-surface-2 hover:bg-border text-text font-medium text-xs rounded border border-border transition-colors flex items-center gap-2">
+                                    <span className="material-symbols-outlined text-[14px]">child_care</span> Filho ou Filha
+                                </button>
+                            </form>
+                        </div>
                     </div>
                 </div>
             )}
