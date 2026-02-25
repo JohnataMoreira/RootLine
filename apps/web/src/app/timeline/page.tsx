@@ -2,6 +2,7 @@ import { createClient } from '@/utils/supabase/server'
 import { redirect } from 'next/navigation'
 import { getActiveFamily } from '@/utils/active-family'
 import { MemoryFeed } from './MemoryFeed'
+import { MemoriesOfTodayBanner } from './MemoriesOfTodayBanner'
 import { getFeedPhotos } from './actions'
 import { BottomNav } from '@/components/BottomNav'
 import { PremiumHeader } from '@/components/PremiumHeader'
@@ -33,7 +34,10 @@ export default async function TimelinePage() {
         <div className="min-h-screen bg-bg text-text max-w-md mx-auto shadow-2xl relative flex flex-col">
             <PremiumHeader title="Linha do Tempo" showSwitcher={true} />
 
-            <main className="flex-1 px-4">
+            <main className="flex-1 px-4 pt-2">
+                {/* Memories of Today — appears only when photos exist for this day in past years */}
+                <MemoriesOfTodayBanner />
+
                 <MemoryFeed
                     initialPhotos={initialPhotos}
                     initialHasMore={initialHasMore}

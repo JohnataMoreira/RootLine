@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { type FeedPhoto, type FeedCursor } from './actions'
 import { PhotoGrid } from '../photos/PhotoGrid'
+import { SearchBar } from './SearchBar'
 import { EmptyState } from '@/components/ui/EmptyState'
 import { TimelineSkeleton } from '@/components/ui/Skeletons'
 import { useTimelineRealtime } from '@/hooks/useTimelineRealtime'
@@ -16,6 +17,8 @@ export function MemoryFeed({ initialPhotos, initialHasMore, initialCursor, famil
 }) {
     const queryClient = useQueryClient()
     const [showNewPhotoToast, setShowNewPhotoToast] = useState(false)
+    const [searchResults, setSearchResults] = useState<FeedPhoto[] | null>(null)
+    const [searchQuery, setSearchQuery] = useState('')
     const observerRef = useRef<HTMLDivElement | null>(null)
 
     const {
@@ -48,7 +51,6 @@ export function MemoryFeed({ initialPhotos, initialHasMore, initialCursor, famil
     useTimelineRealtime(familyId, useCallback((newPhoto) => {
         queryClient.setQueryData(['timeline', familyId], (old: any) => {
             if (!old) return old
-            // Check for duplicates
             const exists = old.pages.some((page: any) =>
                 page.photos.some((p: any) => p.id === newPhoto.id)
             )
@@ -64,42 +66,54 @@ export function MemoryFeed({ initialPhotos, initialHasMore, initialCursor, famil
         setShowNewPhotoToast(true)
     }, [familyId, queryClient]))
 
-    // Infinite Scroll Observer
+    // Infinite Scroll Observer (only active when not in search mode)
     useEffect(() => {
+        if (searchResults !== null) return
         const currentTarget = observerRef.current
         if (!currentTarget || !hasNextPage || isFetchingNextPage) return
 
         const observer = new IntersectionObserver(
             (entries) => {
-                if (entries[0].isIntersecting) {
-                    fetchNextPage()
-                }
+                if (entries[0].isIntersecting) fetchNextPage()
             },
             { threshold: 0.1, rootMargin: '400px' }
         )
 
         observer.observe(currentTarget)
         return () => observer.unobserve(currentTarget)
-    }, [hasNextPage, isFetchingNextPage, fetchNextPage])
+    }, [hasNextPage, isFetchingNextPage, fetchNextPage, searchResults])
 
-    if (allPhotos.length === 0 && !isPending && !hasNextPage) {
-        return (
-            <EmptyState
-                icon="photo_library"
-                title="Sua linha do tempo está vazia"
-                description="Comece a adicionar fotos do seu dispositivo ou importe do Google Photos para construir o arquivo da sua família."
-                actionLabel="Adicionar Fotos"
-                actionHref="/photos"
-            />
-        )
-    }
+    // Handle search results
+    const handleSearchResults = useCallback((photos: FeedPhoto[] | null, query: string) => {
+        setSearchResults(photos)
+        setSearchQuery(query)
+    }, [])
 
-    if (allPhotos.length === 0 && isPending) {
-        return <TimelineSkeleton />
-    }
+    // Determine which photos to show
+    const isSearchMode = searchResults !== null && searchQuery.trim() !== ''
+    const photosToShow = isSearchMode ? searchResults : allPhotos
 
     return (
         <div className="space-y-4 pb-32 relative">
+            {/* Search Bar */}
+            <div className="pt-2">
+                <SearchBar onResults={handleSearchResults} />
+            </div>
+
+            {/* Search Results Header */}
+            {isSearchMode && (
+                <div className="flex items-center gap-2 py-1">
+                    <span className="material-symbols-outlined text-primary text-[18px]">auto_awesome</span>
+                    <p className="text-sm font-semibold text-text">
+                        {searchResults!.length > 0
+                            ? `${searchResults!.length} memória${searchResults!.length !== 1 ? 's' : ''} para "${searchQuery}"`
+                            : `Nenhuma memória encontrada para "${searchQuery}"`
+                        }
+                    </p>
+                </div>
+            )}
+
+            {/* New photo toast */}
             {showNewPhotoToast && (
                 <div className="fixed top-20 left-1/2 -translate-x-1/2 z-50 animate-in fade-in slide-in-from-top-4 duration-300">
                     <button
@@ -123,37 +137,49 @@ export function MemoryFeed({ initialPhotos, initialHasMore, initialCursor, famil
                     </button>
                 </div>
             )}
-            <PhotoGrid photos={allPhotos} />
 
-            {/* Sentry element for Intersection Observer */}
-            <div ref={observerRef} className="h-4" />
+            {/* Photo Grid */}
+            {!isSearchMode && allPhotos.length === 0 && !isPending && !hasNextPage ? (
+                <EmptyState
+                    icon="photo_library"
+                    title="Sua linha do tempo está vazia"
+                    description="Comece a adicionar fotos do seu dispositivo ou importe do Google Photos para construir o arquivo da sua família."
+                    actionLabel="Adicionar Fotos"
+                    actionHref="/photos"
+                />
+            ) : !isSearchMode && allPhotos.length === 0 && isPending ? (
+                <TimelineSkeleton />
+            ) : isSearchMode && searchResults!.length === 0 ? (
+                <EmptyState
+                    icon="search_off"
+                    title={`Nenhuma memória para "${searchQuery}"`}
+                    description="Tente outras palavras como pessoas, lugares, objetos ou emoções detectados pela IA."
+                />
+            ) : (
+                <PhotoGrid photos={photosToShow ?? []} />
+            )}
 
-            {hasNextPage ? (
-                <div className="flex flex-col items-center pt-4">
-                    <div className="flex items-center gap-2 text-muted-foreground text-sm font-medium">
-                        <svg className="animate-spin h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                        </svg>
-                        {isFetchingNextPage ? 'Buscando mais memórias...' : 'Role para ver mais'}
-                    </div>
-                    {queryError && (
-                        <div className="mt-4 text-center">
-                            <p className="text-destructive text-sm mb-2">{(queryError as Error).message}</p>
-                            <button
-                                onClick={() => fetchNextPage()}
-                                className="text-primary hover:underline text-sm font-medium"
-                            >
-                                Tentar novamente
-                            </button>
+            {/* Infinite scroll sentry (only in feed mode) */}
+            {!isSearchMode && (
+                <>
+                    <div ref={observerRef} className="h-4" />
+                    {hasNextPage ? (
+                        <div className="flex flex-col items-center pt-4">
+                            <div className="flex items-center gap-2 text-muted-foreground text-sm font-medium">
+                                <svg className="animate-spin h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                </svg>
+                                {isFetchingNextPage ? 'Buscando mais memórias...' : 'Role para ver mais'}
+                            </div>
                         </div>
-                    )}
-                </div>
-            ) : allPhotos.length > 0 ? (
-                <p className="text-center text-muted-foreground text-sm italic pt-8 border-t border-border">
-                    Você chegou ao início da história da sua família.
-                </p>
-            ) : null}
+                    ) : allPhotos.length > 0 ? (
+                        <p className="text-center text-muted-foreground text-sm italic pt-8 border-t border-border">
+                            Você chegou ao início da história da sua família.
+                        </p>
+                    ) : null}
+                </>
+            )}
         </div>
     )
 }

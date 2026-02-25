@@ -9,8 +9,9 @@ type Photo = {
     original_filename: string | null
     taken_at: string | null
     analysis?: {
-        description: string
+        visual_description: string
         tags: string[]
+        detected_objects?: string[]
     } | null
 }
 
@@ -22,7 +23,10 @@ export function PhotoGrid({ photos }: { photos: Photo[] }) {
         thumbUrl: p.signedUrl,
         originalFilename: p.original_filename,
         takenAt: p.taken_at,
-        analysis: p.analysis
+        analysis: p.analysis ? {
+            description: p.analysis.visual_description,
+            tags: p.analysis.tags
+        } : null
     }))
 
     // Group photos by Month-Year
