@@ -1,0 +1,808 @@
+
+> web@0.1.0 build
+> next build
+
+Ôû▓ Next.js 16.1.6 (Turbopack)
+- Environments: .env.local
+
+  Creating an optimized production build ...
+
+> Build error occurred
+Error: Turbopack build failed with 41 errors:
+./proxy.ts
+Proxy is missing expected function export name
+This function is what Next.js runs for every request handled by this proxy (previously called middleware).
+
+Why this happens:
+- You are migrating from `middleware` to `proxy`, but haven't updated the exported function.
+- The file exists but doesn't export a function.
+- The export is not a function (e.g., an object or constant).
+- There's a syntax error preventing the export from being recognized.
+
+To fix it:
+- Ensure this file has either a default or "proxy" function export.
+
+Learn more: https://nextjs.org/docs/messages/middleware-to-proxy
+
+
+./app/timeline/MemoryFeed.tsx:7:1
+Module not found: Can't resolve '@/components/ui/EmptyState'
+   5 | import { PhotoGrid } from '../photos/PhotoGrid'
+   6 | import { SearchBar } from './SearchBar'
+>  7 | import { EmptyState } from '@/components/ui/EmptyState'
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import { TimelineSkeleton } from '@/components/ui/Skeletons'
+   9 | import { useTimelineRealtime } from '@/hooks/useTimelineRealtime'
+  10 | import { useInfiniteQuery, useQueryClient } from '@tanstack/react-query'
+
+Import map: aliased to relative './components/ui/EmptyState' inside of [project]/
+
+
+Import trace:
+  Server Component:
+    ./app/timeline/MemoryFeed.tsx
+    ./app/timeline/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./app/tree/page.tsx:6:1
+Module not found: Can't resolve '@/components/ui/EmptyState'
+  4 | import { getActiveFamily } from '@/utils/active-family'
+  5 | import { BottomNav } from '@/components/BottomNav'
+> 6 | import { EmptyState } from '@/components/ui/EmptyState'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  7 | import { InviteModal } from '@/components/InviteModal'
+  8 | import { PremiumHeader } from '@/components/PremiumHeader'
+  9 | import { TreeProvider } from './TreeProvider'
+
+Import map: aliased to relative './components/ui/EmptyState' inside of [project]/
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./app/tree/FamilyTree.tsx:17:1
+Module not found: Can't resolve '@/components/ui/Modal'
+  15 | } from 'reactflow'
+  16 | import 'reactflow/dist/style.css'
+> 17 | import { Modal } from '@/components/ui/Modal'
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  18 | import { addPlaceholderRelative } from './actions'
+  19 | import { PremiumMemberNode } from './PremiumMemberNode'
+  20 | import { getLayoutedElements } from '@/utils/tree-layout'
+
+Import map: aliased to relative './components/ui/Modal' inside of [project]/
+
+
+Import trace:
+  Server Component:
+    ./app/tree/FamilyTree.tsx
+    ./app/tree/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./app/profile/loading.tsx:1:1
+Module not found: Can't resolve '@/components/ui/Skeletons'
+> 1 | import { ProfileSkeleton } from '@/components/ui/Skeletons'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  2 | import { BottomNav } from '@/components/BottomNav'
+  3 |
+  4 | export default function ProfileLoading() {
+
+Import map: aliased to relative './components/ui/Skeletons' inside of [project]/
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./app/timeline/MemoryFeed.tsx:8:1
+Module not found: Can't resolve '@/components/ui/Skeletons'
+   6 | import { SearchBar } from './SearchBar'
+   7 | import { EmptyState } from '@/components/ui/EmptyState'
+>  8 | import { TimelineSkeleton } from '@/components/ui/Skeletons'
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   9 | import { useTimelineRealtime } from '@/hooks/useTimelineRealtime'
+  10 | import { useInfiniteQuery, useQueryClient } from '@tanstack/react-query'
+  11 |
+
+Import map: aliased to relative './components/ui/Skeletons' inside of [project]/
+
+
+Import trace:
+  Server Component:
+    ./app/timeline/MemoryFeed.tsx
+    ./app/timeline/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./app/timeline/loading.tsx:1:1
+Module not found: Can't resolve '@/components/ui/Skeletons'
+> 1 | import { TimelineSkeleton } from '@/components/ui/Skeletons'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  2 | import { BottomNav } from '@/components/BottomNav'
+  3 |
+  4 | export default function TimelineLoading() {
+
+Import map: aliased to relative './components/ui/Skeletons' inside of [project]/
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./app/tree/loading.tsx:1:1
+Module not found: Can't resolve '@/components/ui/Skeletons'
+> 1 | import { TreeSkeleton } from '@/components/ui/Skeletons'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  2 | import { BottomNav } from '@/components/BottomNav'
+  3 |
+  4 | export default function TreeLoading() {
+
+Import map: aliased to relative './components/ui/Skeletons' inside of [project]/
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./app/timeline/MemoryFeed.tsx:9:1
+Module not found: Can't resolve '@/hooks/useTimelineRealtime'
+   7 | import { EmptyState } from '@/components/ui/EmptyState'
+   8 | import { TimelineSkeleton } from '@/components/ui/Skeletons'
+>  9 | import { useTimelineRealtime } from '@/hooks/useTimelineRealtime'
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  10 | import { useInfiniteQuery, useQueryClient } from '@tanstack/react-query'
+  11 |
+  12 | export function MemoryFeed({ initialPhotos, initialHasMore, initialCursor, familyId }: {
+
+Import map: aliased to relative './hooks/useTimelineRealtime' inside of [project]/
+
+
+Import trace:
+  Server Component:
+    ./app/timeline/MemoryFeed.tsx
+    ./app/timeline/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./app/(authed)/actions/set-active-family.ts:5:1
+Module not found: Can't resolve '@/lib/family/active-family'
+  3 | import { createClient } from '@/utils/supabase/server'
+  4 | import { redirect } from 'next/navigation'
+> 5 | import { setActiveFamilyId, getActiveFamilyId } from '@/lib/family/active-family'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  6 |
+  7 | /**
+  8 |  * Ensures the user has an active family set correctly via cookie.
+
+Import map: aliased to relative './lib/family/active-family' inside of [project]/
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./app/api/photos/route.ts:3:1
+Module not found: Can't resolve '@/lib/family/active-family'
+  1 | import { createClient } from '@/utils/supabase/server'
+  2 | import { NextResponse, type NextRequest } from 'next/server'
+> 3 | import { getActiveFamilyId } from '@/lib/family/active-family'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 |
+  5 | export async function GET(request: NextRequest) {
+  6 |     const supabase = await createClient()
+
+Import map: aliased to relative './lib/family/active-family' inside of [project]/
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./app/families/page.tsx:4:1
+Module not found: Can't resolve '@/lib/family/active-family'
+  2 | import { redirect } from 'next/navigation'
+  3 | import { FamilyList } from './FamilyList'
+> 4 | import { getActiveFamilyId } from '@/lib/family/active-family'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  5 |
+  6 | export default async function FamiliesPage() {
+  7 |     const supabase = await createClient()
+
+Import map: aliased to relative './lib/family/active-family' inside of [project]/
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./app/invite/[token]/actions.ts:6:1
+Module not found: Can't resolve '@/lib/family/active-family'
+  4 | import { redirect } from 'next/navigation'
+  5 | import { createHash } from 'crypto'
+> 6 | import { setActiveFamilyId } from '@/lib/family/active-family'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  7 |
+  8 | export async function acceptInvite(token: string) {
+  9 |     const supabase = await createClient()
+
+Import map: aliased to relative './lib/family/active-family' inside of [project]/
+
+
+Import trace:
+  Server Component:
+    ./app/invite/[token]/actions.ts
+    ./app/invite/[token]/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./app/onboarding/actions.ts:5:1
+Module not found: Can't resolve '@/lib/family/active-family'
+  3 | import { createClient } from '@/utils/supabase/server'
+  4 | import { redirect } from 'next/navigation'
+> 5 | import { setActiveFamilyId } from '@/lib/family/active-family'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  6 |
+  7 | export async function createFamily(formData: FormData) {
+  8 |     const supabase = await createClient()
+
+Import map: aliased to relative './lib/family/active-family' inside of [project]/
+
+
+Import trace:
+  Server Component:
+    ./app/onboarding/actions.ts
+    ./app/onboarding/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./utils/active-family.ts:3:59
+Module not found: Can't resolve '@/lib/family/active-family'
+  1 | ´╗┐import { createClient } from '@/utils/supabase/server'
+  2 | import { redirect } from 'next/navigation'
+> 3 | import type { SupabaseClient } from '@supabase/supabase-js'
+    |                                                           ^
+> 4 | import { getActiveFamilyId, setActiveFamilyId } from '@/lib/family/active-family'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  5 |
+  6 | export type ActiveFamilyMembership = {
+  7 |     familyId: string
+
+Import map: aliased to relative './lib/family/active-family' inside of [project]/
+
+
+Import traces:
+  #1 [Server Component]:
+    ./utils/active-family.ts
+    ./app/photos/actions.ts
+
+  #2 [Server Component]:
+    ./utils/active-family.ts
+    ./app/timeline/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./components/CommentSection.tsx:4:1
+Module not found: Can't resolve '@/utils/supabase/client'
+  2 |
+  3 | import { useState, useEffect, useCallback } from 'react'
+> 4 | import { createClient } from '@/utils/supabase/client'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  5 | import { getPhotoComments, postPhotoComment, type PhotoComment } from '@/app/photos/comments/actions'
+  6 | import { Loader2, Send, MessageSquare } from 'lucide-react'
+  7 |
+
+Import map: aliased to relative './utils/supabase/client' inside of [project]/
+
+
+Import traces:
+  Client Component Browser:
+    ./components/CommentSection.tsx [Client Component Browser]
+    ./app/photos/Lightbox.tsx [Client Component Browser]
+    ./app/photos/PhotoGrid.tsx [Client Component Browser]
+    ./app/photos/PhotoGrid.tsx [Server Component]
+    ./app/photos/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./components/CommentSection.tsx [Client Component SSR]
+    ./app/photos/Lightbox.tsx [Client Component SSR]
+    ./app/photos/PhotoGrid.tsx [Client Component SSR]
+    ./app/photos/PhotoGrid.tsx [Server Component]
+    ./app/photos/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./proxy.ts:2:1
+Module not found: Can't resolve '@/utils/supabase/middleware'
+  1 | import { type NextRequest } from 'next/server'
+> 2 | import { updateSession } from '@/utils/supabase/middleware'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  3 |
+  4 | export async function middleware(request: NextRequest) {
+  5 |     return await updateSession(request)
+
+Import map: aliased to relative './utils/supabase/middleware' inside of [project]/
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./app/(authed)/actions/set-active-family.ts:3:1
+Module not found: Can't resolve '@/utils/supabase/server'
+  1 | 'use server'
+  2 |
+> 3 | import { createClient } from '@/utils/supabase/server'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 | import { redirect } from 'next/navigation'
+  5 | import { setActiveFamilyId, getActiveFamilyId } from '@/lib/family/active-family'
+  6 |
+
+Import map: aliased to relative './utils/supabase/server' inside of [project]/
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./app/api/google/callback/route.ts:1:1
+Module not found: Can't resolve '@/utils/supabase/server'
+> 1 | import { createClient } from '@/utils/supabase/server'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  2 | import { NextResponse, type NextRequest } from 'next/server'
+  3 | import { getAbsoluteUrl } from '@/utils/url'
+  4 |
+
+Import map: aliased to relative './utils/supabase/server' inside of [project]/
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./app/api/photos/route.ts:1:1
+Module not found: Can't resolve '@/utils/supabase/server'
+> 1 | import { createClient } from '@/utils/supabase/server'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  2 | import { NextResponse, type NextRequest } from 'next/server'
+  3 | import { getActiveFamilyId } from '@/lib/family/active-family'
+  4 |
+
+Import map: aliased to relative './utils/supabase/server' inside of [project]/
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./app/auth/callback/route.ts:3:1
+Module not found: Can't resolve '@/utils/supabase/server'
+  1 | import { NextResponse } from 'next/server'
+  2 | // The client you created from the Server-Side Auth instructions
+> 3 | import { createClient } from '@/utils/supabase/server'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 | import { getAbsoluteUrl } from '@/utils/url'
+  5 |
+  6 | export async function GET(request: Request) {
+
+Import map: aliased to relative './utils/supabase/server' inside of [project]/
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./app/auth/signout/route.ts:1:1
+Module not found: Can't resolve '@/utils/supabase/server'
+> 1 | import { createClient } from '@/utils/supabase/server'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  2 | import { revalidatePath } from 'next/cache'
+  3 | import { NextResponse } from 'next/server'
+  4 | import { getAbsoluteUrl } from '@/utils/url'
+
+Import map: aliased to relative './utils/supabase/server' inside of [project]/
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./app/families/page.tsx:1:1
+Module not found: Can't resolve '@/utils/supabase/server'
+> 1 | import { createClient } from '@/utils/supabase/server'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  2 | import { redirect } from 'next/navigation'
+  3 | import { FamilyList } from './FamilyList'
+  4 | import { getActiveFamilyId } from '@/lib/family/active-family'
+
+Import map: aliased to relative './utils/supabase/server' inside of [project]/
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./app/invite/[token]/actions.ts:3:1
+Module not found: Can't resolve '@/utils/supabase/server'
+  1 | 'use server'
+  2 |
+> 3 | import { createClient } from '@/utils/supabase/server'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 | import { redirect } from 'next/navigation'
+  5 | import { createHash } from 'crypto'
+  6 | import { setActiveFamilyId } from '@/lib/family/active-family'
+
+Import map: aliased to relative './utils/supabase/server' inside of [project]/
+
+
+Import trace:
+  Server Component:
+    ./app/invite/[token]/actions.ts
+    ./app/invite/[token]/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./app/invite/[token]/page.tsx:1:1
+Module not found: Can't resolve '@/utils/supabase/server'
+> 1 | import { createClient } from '@/utils/supabase/server'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  2 | import { redirect } from 'next/navigation'
+  3 | import { acceptInvite } from './actions'
+  4 |
+
+Import map: aliased to relative './utils/supabase/server' inside of [project]/
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./app/login/actions.ts:5:1
+Module not found: Can't resolve '@/utils/supabase/server'
+  3 | import { revalidatePath } from 'next/cache'
+  4 | import { redirect } from 'next/navigation'
+> 5 | import { createClient } from '@/utils/supabase/server'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  6 |
+  7 | import { loginSchema, signupSchema } from '@/lib/schemas'
+  8 |
+
+Import map: aliased to relative './utils/supabase/server' inside of [project]/
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./app/onboarding/actions.ts:3:1
+Module not found: Can't resolve '@/utils/supabase/server'
+  1 | 'use server'
+  2 |
+> 3 | import { createClient } from '@/utils/supabase/server'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 | import { redirect } from 'next/navigation'
+  5 | import { setActiveFamilyId } from '@/lib/family/active-family'
+  6 |
+
+Import map: aliased to relative './utils/supabase/server' inside of [project]/
+
+
+Import trace:
+  Server Component:
+    ./app/onboarding/actions.ts
+    ./app/onboarding/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./app/onboarding/page.tsx:2:1
+Module not found: Can't resolve '@/utils/supabase/server'
+  1 | import { createFamily } from './actions'
+> 2 | import { createClient } from '@/utils/supabase/server'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  3 | import { redirect } from 'next/navigation'
+  4 | import { ThemeToggle } from '@/components/theme-toggle'
+  5 | import { SubmitButton } from '@/components/SubmitButton'
+
+Import map: aliased to relative './utils/supabase/server' inside of [project]/
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./app/photos/actions.ts:3:1
+Module not found: Can't resolve '@/utils/supabase/server'
+  1 | 'use server'
+  2 |
+> 3 | import { createClient } from '@/utils/supabase/server'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 | import { revalidatePath } from 'next/cache'
+  5 | import { getActiveFamily } from '@/utils/active-family'
+  6 | import { uploadPhotoSchema } from '@/lib/schemas'
+
+Import map: aliased to relative './utils/supabase/server' inside of [project]/
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./app/photos/comments/actions.ts:4:1
+Module not found: Can't resolve '@/utils/supabase/server'
+  2 | // Tip: We handle comment fetching and posting here.
+  3 |
+> 4 | import { createClient } from '@/utils/supabase/server'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  5 | import { revalidatePath } from 'next/cache'
+  6 |
+  7 | export interface PhotoComment {
+
+Import map: aliased to relative './utils/supabase/server' inside of [project]/
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./app/photos/page.tsx:1:1
+Module not found: Can't resolve '@/utils/supabase/server'
+> 1 | import { createClient } from '@/utils/supabase/server'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  2 | import { redirect } from 'next/navigation'
+  3 | import { UploadPhotoForm } from './UploadPhotoForm'
+  4 | import { PhotoGrid } from './PhotoGrid'
+
+Import map: aliased to relative './utils/supabase/server' inside of [project]/
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./app/photos/view-url.ts:3:1
+Module not found: Can't resolve '@/utils/supabase/server'
+  1 | 'use server'
+  2 |
+> 3 | import { createClient } from '@/utils/supabase/server'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 |
+  5 | export type PhotoVariant = 'thumb' | 'full'
+  6 |
+
+Import map: aliased to relative './utils/supabase/server' inside of [project]/
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./app/profile/page.tsx:1:1
+Module not found: Can't resolve '@/utils/supabase/server'
+> 1 | import { createClient } from '@/utils/supabase/server'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  2 | import { redirect } from 'next/navigation'
+  3 | import { BottomNav } from '@/components/BottomNav'
+  4 | import { getActiveFamily } from '@/utils/active-family'
+
+Import map: aliased to relative './utils/supabase/server' inside of [project]/
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./app/timeline/FeaturedMemory.tsx:1:1
+Module not found: Can't resolve '@/utils/supabase/server'
+> 1 | import { createClient } from '@/utils/supabase/server'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  2 | import { getActiveFamily } from '@/utils/active-family'
+  3 |
+  4 | export async function FeaturedMemory() {
+
+Import map: aliased to relative './utils/supabase/server' inside of [project]/
+
+
+Import trace:
+  Server Component:
+    ./app/timeline/FeaturedMemory.tsx
+    ./app/timeline/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./app/timeline/MemoriesOfTodayBanner.tsx:1:1
+Module not found: Can't resolve '@/utils/supabase/server'
+> 1 | import { createClient } from '@/utils/supabase/server'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  2 | import { getActiveFamily } from '@/utils/active-family'
+  3 | import Image from 'next/image'
+  4 |
+
+Import map: aliased to relative './utils/supabase/server' inside of [project]/
+
+
+Import trace:
+  Server Component:
+    ./app/timeline/MemoriesOfTodayBanner.tsx
+    ./app/timeline/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./app/timeline/actions.ts:3:1
+Module not found: Can't resolve '@/utils/supabase/server'
+  1 | 'use server'
+  2 |
+> 3 | import { createClient } from '@/utils/supabase/server'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 | import { randomBytes, createHash } from 'crypto'
+  5 | import { revalidatePath } from 'next/cache'
+  6 | import { getActiveFamily } from '@/utils/active-family'
+
+Import map: aliased to relative './utils/supabase/server' inside of [project]/
+
+
+Import trace:
+  Server Component:
+    ./app/timeline/actions.ts
+    ./app/timeline/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./app/timeline/page.tsx:1:1
+Module not found: Can't resolve '@/utils/supabase/server'
+> 1 | import { createClient } from '@/utils/supabase/server'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  2 | import { redirect } from 'next/navigation'
+  3 | import { getActiveFamily } from '@/utils/active-family'
+  4 | import { MemoryFeed } from './MemoryFeed'
+
+Import map: aliased to relative './utils/supabase/server' inside of [project]/
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./app/tree/actions.ts:3:1
+Module not found: Can't resolve '@/utils/supabase/server'
+  1 | 'use server'
+  2 |
+> 3 | import { createClient } from '@/utils/supabase/server'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 | import { revalidatePath } from 'next/cache'
+  5 | import { addRelativeSchema } from '@/lib/schemas'
+  6 |
+
+Import map: aliased to relative './utils/supabase/server' inside of [project]/
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./app/tree/page.tsx:1:1
+Module not found: Can't resolve '@/utils/supabase/server'
+> 1 | import { createClient } from '@/utils/supabase/server'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  2 | import { redirect } from 'next/navigation'
+  3 | import { FamilyTree } from './FamilyTree'
+  4 | import { getActiveFamily } from '@/utils/active-family'
+
+Import map: aliased to relative './utils/supabase/server' inside of [project]/
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./components/PremiumHeader.tsx:1:1
+Module not found: Can't resolve '@/utils/supabase/server'
+> 1 | import { createClient } from '@/utils/supabase/server'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  2 | import { getActiveFamily } from '@/utils/active-family'
+  3 | import { FamilySwitcher } from './FamilySwitcher'
+  4 |
+
+Import map: aliased to relative './utils/supabase/server' inside of [project]/
+
+
+Import trace:
+  Server Component:
+    ./components/PremiumHeader.tsx
+    ./app/profile/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./utils/active-family.ts:1:1
+Module not found: Can't resolve '@/utils/supabase/server'
+> 1 | ´╗┐import { createClient } from '@/utils/supabase/server'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  2 | import { redirect } from 'next/navigation'
+  3 | import type { SupabaseClient } from '@supabase/supabase-js'
+  4 | import { getActiveFamilyId, setActiveFamilyId } from '@/lib/family/active-family'
+
+Import map: aliased to relative './utils/supabase/server' inside of [project]/
+
+
+Import traces:
+  #1 [Server Component]:
+    ./utils/active-family.ts
+    ./app/photos/actions.ts
+
+  #2 [Server Component]:
+    ./utils/active-family.ts
+    ./app/timeline/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+    at <unknown> (./app/timeline/MemoryFeed.tsx:7:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./app/tree/page.tsx:6:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./app/tree/FamilyTree.tsx:17:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./app/profile/loading.tsx:1:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./app/timeline/MemoryFeed.tsx:8:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./app/timeline/loading.tsx:1:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./app/tree/loading.tsx:1:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./app/timeline/MemoryFeed.tsx:9:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./app/(authed)/actions/set-active-family.ts:5:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./app/api/photos/route.ts:3:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./app/families/page.tsx:4:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./app/invite/[token]/actions.ts:6:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./app/onboarding/actions.ts:5:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./utils/active-family.ts:3:59)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./components/CommentSection.tsx:4:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./proxy.ts:2:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./app/(authed)/actions/set-active-family.ts:3:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./app/api/google/callback/route.ts:1:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./app/api/photos/route.ts:1:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./app/auth/callback/route.ts:3:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./app/auth/signout/route.ts:1:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./app/families/page.tsx:1:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./app/invite/[token]/actions.ts:3:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./app/invite/[token]/page.tsx:1:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./app/login/actions.ts:5:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./app/onboarding/actions.ts:3:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./app/onboarding/page.tsx:2:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./app/photos/actions.ts:3:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./app/photos/comments/actions.ts:4:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./app/photos/page.tsx:1:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./app/photos/view-url.ts:3:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./app/profile/page.tsx:1:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./app/timeline/FeaturedMemory.tsx:1:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./app/timeline/MemoriesOfTodayBanner.tsx:1:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./app/timeline/actions.ts:3:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./app/timeline/page.tsx:1:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./app/tree/actions.ts:3:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./app/tree/page.tsx:1:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./components/PremiumHeader.tsx:1:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./utils/active-family.ts:1:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)

@@ -29,31 +29,82 @@ export function PhotoGrid({ photos }: { photos: Photo[] }) {
         } : null
     }))
 
-    // Group photos by Month-Year
-    const groupedPhotos = photos.reduce((acc, photo) => {
-        const date = photo.taken_at ? new Date(photo.taken_at) : new Date()
-        const monthYear = date.toLocaleDateString('pt-BR', { month: 'long', year: 'numeric' })
-        const capitalized = monthYear.charAt(0).toUpperCase() + monthYear.slice(1)
+    // 1. Group photos into "Moments" (max 6h gap)
+    type MomentGroup = {
+        title: string
+        photos: Photo[]
+        date: Date
+    }
 
-        if (!acc[capitalized]) acc[capitalized] = []
-        acc[capitalized].push(photo)
-        return acc
-    }, {} as Record<string, Photo[]>)
+    const moments: MomentGroup[] = []
+    if (photos.length > 0) {
+        let currentMoment: MomentGroup = {
+            title: '',
+            photos: [photos[0]],
+            date: photos[0].taken_at ? new Date(photos[0].taken_at) : new Date()
+        }
+
+        for (let i = 1; i < photos.length; i++) {
+            const photo = photos[i]
+            const photoDate = photo.taken_at ? new Date(photo.taken_at) : new Date()
+            const diffHours = Math.abs(photoDate.getTime() - currentMoment.date.getTime()) / (1000 * 60 * 60)
+
+            if (diffHours < 6) {
+                currentMoment.photos.push(photo)
+            } else {
+                // Seal current moment and start new one
+                moments.push(currentMoment)
+                currentMoment = {
+                    title: '',
+                    photos: [photo],
+                    date: photoDate
+                }
+            }
+        }
+        moments.push(currentMoment)
+    }
+
+    // 2. Generate titles for moments based on tags
+    moments.forEach(moment => {
+        const tagCounts: Record<string, number> = {}
+        moment.photos.forEach(p => {
+            p.analysis?.tags.forEach(tag => {
+                tagCounts[tag] = (tagCounts[tag] || 0) + 1
+            })
+        })
+
+        const topTags = Object.entries(tagCounts)
+            .sort((a, b) => b[1] - a[1])
+            .slice(0, 2)
+            .map(([tag]) => tag.charAt(0).toUpperCase() + tag.slice(1))
+
+        if (topTags.length > 0) {
+            moment.title = `Momento: ${topTags.join(' e ')}`
+        } else {
+            const dateStr = moment.date.toLocaleDateString('pt-BR', { day: 'numeric', month: 'long' })
+            moment.title = `Lembrança de ${dateStr}`
+        }
+    })
 
     // We also need the global index for the Lightbox to work correctly linearly
     let globalIndex = 0
 
     return (
-        <div className="flex flex-col gap-6">
-            {Object.entries(groupedPhotos).map(([monthStr, group]) => (
-                <section key={monthStr} className="mt-4">
-                    <div className="flex items-center gap-3 mb-4 sticky top-0 z-20 bg-bg/80 backdrop-blur-md p-4 -mx-4 border-b border-border/50 shadow-sm">
-                        <div className="w-2.5 h-2.5 rounded-full bg-primary ring-4 ring-primary/10"></div>
-                        <h2 className="text-lg font-black text-text tracking-tight">{monthStr}</h2>
+        <div className="flex flex-col gap-10">
+            {moments.map((moment, mIdx) => (
+                <section key={mIdx} className="relative">
+                    <div className="flex flex-col gap-1 mb-6 sticky top-0 z-20 bg-bg/80 backdrop-blur-md p-4 -mx-4 border-b border-border/10">
+                        <div className="flex items-center gap-2">
+                            <span className="material-symbols-outlined text-primary text-sm animate-pulse">auto_awesome</span>
+                            <h2 className="text-lg font-black text-text tracking-tight uppercase">{moment.title}</h2>
+                        </div>
+                        <span className="text-[10px] font-bold text-text/40 ml-6 uppercase tracking-widest">
+                            {moment.date.toLocaleDateString('pt-BR', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}
+                        </span>
                     </div>
 
                     <div className="grid grid-cols-2 gap-3 mb-6">
-                        {group.map((photo, i) => {
+                        {moment.photos.map((photo, i) => {
                             const isLarge = i === 0 || i % 3 === 0 // Make every 3rd item large for masonry feel
                             const currentIndex = globalIndex++
                             const displayDate = photo.taken_at ? new Date(photo.taken_at).toLocaleDateString('pt-BR', { day: 'numeric', month: 'short' }) : 'Recente'
@@ -81,7 +132,7 @@ export function PhotoGrid({ photos }: { photos: Photo[] }) {
                                             </span>
                                             {photo.analysis && (
                                                 <div className="flex gap-1">
-                                                    {photo.analysis.tags.slice(0, 3).map(tag => (
+                                                    {photo.analysis.tags.slice(0, 3).map((tag: string) => (
                                                         <span key={tag} className="text-[9px] font-bold text-white/50 uppercase tracking-tighter bg-white/5 px-2 py-0.5 rounded-full border border-white/10 backdrop-blur-sm">
                                                             {tag}
                                                         </span>

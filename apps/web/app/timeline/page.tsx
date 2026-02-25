@@ -3,6 +3,7 @@ import { redirect } from 'next/navigation'
 import { getActiveFamily } from '@/utils/active-family'
 import { MemoryFeed } from './MemoryFeed'
 import { MemoriesOfTodayBanner } from './MemoriesOfTodayBanner'
+import { FeaturedMemory } from './FeaturedMemory'
 import { getFeedPhotos } from './actions'
 import { BottomNav } from '@/components/BottomNav'
 import { PremiumHeader } from '@/components/PremiumHeader'
@@ -37,6 +38,9 @@ export default async function TimelinePage() {
             <main className="flex-1 px-4 pt-2">
                 {/* Memories of Today — appears only when photos exist for this day in past years */}
                 <MemoriesOfTodayBanner />
+
+                {/* Featured Memory — Highlights the best AI-analyzed moment of the week */}
+                <FeaturedMemory />
 
                 <MemoryFeed
                     initialPhotos={initialPhotos}

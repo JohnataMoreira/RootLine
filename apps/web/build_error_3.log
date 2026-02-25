@@ -1,0 +1,24 @@
+
+> web@0.1.0 build
+> next build
+
+Ôû▓ Next.js 16.1.6 (Turbopack)
+- Environments: .env.local
+
+ÔÜá The "middleware" file convention is deprecated. Please use "proxy" instead. Learn more: https://nextjs.org/docs/messages/middleware-to-proxy
+  Creating an optimized production build ...
+Ô£ô Compiled successfully in 4.6s
+  Running TypeScript ...
+Failed to compile.
+
+.next/dev/types/validator.ts:53:39
+Type error: Cannot find module '../../../src/app/families/page.js' or its corresponding type declarations.
+
+  51 | {
+  52 |   type __IsExpected<Specific extends AppPageConfig<"/families">> = Specific
+> 53 |   const handler = {} as typeof import("../../../src/app/families/page.js")
+     |                                       ^
+  54 |   type __Check = __IsExpected<typeof handler>
+  55 |   // @ts-ignore
+  56 |   type __Unused = __Check
+Next.js build worker exited with code: 1 and signal: null

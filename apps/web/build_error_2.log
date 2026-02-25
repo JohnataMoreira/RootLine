@@ -1,0 +1,73 @@
+
+> web@0.1.0 build
+> next build
+
+Ôû▓ Next.js 16.1.6 (Turbopack)
+- Environments: .env.local
+
+  Creating an optimized production build ...
+
+> Build error occurred
+Error: Turbopack build failed with 3 errors:
+./proxy.ts
+Proxy is missing expected function export name
+This function is what Next.js runs for every request handled by this proxy (previously called middleware).
+
+Why this happens:
+- You are migrating from `middleware` to `proxy`, but haven't updated the exported function.
+- The file exists but doesn't export a function.
+- The export is not a function (e.g., an object or constant).
+- There's a syntax error preventing the export from being recognized.
+
+To fix it:
+- Ensure this file has either a default or "proxy" function export.
+
+Learn more: https://nextjs.org/docs/messages/middleware-to-proxy
+
+
+./app/timeline/MemoryFeed.tsx:9:1
+Module not found: Can't resolve '@/hooks/useTimelineRealtime'
+   7 | import { EmptyState } from '@/components/ui/EmptyState'
+   8 | import { TimelineSkeleton } from '@/components/ui/Skeletons'
+>  9 | import { useTimelineRealtime } from '@/hooks/useTimelineRealtime'
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  10 | import { useInfiniteQuery, useQueryClient } from '@tanstack/react-query'
+  11 |
+  12 | export function MemoryFeed({ initialPhotos, initialHasMore, initialCursor, familyId }: {
+
+Import map: aliased to relative './hooks/useTimelineRealtime' inside of [project]/
+
+
+Import trace:
+  Server Component:
+    ./app/timeline/MemoryFeed.tsx
+    ./app/timeline/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./app/photos/UploadPhotoForm.tsx:5:1
+Module not found: Can't resolve '@/utils/client'
+  3 | import { useRef, useState, useEffect } from 'react'
+  4 | import { uploadPhoto } from './actions'
+> 5 | import { createClient } from '@/utils/client'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  6 |
+  7 | export function UploadPhotoForm() {
+  8 |     const supabase = createClient()
+
+Import map: aliased to relative './utils/client' inside of [project]/
+
+
+Import trace:
+  Server Component:
+    ./app/photos/UploadPhotoForm.tsx
+    ./app/photos/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+    at <unknown> (./app/timeline/MemoryFeed.tsx:9:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./app/photos/UploadPhotoForm.tsx:5:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
