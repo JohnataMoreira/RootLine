@@ -5,6 +5,8 @@ import { getActiveFamily } from '@/utils/active-family'
 import { BottomNav } from '@/components/BottomNav'
 import { EmptyState } from '@/components/ui/EmptyState'
 import { InviteModal } from '@/components/InviteModal'
+import { PremiumHeader } from '@/components/PremiumHeader'
+import { TreeProvider } from './TreeProvider'
 
 export const dynamic = 'force-dynamic'
 
@@ -13,15 +15,14 @@ const MAX_MEMBERS = 25
 export default async function TreePage() {
     const supabase = await createClient()
 
-    const { data: { user } } = await supabase.auth.getUser()
-    if (!user) redirect('/login')
-
+    let familyId: string | null = null
     let members: any[] = []
     let relationships: any[] = []
     let errorMsg: string | null = null
 
     try {
-        const { familyId } = await getActiveFamily(supabase)
+        const activeFamily = await getActiveFamily(supabase)
+        familyId = activeFamily.familyId
         if (!familyId) redirect('/onboarding')
 
         // Fetch members
@@ -56,16 +57,7 @@ export default async function TreePage() {
     return (
         <div className="min-h-screen bg-bg text-text max-w-md mx-auto shadow-2xl relative flex flex-col">
             {/* Header */}
-            <header className="sticky top-0 z-50 bg-bg/80 backdrop-blur-md border-b border-border px-4 py-4 flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                    <span className="material-symbols-outlined text-primary">account_tree</span>
-                    <h1 className="text-lg font-bold tracking-tight">Árvore Genealógica</h1>
-                </div>
-                <div className="flex items-center gap-4">
-                    <span className="material-symbols-outlined text-muted-foreground">search</span>
-                    <span className="material-symbols-outlined text-muted-foreground">settings</span>
-                </div>
-            </header>
+            <PremiumHeader title="Árvore Genealógica" icon="account_tree" showSwitcher={true} />
 
             <main className="flex-1 overflow-y-auto pb-24">
                 <div className="px-4 pt-6 pb-2 text-center">
@@ -96,10 +88,13 @@ export default async function TreePage() {
                         </div>
                     ) : (
                         <div className="w-full h-[500px]">
-                            <FamilyTree
-                                members={(isOverCap ? members.slice(0, MAX_MEMBERS) : members) as any}
-                                relationships={relationships}
-                            />
+                            <TreeProvider>
+                                <FamilyTree
+                                    members={(isOverCap ? members.slice(0, MAX_MEMBERS) : members) as any}
+                                    relationships={relationships}
+                                    familyId={familyId!}
+                                />
+                            </TreeProvider>
                         </div>
                     )}
                 </div>

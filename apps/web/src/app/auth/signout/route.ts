@@ -1,6 +1,7 @@
 import { createClient } from '@/utils/supabase/server'
 import { revalidatePath } from 'next/cache'
 import { NextResponse } from 'next/server'
+import { getAbsoluteUrl } from '@/utils/url'
 
 export async function POST(request: Request) {
     const supabase = await createClient()
@@ -13,7 +14,8 @@ export async function POST(request: Request) {
     }
 
     revalidatePath('/', 'layout')
-    return NextResponse.redirect(new URL('/login', request.url), {
+
+    return NextResponse.redirect(getAbsoluteUrl(request, '/login'), {
         status: 302,
     })
 }

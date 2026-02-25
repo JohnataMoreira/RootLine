@@ -21,7 +21,7 @@ export async function GET(request: NextRequest) {
 
     let query = supabase
         .from('photos')
-        .select('id, storage_path, thumbnail_path, original_filename, taken_at, source, created_at')
+        .select('id, storage_path, thumbnail_path, original_filename, taken_at, source, created_at, photo_analysis(visual_description, tags)')
         .eq('family_id', familyId)
         .eq('is_deleted', false)
         .order('taken_at', { ascending: false, nullsFirst: false })
@@ -52,32 +52,50 @@ export async function GET(request: NextRequest) {
     const hasMore = photos.length > limit
     const items = photos.slice(0, limit)
 
-    // Sign URLs for manual uploads
-    const itemsWithUrls = await Promise.all(
-        items.map(async (photo) => {
-            if (photo.source === 'google_photos') {
-                return {
-                    id: photo.id,
-                    signedUrl: photo.thumbnail_path ?? '',
-                    original_filename: photo.original_filename,
-                    taken_at: photo.taken_at,
-                    created_at: photo.created_at
-                }
-            }
-            const srcPath = photo.thumbnail_path ?? photo.storage_path
-            const { data } = await supabase.storage
-                .from('family-photos')
-                .createSignedUrl(srcPath, 3600)
+    // Separate photos by source for specialized processing
+    const manualPhotos = items.filter(p => p.source !== 'google_photos')
+    const googlePhotos = items.filter(p => p.source === 'google_photos')
 
+    // Batch sign manual photos (O(1) storage call)
+    let signedUrlsMap: Record<string, string> = {}
+    if (manualPhotos.length > 0) {
+        const paths = manualPhotos.map(p => p.thumbnail_path ?? p.storage_path)
+        const { data, error: signError } = await supabase.storage
+            .from('family-photos')
+            .createSignedUrls(paths, 3600)
+
+        if (data) {
+            data.forEach((signed, idx) => {
+                signedUrlsMap[paths[idx]] = signed.signedUrl
+            })
+        }
+    }
+
+    const itemsWithUrls = items.map(photo => {
+        const analysis = Array.isArray(photo.photo_analysis) ? photo.photo_analysis[0] : photo.photo_analysis
+        const baseData = {
+            id: photo.id,
+            original_filename: photo.original_filename,
+            taken_at: photo.taken_at,
+            created_at: photo.created_at,
+            analysis: analysis ? {
+                description: analysis.visual_description,
+                tags: analysis.tags
+            } : null
+        }
+
+        if (photo.source === 'google_photos') {
             return {
-                id: photo.id,
-                signedUrl: data?.signedUrl ?? '',
-                original_filename: photo.original_filename,
-                taken_at: photo.taken_at,
-                created_at: photo.created_at
+                ...baseData,
+                signedUrl: photo.thumbnail_path ?? '',
             }
-        })
-    )
+        }
+        const srcPath = photo.thumbnail_path ?? photo.storage_path
+        return {
+            ...baseData,
+            signedUrl: signedUrlsMap[srcPath] ?? '',
+        }
+    })
 
     return NextResponse.json({
         photos: itemsWithUrls,

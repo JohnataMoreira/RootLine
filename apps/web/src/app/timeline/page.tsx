@@ -4,6 +4,7 @@ import { getActiveFamily } from '@/utils/active-family'
 import { MemoryFeed } from './MemoryFeed'
 import { getFeedPhotos } from './actions'
 import { BottomNav } from '@/components/BottomNav'
+import { PremiumHeader } from '@/components/PremiumHeader'
 
 export default async function TimelinePage() {
     const supabase = await createClient()
@@ -30,17 +31,14 @@ export default async function TimelinePage() {
 
     return (
         <div className="min-h-screen bg-bg text-text max-w-md mx-auto shadow-2xl relative flex flex-col">
-            <header className="sticky top-0 z-30 bg-bg/80 backdrop-blur-md px-4 pt-6 pb-2">
-                <div className="flex items-center justify-center mb-2">
-                    <h1 className="text-2xl font-extrabold tracking-tight">Linha do Tempo</h1>
-                </div>
-            </header>
+            <PremiumHeader title="Linha do Tempo" showSwitcher={true} />
 
             <main className="flex-1 px-4">
                 <MemoryFeed
                     initialPhotos={initialPhotos}
                     initialHasMore={initialHasMore}
                     initialCursor={initialCursor}
+                    familyId={familyId}
                 />
             </main>
 

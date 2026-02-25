@@ -2,18 +2,19 @@
 
 import { createClient } from '@/utils/supabase/server'
 import { revalidatePath } from 'next/cache'
+import { addRelativeSchema } from '@/lib/schemas'
 
 export async function addPlaceholderRelative(formData: FormData) {
     const supabase = await createClient()
 
-    const name = formData.get('name')?.toString()
-    const targetMemberId = formData.get('targetMemberId')?.toString()
-    const familyId = formData.get('familyId')?.toString()
-    const relationshipType = formData.get('relationshipType')?.toString() // 'parent' | 'child' | 'spouse'
+    const rawData = Object.fromEntries(formData.entries())
+    const validated = addRelativeSchema.safeParse(rawData)
 
-    if (!name || !targetMemberId || !familyId || !relationshipType) {
-        return { error: 'Dados incompletos para adicionar o parente.' }
+    if (!validated.success) {
+        return { error: validated.error.issues[0].message }
     }
+
+    const { name, targetMemberId, familyId, relationshipType } = validated.data
 
     // 1. Check if the current user has permission (is part of the family at least)
     const { data: { user } } = await supabase.auth.getUser()

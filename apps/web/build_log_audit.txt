@@ -1,0 +1,26 @@
+
+> web@0.1.0 build
+> next build
+
+Ôû▓ Next.js 16.1.6 (Turbopack)
+- Environments: .env.local
+- Experiments (use with caution):
+  ┬À serverActions
+
+ÔÜá The "middleware" file convention is deprecated. Please use "proxy" instead. Learn more: https://nextjs.org/docs/messages/middleware-to-proxy
+  Creating an optimized production build ...
+Ô£ô Compiled successfully in 4.1s
+  Running TypeScript ...
+Failed to compile.
+
+./src/app/tree/page.tsx:93:34
+Type error: Property 'familyId' is missing in type '{ members: any; relationships: any[]; }' but required in type '{ familyId: string; }'.
+
+  91 |                         <div className="w-full h-[500px]">
+  92 |                             <TreeProvider>
+> 93 |                                 <FamilyTree
+     |                                  ^
+  94 |                                     members={(isOverCap ? members.slice(0, MAX_MEMBERS) : members) as any}
+  95 |                                     relationships={relationships}
+  96 |                                 />
+Next.js build worker exited with code: 1 and signal: null

@@ -1,5 +1,6 @@
 import { createClient } from '@/utils/supabase/server'
 import { NextResponse, type NextRequest } from 'next/server'
+import { getAbsoluteUrl } from '@/utils/url'
 
 const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID!
 const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET!
@@ -12,13 +13,13 @@ export async function GET(request: NextRequest) {
 
     // User denied access
     if (error || !code) {
-        return NextResponse.redirect(new URL('/photos?google_error=access_denied', request.url))
+        return NextResponse.redirect(getAbsoluteUrl(request, '/photos?google_error=access_denied'))
     }
 
     const supabase = await createClient()
     const { data: { user } } = await supabase.auth.getUser()
     if (!user) {
-        return NextResponse.redirect(new URL('/login', request.url))
+        return NextResponse.redirect(getAbsoluteUrl(request, '/login'))
     }
 
     // Exchange code for tokens
@@ -36,7 +37,7 @@ export async function GET(request: NextRequest) {
 
     if (!tokenRes.ok) {
         console.error('Token exchange failed:', await tokenRes.text())
-        return NextResponse.redirect(new URL('/photos?google_error=token_exchange_failed', request.url))
+        return NextResponse.redirect(getAbsoluteUrl(request, '/photos?google_error=token_exchange_failed'))
     }
 
     const tokens = await tokenRes.json() as {
@@ -61,9 +62,9 @@ export async function GET(request: NextRequest) {
 
     if (upsertError) {
         console.error('Token upsert error:', upsertError)
-        return NextResponse.redirect(new URL('/photos?google_error=token_save_failed', request.url))
+        return NextResponse.redirect(getAbsoluteUrl(request, '/photos?google_error=token_save_failed'))
     }
 
     // Redirect to photos page — user will trigger import from there
-    return NextResponse.redirect(new URL('/photos?google_connected=1', request.url))
+    return NextResponse.redirect(getAbsoluteUrl(request, '/photos?google_connected=1'))
 }

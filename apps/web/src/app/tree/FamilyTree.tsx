@@ -1,6 +1,6 @@
 'use client'
 
-import { useCallback, useState } from 'react'
+import { useCallback, useState, useMemo, useEffect } from 'react'
 import ReactFlow, {
     Node,
     Edge,
@@ -14,6 +14,12 @@ import ReactFlow, {
     useEdgesState,
 } from 'reactflow'
 import 'reactflow/dist/style.css'
+import { Modal } from '@/components/ui/Modal'
+import { addPlaceholderRelative } from './actions'
+import { PremiumMemberNode } from './PremiumMemberNode'
+import { getLayoutedElements } from '@/utils/tree-layout'
+import { useReactFlow } from 'reactflow'
+import { CovenantEdge } from './CovenantEdge'
 
 type MemberData = {
     label: string
@@ -22,34 +28,8 @@ type MemberData = {
     avatar_url?: string
 }
 
-function MemberNode({ data, selected }: NodeProps<MemberData>) {
-    return (
-        <>
-            <Handle type="target" position={Position.Top} className="opacity-0 w-8" />
-            <div className="flex flex-col items-center gap-2 group">
-                <div
-                    className={`size-16 rounded-full border-2 p-0.5 bg-bg overflow-hidden shadow-sm transition-all ${selected ? 'border-primary ring-4 ring-primary/20 scale-110' : 'border-primary/40 hover:border-primary/60'
-                        }`}
-                >
-                    {data.avatar_url ? (
-                        // eslint-disable-next-line @next/next/no-img-element
-                        <img src={data.avatar_url} alt={data.label} className="w-full h-full object-cover rounded-full" />
-                    ) : (
-                        <div className="w-full h-full rounded-full bg-surface-2 flex items-center justify-center text-text shadow-inner">
-                            <span className="material-symbols-outlined text-border">person</span>
-                        </div>
-                    )}
-                </div>
-                <div className={`px-2 py-1 rounded bg-surface/80 backdrop-blur-sm border ${selected ? 'border-primary text-primary font-bold' : 'border-transparent text-text font-medium text-xs'}`}>
-                    {data.label}
-                </div>
-            </div>
-            <Handle type="source" position={Position.Bottom} className="opacity-0 w-8" />
-        </>
-    )
-}
-
-const nodeTypes = { member: MemberNode }
+const nodeTypes = { member: PremiumMemberNode }
+const edgeTypes = { covenant: CovenantEdge }
 
 type Props = {
     members: Array<{
@@ -69,7 +49,8 @@ type Props = {
     }>
 }
 
-export function FamilyTree({ members, relationships }: Props) {
+export function FamilyTree({ members, relationships, familyId }: Props & { familyId: string }) {
+    const { setViewport } = useReactFlow()
     const [selectedMember, setSelectedMember] = useState<MemberData & { id: string } | null>(null)
 
     const initialNodes: Node<MemberData>[] = members.map((m, i) => ({
@@ -88,41 +69,137 @@ export function FamilyTree({ members, relationships }: Props) {
         id: r.id,
         source: r.member_a_id,
         target: r.member_b_id,
-        animated: r.type === 'spouse',
-        type: 'smoothstep',
-        style: { stroke: r.type === 'spouse' ? '#ec4899' : '#2563eb', strokeWidth: 2, strokeDasharray: r.type === 'spouse' ? '5,5' : '0' },
+        type: 'covenant',
+        data: { type: r.type }
     }))
 
-    const [nodes, , onNodesChange] = useNodesState(initialNodes)
-    const [edges, , onEdgesChange] = useEdgesState(initialEdges)
+    // Integrated Dagre Layout with Memoization to prevent redundant heavy calculations
+    const { layoutedNodes, layoutedEdges } = useMemo(() => {
+        return getLayoutedElements(initialNodes, initialEdges)
+    }, [members, relationships]) // Only re-calculate if data actually changes
+
+    const [nodes, setNodes, onNodesChange] = useNodesState(layoutedNodes)
+    const [edges, , onEdgesChange] = useEdgesState(layoutedEdges)
+
+    // Sync state when props change (crucial for adding new members)
+    useEffect(() => {
+        setNodes(layoutedNodes)
+    }, [layoutedNodes, setNodes])
+
+    const [modalOpen, setModalOpen] = useState(false)
+    const [modalType, setModalType] = useState<'parent' | 'spouse' | 'child' | null>(null)
+    const [pendingName, setPendingName] = useState('')
+    const [isSubmitting, setIsSubmitting] = useState(false)
 
     const onNodeClick = useCallback(
         (_: React.MouseEvent, node: Node<MemberData>) => {
             setSelectedMember({ id: node.id, ...node.data })
+            // Focus transition
+            setViewport({ x: -node.position.x + 100, y: -node.position.y + 200, zoom: 1.2 }, { duration: 800 })
         },
-        []
+        [setViewport]
     )
 
+    const handleAddRelative = async (e: React.FormEvent) => {
+        e.preventDefault()
+        if (!selectedMember || !modalType || !pendingName.trim()) return
+
+        setIsSubmitting(true)
+        const formData = new FormData()
+        formData.append('targetMemberId', selectedMember.id)
+        formData.append('familyId', familyId) // Robust fix: Use the prop directly
+        formData.append('relationshipType', modalType)
+        formData.append('name', pendingName.trim())
+
+        try {
+            const res = await addPlaceholderRelative(formData)
+            if (res.success) {
+                setModalOpen(false)
+                setPendingName('')
+                setModalType(null)
+            } else {
+                alert(res.error || 'Falha ao adicionar parente.')
+            }
+        } catch (error) {
+            console.error('Add relative failed:', error)
+        } finally {
+            setIsSubmitting(false)
+        }
+    }
+
     return (
-        <div className="relative w-full h-[500px] overflow-hidden bg-transparent">
+        <div className="relative w-full h-[600px] md:h-[750px] overflow-hidden bg-transparent rounded-2xl border border-border/20 shadow-inner">
             <ReactFlow
                 nodes={nodes}
                 edges={edges}
                 onNodesChange={onNodesChange}
                 onEdgesChange={onEdgesChange}
                 nodeTypes={nodeTypes}
+                edgeTypes={edgeTypes}
                 onNodeClick={onNodeClick}
                 fitView
-                fitViewOptions={{ padding: 0.3 }}
+                fitViewOptions={{ padding: 0.5 }}
                 proOptions={{ hideAttribution: true }}
+                minZoom={0.2}
+                maxZoom={2}
             >
-                <Background gap={24} color="var(--border)" size={1} />
+                {/* SVG Definitions for Premium Gradients */}
+                <svg style={{ position: 'absolute', top: 0, left: 0 }}>
+                    <defs>
+                        <linearGradient id="parent-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                            <stop offset="0%" stopColor="#3b82f6" />
+                            <stop offset="100%" stopColor="#60a5fa" />
+                        </linearGradient>
+                        <linearGradient id="spouse-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                            <stop offset="0%" stopColor="#ec4899" />
+                            <stop offset="100%" stopColor="#f472b6" />
+                        </linearGradient>
+                    </defs>
+                </svg>
+
+                {/* 12/10 Atmosphere: Triple Layer Background for Depth */}
+                <Background id="1" gap={100} color="#2563eb" size={1} variant={'dots' as any} className="opacity-[0.03]" />
+                <Background id="2" gap={24} color="var(--border)" size={1} className="opacity-10" />
                 <Controls className="opacity-50" showInteractive={false} />
             </ReactFlow>
 
+            {/* Modal for adding relatives */}
+            <Modal
+                isOpen={modalOpen}
+                onClose={() => !isSubmitting && setModalOpen(false)}
+                title={`Adicionar ${modalType === 'parent' ? 'Pai/Mãe' : modalType === 'spouse' ? 'Cônjuge' : 'Filho(a)'}`}
+            >
+                <form onSubmit={handleAddRelative} className="space-y-4">
+                    <div className="space-y-1">
+                        <label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground p-1">Nome Completo</label>
+                        <input
+                            autoFocus
+                            type="text"
+                            value={pendingName}
+                            onChange={(e) => setPendingName(e.target.value)}
+                            placeholder="Ex: João Silva"
+                            className="w-full bg-surface-2 border border-border rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-primary focus:outline-none transition-all"
+                            required
+                        />
+                    </div>
+                    <button
+                        type="submit"
+                        disabled={isSubmitting || !pendingName.trim()}
+                        className="w-full bg-primary text-primary-foreground font-bold py-3 rounded-xl shadow-lg shadow-primary/20 hover:scale-[1.02] active:scale-95 transition-all disabled:opacity-50 flex items-center justify-center gap-2"
+                    >
+                        {isSubmitting ? (
+                            <span className="material-symbols-outlined animate-spin">sync</span>
+                        ) : (
+                            <span className="material-symbols-outlined text-sm">add</span>
+                        )}
+                        Salvar Parente
+                    </button>
+                </form>
+            </Modal>
+
             {/* Info card panel */}
             {selectedMember && (
-                <div className="absolute top-4 right-4 bg-surface rounded-xl shadow-xl border border-border p-4 min-w-[250px] z-10">
+                <div className="absolute top-4 right-4 bg-surface rounded-xl shadow-xl border border-border p-4 min-w-[250px] z-10 animate-in slide-in-from-right duration-300">
                     <div className="flex justify-between items-start mb-2 border-b border-border/50 pb-2">
                         <span className="font-bold text-text text-sm">{selectedMember.label}</span>
                         <button
@@ -140,54 +217,26 @@ export function FamilyTree({ members, relationships }: Props) {
                     <div className="mt-4 pt-4 border-t border-border/50">
                         <p className="text-[10px] font-bold uppercase text-muted-foreground mb-2 tracking-wider">Adicionar Parente</p>
                         <div className="space-y-2">
-                            <form action={async (formData) => {
-                                formData.append('targetMemberId', selectedMember.id)
-                                formData.append('familyId', relationships[0]?.family_id || '')
-                                formData.append('relationshipType', 'parent')
-                                const name = prompt('Nome do Pai/Mãe:')
-                                if (name) {
-                                    formData.append('name', name)
-                                    // Trigger server action conceptually (will import real action)
-                                    const { addPlaceholderRelative } = await import('./actions')
-                                    await addPlaceholderRelative(formData)
-                                }
-                            }}>
-                                <button type="submit" className="w-full py-1.5 px-3 bg-primary/10 hover:bg-primary/20 text-primary font-medium text-xs rounded transition-colors flex items-center gap-2">
-                                    <span className="material-symbols-outlined text-[14px]">add</span> Pai ou Mãe
-                                </button>
-                            </form>
+                            <button
+                                onClick={() => { setModalType('parent'); setModalOpen(true) }}
+                                className="w-full py-1.5 px-3 bg-primary/10 hover:bg-primary/20 text-primary font-medium text-xs rounded transition-colors flex items-center gap-2"
+                            >
+                                <span className="material-symbols-outlined text-[14px]">add</span> Pai ou Mãe
+                            </button>
 
-                            <form action={async (formData) => {
-                                formData.append('targetMemberId', selectedMember.id)
-                                formData.append('familyId', relationships[0]?.family_id || '')
-                                formData.append('relationshipType', 'spouse')
-                                const name = prompt('Nome do Cônjuge:')
-                                if (name) {
-                                    formData.append('name', name)
-                                    const { addPlaceholderRelative } = await import('./actions')
-                                    await addPlaceholderRelative(formData)
-                                }
-                            }}>
-                                <button type="submit" className="w-full py-1.5 px-3 bg-pink-500/10 hover:bg-pink-500/20 text-pink-500 font-medium text-xs rounded transition-colors flex items-center gap-2">
-                                    <span className="material-symbols-outlined text-[14px]">favorite</span> Cônjuge
-                                </button>
-                            </form>
+                            <button
+                                onClick={() => { setModalType('spouse'); setModalOpen(true) }}
+                                className="w-full py-1.5 px-3 bg-pink-500/10 hover:bg-pink-500/20 text-pink-500 font-medium text-xs rounded transition-colors flex items-center gap-2"
+                            >
+                                <span className="material-symbols-outlined text-[14px]">favorite</span> Cônjuge
+                            </button>
 
-                            <form action={async (formData) => {
-                                formData.append('targetMemberId', selectedMember.id)
-                                formData.append('familyId', relationships[0]?.family_id || '')
-                                formData.append('relationshipType', 'child')
-                                const name = prompt('Nome do Filho/Filha:')
-                                if (name) {
-                                    formData.append('name', name)
-                                    const { addPlaceholderRelative } = await import('./actions')
-                                    await addPlaceholderRelative(formData)
-                                }
-                            }}>
-                                <button type="submit" className="w-full py-1.5 px-3 bg-surface-2 hover:bg-border text-text font-medium text-xs rounded border border-border transition-colors flex items-center gap-2">
-                                    <span className="material-symbols-outlined text-[14px]">child_care</span> Filho ou Filha
-                                </button>
-                            </form>
+                            <button
+                                onClick={() => { setModalType('child'); setModalOpen(true) }}
+                                className="w-full py-1.5 px-3 bg-surface-2 hover:bg-border text-text font-medium text-xs rounded border border-border transition-colors flex items-center gap-2"
+                            >
+                                <span className="material-symbols-outlined text-[14px]">child_care</span> Filho ou Filha
+                            </button>
                         </div>
                     </div>
                 </div>

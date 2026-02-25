@@ -4,17 +4,20 @@ import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 import { createClient } from '@/utils/supabase/server'
 
+import { loginSchema, signupSchema } from '@/lib/schemas'
+
 export async function login(formData: FormData) {
     const supabase = await createClient()
 
-    // type-casting here for convenience
-    // in practice, you should validate your inputs
-    const data = {
-        email: formData.get('email') as string,
-        password: formData.get('password') as string,
+    const rawData = Object.fromEntries(formData.entries())
+    const validated = loginSchema.safeParse(rawData)
+
+    if (!validated.success) {
+        const message = validated.error.issues[0].message
+        return redirect(`/login?message=${encodeURIComponent(message)}`)
     }
 
-    const { error } = await supabase.auth.signInWithPassword(data)
+    const { error } = await supabase.auth.signInWithPassword(validated.data)
 
     if (error) {
         return redirect('/login?message=E-mail ou senha inválidos')
@@ -27,17 +30,23 @@ export async function login(formData: FormData) {
 export async function signup(formData: FormData) {
     const supabase = await createClient()
 
-    const data = {
-        email: formData.get('email') as string,
-        password: formData.get('password') as string,
+    const rawData = Object.fromEntries(formData.entries())
+    const validated = signupSchema.safeParse(rawData)
+
+    if (!validated.success) {
+        const message = validated.error.issues[0].message
+        return redirect(`/login?message=${encodeURIComponent(message)}`)
     }
 
-    const { error } = await supabase.auth.signUp(data)
+    const { data: signUpData, error } = await supabase.auth.signUp(validated.data)
 
     if (error) {
         return redirect('/login?message=Não foi possível criar a conta')
     }
 
     revalidatePath('/', 'layout')
-    redirect('/login?message=Verifique seu e-mail para confirmar a conta')
+
+    // Auto-confirm is enabled: signUp always returns a session.
+    // Redirect new users to onboarding to create their family.
+    redirect('/onboarding')
 }

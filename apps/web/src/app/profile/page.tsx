@@ -2,6 +2,7 @@ import { createClient } from '@/utils/supabase/server'
 import { redirect } from 'next/navigation'
 import { BottomNav } from '@/components/BottomNav'
 import { getActiveFamily } from '@/utils/active-family'
+import { PremiumHeader } from '@/components/PremiumHeader'
 
 export default async function ProfilePage() {
     const supabase = await createClient()
@@ -41,14 +42,7 @@ export default async function ProfilePage() {
     return (
         <div className="bg-bg text-text min-h-screen flex flex-col max-w-md mx-auto shadow-2xl relative">
             {/* Header Section */}
-            <header className="sticky top-0 z-10 bg-bg/80 backdrop-blur-md px-4 py-4 border-b border-border/50">
-                <div className="flex items-center justify-between w-full">
-                    <h1 className="text-xl font-extrabold tracking-tight">Meu Perfil</h1>
-                    <button className="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-2 transition-colors">
-                        <span className="material-symbols-outlined text-text">settings</span>
-                    </button>
-                </div>
-            </header>
+            <PremiumHeader title="Meu Perfil" icon="person" showSwitcher={false} />
 
             <main className="flex-1 w-full pb-32">
                 {/* Profile Info */}
@@ -77,9 +71,9 @@ export default async function ProfilePage() {
 
                 {/* Actions Section */}
                 <section className="px-4 py-6 space-y-4">
-                    <div className="bg-white rounded-2xl border border-border shadow-sm overflow-hidden">
+                    <div className="bg-white rounded-3xl border border-slate-100 shadow-xl shadow-blue-900/5 overflow-hidden">
                         {/* Meus Dados */}
-                        <button className="w-full flex items-center gap-4 p-4 hover:bg-slate-50 transition-colors text-left group">
+                        <button className="w-full flex items-center gap-4 p-4 hover:bg-slate-50 active:scale-[0.98] transition-all text-left group">
                             <div className="size-10 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center shrink-0 group-hover:bg-blue-100 transition-colors">
                                 <span className="material-symbols-outlined">person</span>
                             </div>
@@ -93,7 +87,7 @@ export default async function ProfilePage() {
                         <div className="h-px bg-slate-100 mx-4" />
 
                         {/* Privacidade */}
-                        <button className="w-full flex items-center gap-4 p-4 hover:bg-slate-50 transition-colors text-left group">
+                        <button className="w-full flex items-center gap-4 p-4 hover:bg-slate-50 active:scale-[0.98] transition-all text-left group">
                             <div className="size-10 rounded-xl bg-orange-50 text-orange-600 flex items-center justify-center shrink-0 group-hover:bg-orange-100 transition-colors">
                                 <span className="material-symbols-outlined">lock</span>
                             </div>
@@ -106,7 +100,7 @@ export default async function ProfilePage() {
                     </div>
 
                     {/* Plano */}
-                    <div className="bg-indigo-600 rounded-2xl p-5 text-white shadow-lg shadow-indigo-200 relative overflow-hidden group">
+                    <div className="bg-indigo-600 rounded-3xl p-5 text-white shadow-xl shadow-indigo-600/30 relative overflow-hidden group">
                         <div className="absolute -right-4 -top-4 size-24 bg-white/10 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-700" />
                         <div className="flex items-start gap-4">
                             <div className="size-10 rounded-xl bg-white/20 flex items-center justify-center shrink-0">
@@ -122,7 +116,7 @@ export default async function ProfilePage() {
                     </div>
 
                     {/* Central de Ajuda */}
-                    <div className="bg-white rounded-2xl border border-border shadow-sm overflow-hidden">
+                    <div className="bg-white rounded-3xl border border-slate-100 shadow-xl shadow-blue-900/5 overflow-hidden active:scale-[0.98] transition-transform">
                         <button className="w-full flex items-center gap-4 p-4 hover:bg-slate-50 transition-colors text-left group">
                             <div className="size-10 rounded-xl bg-slate-50 text-slate-600 flex items-center justify-center shrink-0 group-hover:bg-slate-100 transition-colors">
                                 <span className="material-symbols-outlined">help_center</span>
@@ -137,7 +131,7 @@ export default async function ProfilePage() {
 
                     {/* Logout Button */}
                     <form action="/auth/signout" method="post">
-                        <button type="submit" className="w-full mt-4 flex items-center justify-center gap-2 p-4 text-red-600 font-bold border border-red-100 bg-red-50 rounded-2xl hover:bg-red-100 transition-colors active:scale-95 active:opacity-80">
+                        <button type="submit" className="w-full mt-4 flex items-center justify-center gap-2 p-4 text-red-600 font-bold border border-red-100 bg-red-50 rounded-3xl shadow-xl shadow-red-500/10 hover:bg-red-100 transition-colors active:scale-95 active:opacity-80">
                             <span className="material-symbols-outlined">logout</span>
                             <span>Sair da Conta</span>
                         </button>

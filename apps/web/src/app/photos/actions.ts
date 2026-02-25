@@ -3,6 +3,7 @@
 import { createClient } from '@/utils/supabase/server'
 import { revalidatePath } from 'next/cache'
 import { getActiveFamily } from '@/utils/active-family'
+import { uploadPhotoSchema } from '@/lib/schemas'
 
 // Max 10MB per file
 const MAX_FILE_SIZE = 10 * 1024 * 1024
@@ -23,8 +24,16 @@ export async function uploadPhoto(formData: FormData) {
     }
 
     const file = formData.get('photo') as File | null
-    const takenAt = formData.get('taken_at') as string | null
-    const description = formData.get('description') as string | null
+
+    // Validate non-file fields with Zod
+    const rawData = Object.fromEntries(formData.entries())
+    const validated = uploadPhotoSchema.safeParse(rawData)
+
+    if (!validated.success) {
+        return { error: validated.error.issues[0].message }
+    }
+
+    const { description, taken_at: takenAt } = validated.data
 
     if (!file || file.size === 0) {
         return { error: 'No file provided' }

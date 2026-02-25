@@ -5,82 +5,84 @@ import { type FeedPhoto, type FeedCursor } from './actions'
 import { PhotoGrid } from '../photos/PhotoGrid'
 import { EmptyState } from '@/components/ui/EmptyState'
 import { TimelineSkeleton } from '@/components/ui/Skeletons'
+import { useTimelineRealtime } from '@/hooks/useTimelineRealtime'
+import { useInfiniteQuery, useQueryClient } from '@tanstack/react-query'
 
-export function MemoryFeed({ initialPhotos, initialHasMore, initialCursor }: {
+export function MemoryFeed({ initialPhotos, initialHasMore, initialCursor, familyId }: {
     initialPhotos: FeedPhoto[]
     initialHasMore: boolean
     initialCursor: FeedCursor | null
+    familyId: string
 }) {
-    const [photos, setPhotos] = useState<FeedPhoto[]>(initialPhotos)
-    const [hasMore, setHasMore] = useState(initialHasMore)
-    const [cursor, setCursor] = useState<FeedCursor | null>(initialCursor)
-    const [loading, setLoading] = useState(false)
-    const [error, setError] = useState<string | null>(null)
-
+    const queryClient = useQueryClient()
+    const [showNewPhotoToast, setShowNewPhotoToast] = useState(false)
     const observerRef = useRef<HTMLDivElement | null>(null)
-    const isFetching = useRef(false)
 
-    const loadMore = useCallback(async () => {
-        if (isFetching.current || !cursor) return
-        isFetching.current = true
-        setLoading(true)
-        setError(null)
+    const {
+        data,
+        fetchNextPage,
+        hasNextPage,
+        isFetchingNextPage,
+        isPending,
+        error: queryError
+    } = useInfiniteQuery({
+        queryKey: ['timeline', familyId],
+        queryFn: async ({ pageParam }) => {
+            const cursor = pageParam ? `&cursor=${encodeURIComponent(JSON.stringify(pageParam))}` : ''
+            const res = await fetch(`/api/photos?limit=24${cursor}`)
+            if (!res.ok) throw new Error('Falha ao carregar fotos')
+            return res.json()
+        },
+        initialPageParam: null as FeedCursor | null,
+        getNextPageParam: (lastPage) => lastPage.nextCursor || null,
+        initialData: {
+            pages: [{ photos: initialPhotos, hasMore: initialHasMore, nextCursor: initialCursor }],
+            pageParams: [null],
+        },
+    })
 
-        const errorId = `feed-${Date.now()}`
+    // Flatten pages for the grid
+    const allPhotos = data?.pages.flatMap(page => page.photos) ?? []
 
-        try {
-            const res = await fetch(`/api/photos?cursor=${encodeURIComponent(JSON.stringify(cursor))}`)
+    // Real-time integration: Prepend to the first page of the cache
+    useTimelineRealtime(familyId, useCallback((newPhoto) => {
+        queryClient.setQueryData(['timeline', familyId], (old: any) => {
+            if (!old) return old
+            // Check for duplicates
+            const exists = old.pages.some((page: any) =>
+                page.photos.some((p: any) => p.id === newPhoto.id)
+            )
+            if (exists) return old
 
-            if (!res.ok) {
-                const errData = await res.json().catch(() => ({}))
-                const errMsg = errData.error || 'Falha ao carregar mais fotos'
-                console.error(`[ERROR][MemoryFeed][${errorId}] ${errMsg}`)
-                setError(`${errMsg} (${errorId})`)
-            } else {
-                const data = await res.json()
-                setPhotos(prev => {
-                    // Zero-duplicate logic: filter out IDs that already exist in the state
-                    const existingIds = new Set(prev.map(p => p.id))
-                    const filteredNew = data.photos.filter((p: FeedPhoto) => !existingIds.has(p.id))
-
-                    if (filteredNew.length < data.photos.length) {
-                        console.warn(`[WARN][MemoryFeed] Filtered out ${data.photos.length - filteredNew.length} duplicate photos.`)
-                    }
-
-                    return [...prev, ...filteredNew]
-                })
-                setHasMore(data.hasMore)
-                setCursor(data.nextCursor || null)
+            const newPages = [...old.pages]
+            newPages[0] = {
+                ...newPages[0],
+                photos: [newPhoto, ...newPages[0].photos]
             }
-        } catch (err: unknown) {
-            const msg = err instanceof Error ? err.message : String(err)
-            console.error(`[ERROR][MemoryFeed][${errorId}] ${msg}`)
-            setError(`Ocorreu um erro inesperado (${errorId})`)
-        } finally {
-            setLoading(false)
-            isFetching.current = false
-        }
-    }, [cursor, setPhotos, setHasMore, setCursor])
+            return { ...old, pages: newPages }
+        })
+        setShowNewPhotoToast(true)
+    }, [familyId, queryClient]))
 
     // Infinite Scroll Observer
     useEffect(() => {
         const currentTarget = observerRef.current
-        if (!currentTarget || !hasMore || loading) return
+        if (!currentTarget || !hasNextPage || isFetchingNextPage) return
 
         const observer = new IntersectionObserver(
             (entries) => {
-                if (entries[0].isIntersecting && !isFetching.current) {
-                    loadMore()
+                if (entries[0].isIntersecting) {
+                    fetchNextPage()
                 }
             },
-            { threshold: 0.1, rootMargin: '400px' } // Load earlier for smoother feel
+            { threshold: 0.1, rootMargin: '400px' }
         )
 
         observer.observe(currentTarget)
         return () => observer.unobserve(currentTarget)
-    }, [hasMore, loading, loadMore])
+    }, [hasNextPage, isFetchingNextPage, fetchNextPage])
 
-    if (photos.length === 0 && !loading && !hasMore) {
+    if (allPhotos.length === 0 && !isPending && !hasNextPage) {
         return (
             <EmptyState
                 icon="photo_library"
@@ -92,31 +94,54 @@ export function MemoryFeed({ initialPhotos, initialHasMore, initialCursor }: {
         )
     }
 
-    if (photos.length === 0 && loading) {
+    if (allPhotos.length === 0 && isPending) {
         return <TimelineSkeleton />
     }
 
     return (
-        <div className="space-y-4 pb-32">
-            <PhotoGrid photos={photos} />
+        <div className="space-y-4 pb-32 relative">
+            {showNewPhotoToast && (
+                <div className="fixed top-20 left-1/2 -translate-x-1/2 z-50 animate-in fade-in slide-in-from-top-4 duration-300">
+                    <button
+                        onClick={() => {
+                            window.scrollTo({ top: 0, behavior: 'smooth' })
+                            setShowNewPhotoToast(false)
+                        }}
+                        className="bg-primary text-primary-foreground px-4 py-2 rounded-full shadow-lg flex items-center gap-2 text-sm font-semibold hover:scale-105 active:scale-95 transition-transform"
+                    >
+                        <span className="material-symbols-outlined text-lg">arrow_upward</span>
+                        Novas memórias adicionadas!
+                        <span
+                            onClick={(e) => {
+                                e.stopPropagation()
+                                setShowNewPhotoToast(false)
+                            }}
+                            className="material-symbols-outlined text-lg ml-2 opacity-70 hover:opacity-100"
+                        >
+                            close
+                        </span>
+                    </button>
+                </div>
+            )}
+            <PhotoGrid photos={allPhotos} />
 
             {/* Sentry element for Intersection Observer */}
             <div ref={observerRef} className="h-4" />
 
-            {hasMore ? (
+            {hasNextPage ? (
                 <div className="flex flex-col items-center pt-4">
                     <div className="flex items-center gap-2 text-muted-foreground text-sm font-medium">
                         <svg className="animate-spin h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                             <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                             <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                         </svg>
-                        {loading ? 'Buscando mais memórias...' : 'Role para ver mais'}
+                        {isFetchingNextPage ? 'Buscando mais memórias...' : 'Role para ver mais'}
                     </div>
-                    {error && (
+                    {queryError && (
                         <div className="mt-4 text-center">
-                            <p className="text-destructive text-sm mb-2">{error}</p>
+                            <p className="text-destructive text-sm mb-2">{(queryError as Error).message}</p>
                             <button
-                                onClick={loadMore}
+                                onClick={() => fetchNextPage()}
                                 className="text-primary hover:underline text-sm font-medium"
                             >
                                 Tentar novamente
@@ -124,7 +149,7 @@ export function MemoryFeed({ initialPhotos, initialHasMore, initialCursor }: {
                         </div>
                     )}
                 </div>
-            ) : photos.length > 0 ? (
+            ) : allPhotos.length > 0 ? (
                 <p className="text-center text-muted-foreground text-sm italic pt-8 border-t border-border">
                     Você chegou ao início da história da sua família.
                 </p>

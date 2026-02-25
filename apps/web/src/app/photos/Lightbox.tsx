@@ -8,6 +8,10 @@ type LightboxPhoto = {
     thumbUrl: string
     originalFilename: string | null
     takenAt: string | null
+    analysis?: {
+        description: string
+        tags: string[]
+    } | null
 }
 
 type LightboxProps = {
@@ -201,10 +205,26 @@ export function Lightbox({ photos, initialIndex, onClose }: LightboxProps) {
             </div>
 
             {/* Caption bar */}
-            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 text-center text-white/60 text-xs space-y-0.5 pointer-events-none">
-                {photo.originalFilename && <p>{photo.originalFilename}</p>}
-                {photo.takenAt && <p>{new Date(photo.takenAt).toLocaleDateString()}</p>}
-                <p>{index + 1} / {photos.length}</p>
+            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 w-full max-w-lg px-6 text-center text-white/60 space-y-2 pointer-events-none">
+                {photo.analysis && (
+                    <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-4 mb-4 pointer-events-auto">
+                        <p className="text-white text-sm font-medium mb-2 leading-relaxed italic">
+                            "{photo.analysis.description}"
+                        </p>
+                        <div className="flex flex-wrap gap-1.5 justify-center">
+                            {photo.analysis.tags.map(tag => (
+                                <span key={tag} className="bg-primary/20 text-primary-foreground text-[10px] uppercase font-black tracking-widest px-2 py-0.5 rounded-full border border-primary/30">
+                                    {tag}
+                                </span>
+                            ))}
+                        </div>
+                    </div>
+                )}
+                <div className="text-xs opacity-70">
+                    {photo.originalFilename && <p>{photo.originalFilename}</p>}
+                    {photo.takenAt && <p>{new Date(photo.takenAt).toLocaleDateString('pt-BR', { day: 'numeric', month: 'long', year: 'numeric' })}</p>}
+                    <p className="mt-1 font-bold">{index + 1} / {photos.length}</p>
+                </div>
             </div>
         </div>
     )

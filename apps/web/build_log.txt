@@ -1,0 +1,33 @@
+
+> web@0.1.0 build
+> next build
+
+Ôû▓ Next.js 16.1.6 (Turbopack)
+- Environments: .env.local
+- Experiments (use with caution):
+  ┬À serverActions
+
+ÔÜá The "middleware" file convention is deprecated. Please use "proxy" instead. Learn more: https://nextjs.org/docs/messages/middleware-to-proxy
+  Creating an optimized production build ...
+Ô£ô Compiled successfully in 4.2s
+  Running TypeScript ...
+  Collecting page data using 23 workers ...
+Error: Failed to collect configuration for /tree
+    at ignore-listed frames {
+  [cause]: TypeError: (0 , x.createContext) is not a function
+      at module evaluation (C:\Projetos\Antigravity\apps\RootLine\apps\web\.next\server\chunks\ssr\_9ab1fe6d._.js:1:46809)
+      at instantiateModule (C:\Projetos\Antigravity\apps\RootLine\apps\web\.next\server\chunks\ssr\[turbopack]_runtime.js:740:9)
+      at getOrInstantiateModuleFromParent (C:\Projetos\Antigravity\apps\RootLine\apps\web\.next\server\chunks\ssr\[turbopack]_runtime.js:763:12)
+      at Context.esmImport [as i] (C:\Projetos\Antigravity\apps\RootLine\apps\web\.next\server\chunks\ssr\[turbopack]_runtime.js:228:20)
+      at module evaluation (C:\Projetos\Antigravity\apps\RootLine\apps\web\.next\server\chunks\ssr\_97532fec._.js:1:60)
+      at instantiateModule (C:\Projetos\Antigravity\apps\RootLine\apps\web\.next\server\chunks\ssr\[turbopack]_runtime.js:740:9)
+      at getOrInstantiateModuleFromParent (C:\Projetos\Antigravity\apps\RootLine\apps\web\.next\server\chunks\ssr\[turbopack]_runtime.js:763:12)
+      at Context.commonJsRequire [as r] (C:\Projetos\Antigravity\apps\RootLine\apps\web\.next\server\chunks\ssr\[turbopack]_runtime.js:249:12)
+      at I.children.children.page (C:\Projetos\Antigravity\apps\RootLine\apps\web\.next\server\chunks\ssr\_97532fec._.js:1:630)
+}
+
+> Build error occurred
+Error: Failed to collect page data for /tree
+    at ignore-listed frames {
+  type: 'Error'
+}
