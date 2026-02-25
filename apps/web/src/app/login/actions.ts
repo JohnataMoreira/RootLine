@@ -41,7 +41,7 @@ export async function signup(formData: FormData) {
     const { data: signUpData, error } = await supabase.auth.signUp(validated.data)
 
     if (error) {
-        return redirect('/login?message=Não foi possível criar a conta')
+        return redirect(`/login?message=${encodeURIComponent(error.message)}`)
     }
 
     revalidatePath('/', 'layout')
