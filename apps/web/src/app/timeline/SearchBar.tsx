@@ -1,6 +1,7 @@
 'use client'
 
-import { useState, useCallback, useTransition } from 'react'
+import { useState, useCallback, useTransition, useEffect, useRef } from 'react'
+import { useSearchParams, useRouter, usePathname } from 'next/navigation'
 import { searchPhotos, FeedPhoto } from './actions'
 
 interface SearchBarProps {
@@ -8,35 +9,79 @@ interface SearchBarProps {
 }
 
 export function SearchBar({ onResults }: SearchBarProps) {
-    const [query, setQuery] = useState('')
-    const [isPending, startTransition] = useTransition()
+    const router = useRouter()
+    const pathname = usePathname()
+    const searchParams = useSearchParams()
 
-    const debounceRef = { current: null as ReturnType<typeof setTimeout> | null }
+    // Initial query from URL
+    const initialQuery = searchParams.get('q') || ''
+
+    const [query, setQuery] = useState(initialQuery)
+    const [isPending, startTransition] = useTransition()
+    const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+    const isInitialMount = useRef(true)
+
+    const performSearch = useCallback(async (value: string) => {
+        if (!value.trim()) {
+            onResults(null, '')
+            return
+        }
+
+        startTransition(async () => {
+            const result = await searchPhotos(value)
+            if ('photos' in result) {
+                onResults(result.photos, value)
+            } else {
+                onResults([], value)
+            }
+        })
+    }, [onResults])
+
+    // Trigger initial search if query exists in URL
+    useEffect(() => {
+        if (isInitialMount.current) {
+            isInitialMount.current = false
+            if (initialQuery) {
+                performSearch(initialQuery)
+            }
+        }
+    }, [initialQuery, performSearch])
+
+    // Sync state if URL changes externally (e.g. clicking a tag)
+    useEffect(() => {
+        const q = searchParams.get('q') || ''
+        if (q !== query) {
+            setQuery(q)
+            performSearch(q)
+        }
+    }, [searchParams, query, performSearch])
 
     const handleChange = useCallback((value: string) => {
         setQuery(value)
 
         if (debounceRef.current) clearTimeout(debounceRef.current)
 
-        if (!value.trim()) {
-            onResults(null, '')
-            return
-        }
-
         debounceRef.current = setTimeout(() => {
-            startTransition(async () => {
-                const result = await searchPhotos(value)
-                if ('photos' in result) {
-                    onResults(result.photos, value)
-                } else {
-                    onResults([], value)
-                }
-            })
-        }, 350)
-    }, [onResults])
+            // Update URL query param shallowly
+            const params = new URLSearchParams(searchParams)
+            if (value.trim()) {
+                params.set('q', value.trim())
+            } else {
+                params.delete('q')
+            }
+
+            // push/replace URL without full reload
+            router.replace(`${pathname}?${params.toString()}`, { scroll: false })
+
+            performSearch(value)
+        }, 400)
+    }, [pathname, router, searchParams, performSearch])
 
     const handleClear = () => {
         setQuery('')
+        const params = new URLSearchParams(searchParams)
+        params.delete('q')
+        router.replace(`${pathname}?${params.toString()}`, { scroll: false })
         onResults(null, '')
     }
 

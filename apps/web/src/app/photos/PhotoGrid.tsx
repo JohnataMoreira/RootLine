@@ -74,13 +74,24 @@ export function PhotoGrid({ photos }: { photos: Photo[] }) {
                                         />
                                     )}
                                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-                                    <div className="absolute bottom-4 left-4 flex flex-col gap-1">
-                                        <div className="flex items-center gap-2">
+                                    <div className="absolute bottom-4 left-4 right-4 flex flex-col gap-2">
+                                        <div className="flex items-center justify-between gap-2">
                                             <span className="w-fit bg-primary text-primary-foreground text-[10px] font-extrabold uppercase tracking-widest px-3 py-1 rounded-full shadow-lg shadow-black/20">
                                                 Lembrança
                                             </span>
                                             {photo.analysis && (
-                                                <span className="material-symbols-outlined text-white text-sm opacity-80" title="AI Indexed">auto_awesome</span>
+                                                <div className="flex gap-1">
+                                                    {photo.analysis.tags.slice(0, 3).map(tag => (
+                                                        <span key={tag} className="text-[9px] font-bold text-white/50 uppercase tracking-tighter bg-white/5 px-2 py-0.5 rounded-full border border-white/10 backdrop-blur-sm">
+                                                            {tag}
+                                                        </span>
+                                                    ))}
+                                                    {photo.analysis.tags.length > 3 && (
+                                                        <span className="text-[9px] font-bold text-white/50 bg-white/5 px-2 py-0.5 rounded-full border border-white/10">
+                                                            +{photo.analysis.tags.length - 3}
+                                                        </span>
+                                                    )}
+                                                </div>
                                             )}
                                         </div>
                                         <span className="text-white/90 text-xs font-medium ml-1">{displayDate}</span>
@@ -102,12 +113,17 @@ export function PhotoGrid({ photos }: { photos: Photo[] }) {
                                         />
                                     )}
                                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-                                    <div className="absolute bottom-2 left-2 flex items-center gap-1.5">
+                                    <div className="absolute bottom-2 left-2 right-2 flex items-center justify-between gap-1.5">
                                         <span className="bg-black/40 backdrop-blur-md text-white text-[10px] font-bold px-3 py-1 rounded-full border border-white/20">
                                             {displayDate}
                                         </span>
                                         {photo.analysis && (
-                                            <span className="material-symbols-outlined text-white text-sm opacity-80" title="AI Indexed">auto_awesome</span>
+                                            <div className="flex items-center gap-1 bg-primary/20 backdrop-blur-md px-2 py-0.5 rounded-full border border-primary/30">
+                                                <span className="material-symbols-outlined text-primary text-[12px] font-bold">auto_awesome</span>
+                                                <span className="text-[9px] font-black text-primary-foreground">
+                                                    {photo.analysis.tags.length}
+                                                </span>
+                                            </div>
                                         )}
                                     </div>
                                 </button>
