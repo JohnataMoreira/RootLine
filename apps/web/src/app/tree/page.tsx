@@ -57,7 +57,7 @@ export default async function TreePage() {
     return (
         <div className="min-h-screen bg-bg text-text max-w-md mx-auto shadow-2xl relative flex flex-col">
             {/* Header */}
-            <PremiumHeader title="Árvore Genealógica" icon="account_tree" showSwitcher={true} />
+            <PremiumHeader title="Árvore Genealógica" icon="account_tree" showSwitcher={true} hideActions={true} />
 
             <main className="flex-1 overflow-y-auto pb-24">
                 <div className="px-4 pt-6 pb-2 text-center">

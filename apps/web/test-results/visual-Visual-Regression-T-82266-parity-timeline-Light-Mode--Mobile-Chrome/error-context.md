@@ -1,0 +1,41 @@
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - banner [ref=e3]:
+      - heading "Linha do Tempo" [level=1] [ref=e6]
+    - main [ref=e7]:
+      - generic [ref=e9]:
+        - generic [ref=e13]: photo_library
+        - heading "Sua linha do tempo está vazia" [level=3] [ref=e14]
+        - paragraph [ref=e15]: Comece a adicionar fotos do seu dispositivo ou importe do Google Photos para construir o arquivo da sua família.
+        - link "Adicionar Fotos arrow_forward" [ref=e16] [cursor=pointer]:
+          - /url: /photos
+          - text: Adicionar Fotos
+          - generic [ref=e17]: arrow_forward
+    - link "add" [ref=e19] [cursor=pointer]:
+      - /url: /photos
+      - generic [ref=e20]: add
+    - navigation [ref=e22]:
+      - generic [ref=e23]:
+        - link "auto_awesome_motion Memórias" [ref=e24] [cursor=pointer]:
+          - /url: /timeline
+          - generic [ref=e25]: auto_awesome_motion
+          - generic [ref=e26]: Memórias
+        - link "account_tree Árvore" [ref=e27] [cursor=pointer]:
+          - /url: /tree
+          - generic [ref=e28]: account_tree
+          - generic [ref=e29]: Árvore
+        - link "person Perfil" [ref=e30] [cursor=pointer]:
+          - /url: /profile
+          - generic [ref=e31]: person
+          - generic [ref=e32]: Perfil
+  - generic [ref=e33]:
+    - img [ref=e35]
+    - button "Open Tanstack query devtools" [ref=e83] [cursor=pointer]:
+      - img [ref=e84]
+  - button "Open Next.js Dev Tools" [ref=e137] [cursor=pointer]:
+    - img [ref=e138]
+  - alert [ref=e141]
+```

@@ -6,10 +6,12 @@ type Props = {
     title: string
     icon?: string
     showSwitcher?: boolean
+    hideActions?: boolean
 }
 
-export async function PremiumHeader({ title, icon, showSwitcher = false }: Props) {
+export async function PremiumHeader({ title, icon, showSwitcher = false, hideActions = false }: Props) {
     let activeFamilyId = ''
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     let families: any[] = []
 
     if (showSwitcher) {
@@ -28,6 +30,7 @@ export async function PremiumHeader({ title, icon, showSwitcher = false }: Props
                 families = userProfiles
                     .filter(p => p.families)
                     .map(p => {
+                        // eslint-disable-next-line @typescript-eslint/no-explicit-any
                         const fam: any = p.families;
                         return {
                             familyId: p.family_id,
@@ -52,14 +55,16 @@ export async function PremiumHeader({ title, icon, showSwitcher = false }: Props
                 )}
             </div>
 
-            <div className="flex items-center shrink-0 ml-2 gap-1">
-                <button type="button" className="size-10 flex items-center justify-center rounded-full bg-slate-50 text-slate-600 hover:bg-slate-100 hover:text-blue-600 transition-colors active:scale-95 shadow-sm border border-slate-100">
-                    <span className="material-symbols-outlined text-[20px]">search</span>
-                </button>
-                <button type="button" className="size-10 flex items-center justify-center rounded-full bg-slate-50 text-slate-600 hover:bg-slate-100 hover:text-blue-600 transition-colors active:scale-95 shadow-sm border border-slate-100">
-                    <span className="material-symbols-outlined text-[20px]">notifications</span>
-                </button>
-            </div>
+            {!hideActions && (
+                <div className="flex items-center shrink-0 ml-2 gap-1">
+                    <button type="button" className="size-10 flex items-center justify-center rounded-full bg-slate-50 text-slate-600 hover:bg-slate-100 hover:text-blue-600 transition-colors active:scale-95 shadow-sm border border-slate-100">
+                        <span className="material-symbols-outlined text-[20px]">search</span>
+                    </button>
+                    <button type="button" className="size-10 flex items-center justify-center rounded-full bg-slate-50 text-slate-600 hover:bg-slate-100 hover:text-blue-600 transition-colors active:scale-95 shadow-sm border border-slate-100">
+                        <span className="material-symbols-outlined text-[20px]">notifications</span>
+                    </button>
+                </div>
+            )}
         </header>
     )
 }

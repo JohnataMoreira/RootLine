@@ -32,7 +32,7 @@ export default async function TimelinePage() {
 
     return (
         <div className="min-h-screen bg-bg text-text max-w-md mx-auto shadow-2xl relative flex flex-col">
-            <PremiumHeader title="Linha do Tempo" showSwitcher={true} />
+            <PremiumHeader title="Linha do Tempo" showSwitcher={true} hideActions={true} />
 
             <main className="flex-1 px-4 pt-2">
                 {/* Memories of Today — appears only when photos exist for this day in past years */}

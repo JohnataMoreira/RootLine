@@ -42,7 +42,7 @@ export default async function ProfilePage() {
     return (
         <div className="bg-bg text-text min-h-screen flex flex-col max-w-md mx-auto shadow-2xl relative">
             {/* Header Section */}
-            <PremiumHeader title="Meu Perfil" icon="person" showSwitcher={false} />
+            <PremiumHeader title="Meu Perfil" icon="person" showSwitcher={false} hideActions={true} />
 
             <main className="flex-1 w-full pb-32">
                 {/* Profile Info */}
@@ -58,9 +58,7 @@ export default async function ProfilePage() {
                                 </div>
                             )}
                         </div>
-                        <button className="absolute bottom-0 right-0 bg-primary text-white size-8 rounded-full border-2 border-white flex items-center justify-center shadow-lg active:scale-90 transition-transform">
-                            <span className="material-symbols-outlined text-sm">photo_camera</span>
-                        </button>
+                        {/* Cam button hidden for Beta */}
                     </div>
                     <h2 className="mt-5 text-2xl font-black text-slate-900 tracking-tight">{userName}</h2>
                     <span className="text-primary font-bold text-xs uppercase tracking-widest px-3 py-1 bg-primary/10 rounded-full mt-2">
@@ -71,63 +69,7 @@ export default async function ProfilePage() {
 
                 {/* Actions Section */}
                 <section className="px-4 py-6 space-y-4">
-                    <div className="bg-white rounded-3xl border border-slate-100 shadow-xl shadow-blue-900/5 overflow-hidden">
-                        {/* Meus Dados */}
-                        <button className="w-full flex items-center gap-4 p-4 hover:bg-slate-50 active:scale-[0.98] transition-all text-left group">
-                            <div className="size-10 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center shrink-0 group-hover:bg-blue-100 transition-colors">
-                                <span className="material-symbols-outlined">person</span>
-                            </div>
-                            <div className="flex-1">
-                                <p className="font-bold text-slate-900 text-sm">Meus Dados</p>
-                                <p className="text-xs text-slate-500">Informações pessoais e contato</p>
-                            </div>
-                            <span className="material-symbols-outlined text-slate-300">chevron_right</span>
-                        </button>
-
-                        <div className="h-px bg-slate-100 mx-4" />
-
-                        {/* Privacidade */}
-                        <button className="w-full flex items-center gap-4 p-4 hover:bg-slate-50 active:scale-[0.98] transition-all text-left group">
-                            <div className="size-10 rounded-xl bg-orange-50 text-orange-600 flex items-center justify-center shrink-0 group-hover:bg-orange-100 transition-colors">
-                                <span className="material-symbols-outlined">lock</span>
-                            </div>
-                            <div className="flex-1">
-                                <p className="font-bold text-slate-900 text-sm">Privacidade</p>
-                                <p className="text-xs text-slate-500">Controle quem vê suas memórias</p>
-                            </div>
-                            <span className="material-symbols-outlined text-slate-300">chevron_right</span>
-                        </button>
-                    </div>
-
-                    {/* Plano */}
-                    <div className="bg-indigo-600 rounded-3xl p-5 text-white shadow-xl shadow-indigo-600/30 relative overflow-hidden group">
-                        <div className="absolute -right-4 -top-4 size-24 bg-white/10 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-700" />
-                        <div className="flex items-start gap-4">
-                            <div className="size-10 rounded-xl bg-white/20 flex items-center justify-center shrink-0">
-                                <span className="material-symbols-outlined">workspace_premium</span>
-                            </div>
-                            <div className="flex-1">
-                                <p className="font-bold text-base">Plano Família Base</p>
-                                <p className="text-xs text-indigo-100 mt-1 leading-relaxed">
-                                    Seu plano permite até 15 membros na árvore genealógica e 5GB de armazenamento.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    {/* Central de Ajuda */}
-                    <div className="bg-white rounded-3xl border border-slate-100 shadow-xl shadow-blue-900/5 overflow-hidden active:scale-[0.98] transition-transform">
-                        <button className="w-full flex items-center gap-4 p-4 hover:bg-slate-50 transition-colors text-left group">
-                            <div className="size-10 rounded-xl bg-slate-50 text-slate-600 flex items-center justify-center shrink-0 group-hover:bg-slate-100 transition-colors">
-                                <span className="material-symbols-outlined">help_center</span>
-                            </div>
-                            <div className="flex-1">
-                                <p className="font-bold text-slate-900 text-sm">Central de Ajuda</p>
-                                <p className="text-xs text-slate-500">Dúvidas frequentes e suporte</p>
-                            </div>
-                            <span className="material-symbols-outlined text-slate-300">chevron_right</span>
-                        </button>
-                    </div>
+                    {/* Settings sections hidden for MVP Beta */}
 
                     {/* Logout Button */}
                     <form action="/auth/signout" method="post">

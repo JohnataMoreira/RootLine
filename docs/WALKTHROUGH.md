@@ -339,5 +339,29 @@ Se você ou a automação se deparar com erros persistentes durante o build ou d
 2. Siga as Fases designadas (Coleta, Busca de Elite e Execução).
 3. Uma vez resolvido o problema principal, é **obrigatório** documentar a solução final na pasta de armazenamento: `.agent/knowledge/error_logs/`.
 
-> [!NOTE]
 > O projeto garante independência total das ferramentas externas legadas e foi estruturado garantindo isolamento moderno.
+
+---
+
+## Limpeza UI e UX para o Beta — Task 11
+
+**Objetivo:** Preparar a interface para os primeiros usuários Beta, removendo funcionalidades inacabadas e garantindo uma experiência fluida e focada (`AUDITORIA_BETA.md`).
+
+**O que foi feito:**
+1. **Ocultação de Funcionalidades "Mudas":**
+   - **Timeline (`/timeline`):** Removidos os componentes de SearchBar na Timeline.
+   - **Árvore (`/tree`):** Ocultados ícones inativos de busca e configurações (`PremiumHeader` com `hideActions`).
+   - **Perfil (`/profile`):** Removido botão de alterar foto de perfil. Ocultadas as opções "Meus Dados", "Privacidade", "Planos" e "Help Center". Mantido apenas o botão essencial de Logout.
+   
+2. **Melhorias de UX (Loading States):**
+   - **Login (`/login`):** Adicionado suporte para visualização de carregamento ("Entrando...", "Criando...") ao clicar nos botões, mantendo integração via `SubmitButton` para previnir cliques múltiplos usando a Action Pending flag do Next.js.
+   - **Onboarding (`/onboarding`):** Confirmado o carregamento ("Criando...") no botão "Começar agora" para evitar travamentos silenciosos da ação Server Side.
+   
+3. **Localização (PT-BR):**
+   - Traduzida a interface de Login (Acesso, E-mail, Senha, Entrar, Criar Conta) para o idioma estipulado no Beta.
+   - Os testes (Playwright) `auth.setup.ts` e `onboarding.spec.ts` foram re-escritos para rodarem contra as strings `Entrar` e passarem com a tradução.
+
+**Como Testar:**
+1. Acesse `/login`. Os botões mostram strings ("Entrar", "Criar Conta").
+2. Efetue login e teste a proteção de duplo-clique.
+3. Acesse `/timeline`, `/tree` e `/profile`. Verifique que menus sem função não são mais renderizados.

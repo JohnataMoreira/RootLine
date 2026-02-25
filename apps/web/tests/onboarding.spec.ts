@@ -28,14 +28,14 @@ test.describe.serial('Onboarding Flow', () => {
         await page.fill('input[name="password"]', testPassword)
         await Promise.all([
             page.waitForNavigation({ url: /.*\/onboarding/, timeout: 15000 }),
-            page.click('button:has-text("Sign In")')
+            page.click('button:has-text("Entrar")')
         ])
 
         // 3. Wait for onboarding page to load using the robust test-id
         await page.goto('/onboarding');
-await page.waitForLoadState('domcontentloaded');
-await page.waitForTimeout(500);
-await expect(page.locator('input:not([type="hidden"])').first()).toBeVisible({ timeout: 15000 });// 4. Fill out the "Create New Family" form
+        await page.waitForLoadState('domcontentloaded');
+        await page.waitForTimeout(500);
+        await expect(page.locator('input:not([type="hidden"])').first()).toBeVisible({ timeout: 15000 });// 4. Fill out the "Create New Family" form
         const nameInput = page.locator('input[name="familyName"]')
         await nameInput.fill(familyName)
 

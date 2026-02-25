@@ -77,7 +77,7 @@ setup('authenticate', async ({ page }) => {
     // Explicitly click and wait for navigation in one atomic action
     await Promise.all([
         page.waitForNavigation({ url: /.*(\/timeline|\/onboarding)/, timeout: 15000 }),
-        page.click('button:has-text("Sign In")')
+        page.click('button:has-text("Entrar")')
     ]);
 
     // End of authentication steps.

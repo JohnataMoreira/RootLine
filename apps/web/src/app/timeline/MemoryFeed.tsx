@@ -95,10 +95,10 @@ export function MemoryFeed({ initialPhotos, initialHasMore, initialCursor, famil
 
     return (
         <div className="space-y-4 pb-32 relative">
-            {/* Search Bar */}
-            <div className="pt-2">
+            {/* Search Bar - Hidden for Beta MVP */}
+            {/* <div className="pt-2">
                 <SearchBar onResults={handleSearchResults} />
-            </div>
+            </div> */}
 
             {/* Search Results Header */}
             {isSearchMode && (
