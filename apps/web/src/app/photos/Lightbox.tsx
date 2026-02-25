@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { useRouter, usePathname } from 'next/navigation'
 import { getPhotoViewUrl } from './view-url'
+import { CommentSection } from '@/components/CommentSection'
 
 type LightboxPhoto = {
     id: string
@@ -202,10 +203,10 @@ export function Lightbox({ photos, initialIndex, onClose }: LightboxProps) {
                 )}
             </div>
 
-            {/* AI Insights Panel & Info */}
-            <div className="absolute bottom-6 left-1/2 -translate-x-1/2 w-full max-w-xl px-4 flex flex-col items-center gap-4 pointer-events-none">
+            {/* AI Insights Panel, Comments & Info */}
+            <div className="absolute bottom-6 left-1/2 -translate-x-1/2 w-full max-w-xl px-4 flex flex-col items-center gap-4 pointer-events-auto overflow-y-auto max-h-[60vh] pb-4 no-scrollbar">
                 {photo.analysis && (
-                    <div className="bg-white/10 backdrop-blur-xl border border-white/10 rounded-3xl p-5 mb-2 pointer-events-auto shadow-2xl animate-in slide-in-from-bottom-4 duration-500">
+                    <div className="bg-white/10 backdrop-blur-xl border border-white/10 rounded-3xl p-5 mb-2 w-full shadow-2xl animate-in slide-in-from-bottom-4 duration-500">
                         <div className="flex items-center gap-2 mb-3">
                             <span className="material-symbols-outlined text-primary text-[20px]">auto_awesome</span>
                             <span className="text-[10px] font-black uppercase tracking-[0.2em] text-white/50">IA Insights</span>
@@ -225,16 +226,14 @@ export function Lightbox({ photos, initialIndex, onClose }: LightboxProps) {
                                     #{tag}
                                 </button>
                             ))}
-                            {photo.analysis.detected_objects?.slice(0, 3).map(obj => (
-                                <span key={obj} className="bg-blue-500/20 text-blue-200 text-[10px] uppercase font-bold tracking-wider px-3 py-1.5 rounded-full border border-blue-500/30">
-                                    {obj}
-                                </span>
-                            ))}
                         </div>
                     </div>
                 )}
 
-                <div className="flex flex-col items-center gap-1 text-white/40 text-[10px] font-medium">
+                {/* New Comment Section */}
+                <CommentSection photoId={photo.id} />
+
+                <div className="flex flex-col items-center gap-1 text-white/40 text-[10px] font-medium pointer-events-none">
                     <div className="flex items-center gap-3">
                         {photo.originalFilename && <span className="opacity-60">{photo.originalFilename}</span>}
                         {photo.takenAt && (
