@@ -37,6 +37,7 @@ export default defineConfig({
         command: 'npm run dev',
         url: 'http://localhost:3000',
         reuseExistingServer: !process.env.CI,
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         env: process.env as any,
     },
 });

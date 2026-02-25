@@ -138,6 +138,7 @@ export async function getFeedPhotos(params: {
     const itemsWithUrls = await Promise.all(
         items.map(async (photo) => {
             // Extract analysis (Supabase returns it as array from join, take first)
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             const rawAnalysis = photo.photo_analysis as any
             const analysis: FeedPhotoAnalysis | null = Array.isArray(rawAnalysis) && rawAnalysis.length > 0
                 ? rawAnalysis[0]

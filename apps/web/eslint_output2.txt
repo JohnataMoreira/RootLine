@@ -1,0 +1,57 @@
+[0m[0m
+[0m[4mC:\Projetos\Antigravity\apps\RootLine\apps\web\src\app\api\photos\route.ts[24m[0m
+[0m  [2m57:11[22m  [33mwarning[39m  'googlePhotos' is assigned a value but never used  [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m  [2m63:30[22m  [33mwarning[39m  'signError' is assigned a value but never used     [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m[0m
+[0m[4mC:\Projetos\Antigravity\apps\RootLine\apps\web\src\app\layout.tsx[24m[0m
+[0m  [2m30:9[22m  [33mwarning[39m  Block is not recommended. See: https://nextjs.org/docs/messages/google-font-display                                                                              [2m@next/next/google-font-display[22m[0m
+[0m  [2m30:9[22m  [33mwarning[39m  Custom fonts not added in `pages/_document.js` will only load for a single page. This is discouraged. See: https://nextjs.org/docs/messages/no-page-custom-font  [2m@next/next/no-page-custom-font[22m[0m
+[0m[0m
+[0m[4mC:\Projetos\Antigravity\apps\RootLine\apps\web\src\app\login\actions.ts[24m[0m
+[0m  [2m41:19[22m  [33mwarning[39m  'signUpData' is assigned a value but never used  [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m[0m
+[0m[4mC:\Projetos\Antigravity\apps\RootLine\apps\web\src\app\onboarding\page.tsx[24m[0m
+[0m  [2m4:10[22m  [33mwarning[39m  'ThemeToggle' is defined but never used  [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m[0m
+[0m[4mC:\Projetos\Antigravity\apps\RootLine\apps\web\src\app\photos\GooglePhotosPanel.tsx[24m[0m
+[0m   [2m3:10[22m  [33mwarning[39m  'useState' is defined but never used                [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m   [2m4:10[22m  [33mwarning[39m  'importFromGooglePhotos' is defined but never used  [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m   [2m6:6[22m   [33mwarning[39m  'GoogleStatus' is defined but never used            [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m   [2m9:5[22m   [33mwarning[39m  'isConnected' is defined but never used             [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m  [2m10:5[22m   [33mwarning[39m  'lastRun' is defined but never used                 [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m[0m
+[0m[4mC:\Projetos\Antigravity\apps\RootLine\apps\web\src\app\photos\Lightbox.tsx[24m[0m
+[0m  [2m159:21[22m  [33mwarning[39m  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  [2m@next/next/no-img-element[22m[0m
+[0m[0m
+[0m[4mC:\Projetos\Antigravity\apps\RootLine\apps\web\src\app\timeline\MemoriesOfTodayBanner.tsx[24m[0m
+[0m   [2m3:8[22m   [33mwarning[39m  'Image' is defined but never used                                                                                                                                                                                                                                                        [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m  [2m77:33[22m  [33mwarning[39m  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  [2m@next/next/no-img-element[22m[0m
+[0m[0m
+[0m[4mC:\Projetos\Antigravity\apps\RootLine\apps\web\src\app\timeline\MemoryFeed.tsx[24m[0m
+[0m   [2m6:10[22m  [33mwarning[39m  'SearchBar' is defined but never used                     [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m  [2m30:16[22m  [33mwarning[39m  'queryError' is assigned a value but never used           [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m  [2m90:11[22m  [33mwarning[39m  'handleSearchResults' is assigned a value but never used  [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m[0m
+[0m[4mC:\Projetos\Antigravity\apps\RootLine\apps\web\src\app\tree\CovenantEdge.tsx[24m[0m
+[0m  [2m3:10[22m  [33mwarning[39m  'BaseEdge' is defined but never used  [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m[0m
+[0m[4mC:\Projetos\Antigravity\apps\RootLine\apps\web\src\app\tree\FamilyTree.tsx[24m[0m
+[0m   [2m9:5[22m  [33mwarning[39m  'MiniMap' is defined but never used                                                                                                 [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m  [2m10:5[22m  [33mwarning[39m  'NodeProps' is defined but never used                                                                                               [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m  [2m11:5[22m  [33mwarning[39m  'Handle' is defined but never used                                                                                                  [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m  [2m12:5[22m  [33mwarning[39m  'Position' is defined but never used                                                                                                [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m  [2m79:8[22m  [33mwarning[39m  React Hook useMemo has missing dependencies: 'initialEdges' and 'initialNodes'. Either include them or remove the dependency array  [2mreact-hooks/exhaustive-deps[22m[0m
+[0m[0m
+[0m[4mC:\Projetos\Antigravity\apps\RootLine\apps\web\src\lib\family\active-family.ts[24m[0m
+[0m  [2m10:41[22m  [33mwarning[39m  'familyId' is defined but never used  [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m[0m
+[0m[4mC:\Projetos\Antigravity\apps\RootLine\apps\web\tests\auth.setup.ts[24m[0m
+[0m   [2m1:25[22m  [33mwarning[39m  'expect' is defined but never used                 [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m  [2m29:17[22m  [31merror[39m    'error' is never reassigned. Use 'const' instead   [2mprefer-const[22m[0m
+[0m  [2m56:11[22m  [33mwarning[39m  'sessionState' is assigned a value but never used  [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m[0m
+[0m[4mC:\Projetos\Antigravity\apps\RootLine\apps\web\tests\onboarding.spec.ts[24m[0m
+[0m  [2m19:17[22m  [33mwarning[39m  'data' is assigned a value but never used  [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m[0m
+[0m[31m[1m✖ 28 problems (1 error, 27 warnings)[22m[39m[0m
+[0m[31m[1m[22m[39m[0m

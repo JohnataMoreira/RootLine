@@ -57,7 +57,7 @@ export async function GET(request: NextRequest) {
     const googlePhotos = items.filter(p => p.source === 'google_photos')
 
     // Batch sign manual photos (O(1) storage call)
-    let signedUrlsMap: Record<string, string> = {}
+    const signedUrlsMap: Record<string, string> = {}
     if (manualPhotos.length > 0) {
         const paths = manualPhotos.map(p => p.thumbnail_path ?? p.storage_path)
         const { data, error: signError } = await supabase.storage

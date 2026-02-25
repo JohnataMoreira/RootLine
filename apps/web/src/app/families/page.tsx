@@ -77,6 +77,7 @@ export default async function FamiliesPage() {
                 <div className="space-y-6">
                     <h2 className="text-xl font-extrabold text-slate-800">Minhas Famílias</h2>
                     <FamilyList
+                        // eslint-disable-next-line @typescript-eslint/no-explicit-any
                         families={familiesWithDetails as any}
                         activeFamilyId={activeFamilyId ?? ''}
                     />

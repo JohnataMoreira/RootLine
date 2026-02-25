@@ -1,0 +1,45 @@
+[dotenv@17.3.1] injecting env (4) from .env.local -- tip: ­ƒöÉ encrypt with Dotenvx: https://dotenvx.com
+
+
+Running 2 tests using 1 worker
+
+[1A[2K[dotenv@17.3.1] injecting env (0) from .env.local -- tip: ­ƒöÉ encrypt with Dotenvx: https://dotenvx.com
+
+[1A[2K[1/2] [setup] ÔÇ║ tests\auth.setup.ts:7:6 ÔÇ║ authenticate
+[1A[2K[dotenv@17.3.1] injecting env (0) from .env.local -- tip: ­ƒøí´©Å auth for agents: https://vestauth.com
+
+[1A[2K[2/2] [Mobile Chrome] ÔÇ║ tests\onboarding.spec.ts:12:9 ÔÇ║ Onboarding Flow ÔÇ║ successfully creates a new family and redirects to timeline
+[1A[2K  1) [Mobile Chrome] ÔÇ║ tests\onboarding.spec.ts:12:9 ÔÇ║ Onboarding Flow ÔÇ║ successfully creates a new family and redirects to timeline 
+
+    Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoBeVisible[2m([22m[2m)[22m failed
+
+    Locator: getByRole('heading', { name: 'Linha do Tempo' })
+    Expected: visible
+    Error: strict mode violation: getByRole('heading', { name: 'Linha do Tempo' }) resolved to 2 elements:
+        1) <h1 class="text-xl font-black tracking-tight text-slate-900 truncate">Linha do Tempo</h1> aka getByRole('heading', { name: 'Linha do Tempo', exact: true })
+        2) <h3 class="text-xl font-black text-slate-900 tracking-tight relative z-10">Sua linha do tempo est├í vazia</h3> aka getByRole('heading', { name: 'Sua linha do tempo est├í vazia' })
+
+    Call log:
+    [2m  - Expect "toBeVisible" with timeout 5000ms[22m
+    [2m  - waiting for getByRole('heading', { name: 'Linha do Tempo' })[22m
+
+
+      45 |         // 6. Verify redirect to timeline
+      46 |         await expect(page).toHaveURL(/.*\/timeline/, { timeout: 15000 })
+    > 47 |         await expect(page.getByRole('heading', { name: 'Linha do Tempo' })).toBeVisible()
+         |                                                                             ^
+      48 |
+      49 |         // 7. Open family selector to verify it was active and added
+      50 |         await page.goto('/families')
+        at C:\Projetos\Antigravity\apps\RootLine\apps\web\tests\onboarding.spec.ts:47:77
+
+    Error Context: test-results\onboarding-Onboarding-Flow-c33ef-y-and-redirects-to-timeline-Mobile-Chrome\error-context.md
+
+
+
+­ƒùæ´©Å  Running Playwright Global Teardown...
+[1A[2K  1 failed
+    [Mobile Chrome] ÔÇ║ tests\onboarding.spec.ts:12:9 ÔÇ║ Onboarding Flow ÔÇ║ successfully creates a new family and redirects to timeline 
+  1 passed (12.9s)
+
+[36m  Serving HTML report at http://localhost:54602. Press Ctrl+C to quit.[39m

@@ -1,4 +1,5 @@
 ﻿import { test as setup, expect } from '@playwright/test';
+import { createClient } from '@supabase/supabase-js';
 import path from 'path';
 
 const authFile = path.join(__dirname, '../playwright/.auth/user.json');
@@ -14,7 +15,6 @@ setup('authenticate', async ({ page }) => {
     // Rather than dealing with Next.js Server Actions transition states which can be flaky
     // in UI automation, we just directly invoke the Supabase client to create/login the user
     // and let the frontend cookie sync.
-    const { createClient } = require('@supabase/supabase-js');
     const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
     const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
 
@@ -25,10 +25,13 @@ setup('authenticate', async ({ page }) => {
     const supabase = createClient(supabaseUrl, supabaseKey);
 
     // 1. Try to sign in
-    let { data, error } = await supabase.auth.signInWithPassword({
+    const authRes = await supabase.auth.signInWithPassword({
         email,
         password,
     });
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    let data: any = authRes.data;
+    const error = authRes.error;
 
     // 2. If it fails due to invalid credentials, sign up the user
     if (error && error.message.includes('Invalid login credentials')) {

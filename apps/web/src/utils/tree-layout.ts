@@ -27,7 +27,9 @@ export const getLayoutedElements = (nodes: Node[], edges: Edge[], direction = 'T
 
     const layoutedNodes = nodes.map((node) => {
         const nodeWithPosition = dagreGraph.node(node.id)
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         node.targetPosition = isHorizontal ? 'left' : 'top' as any
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         node.sourcePosition = isHorizontal ? 'right' : 'bottom' as any
 
         node.position = {

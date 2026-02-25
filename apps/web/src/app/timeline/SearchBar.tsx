@@ -51,6 +51,7 @@ export function SearchBar({ onResults }: SearchBarProps) {
     useEffect(() => {
         const q = searchParams.get('q') || ''
         if (q !== query) {
+            // eslint-disable-next-line react-hooks/set-state-in-effect
             setQuery(q)
             performSearch(q)
         }

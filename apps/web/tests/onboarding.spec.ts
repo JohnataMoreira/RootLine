@@ -1,4 +1,5 @@
 ﻿import { test, expect } from '@playwright/test'
+import { createClient } from '@supabase/supabase-js'
 
 // Clear global auth state so this test always runs clean
 test.use({ storageState: { cookies: [], origins: [] } })
@@ -10,7 +11,6 @@ test.describe.serial('Onboarding Flow', () => {
 
     test('successfully creates a new family and redirects to timeline', async ({ page }) => {
         // 1. Sign up a fresh user via Supabase JS to bypass UI form flakiness
-        const { createClient } = require('@supabase/supabase-js')
         const supabase = createClient(
             process.env.NEXT_PUBLIC_SUPABASE_URL!,
             process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
@@ -44,7 +44,7 @@ test.describe.serial('Onboarding Flow', () => {
 
         // 6. Verify redirect to timeline
         await expect(page).toHaveURL(/.*\/timeline/, { timeout: 15000 })
-        await expect(page.getByRole('heading', { name: 'Linha do Tempo' })).toBeVisible()
+        await expect(page.getByRole('heading', { name: 'Linha do Tempo', exact: true })).toBeVisible()
 
         // 7. Open family selector to verify it was active and added
         await page.goto('/families')

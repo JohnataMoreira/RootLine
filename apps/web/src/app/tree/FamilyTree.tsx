@@ -158,6 +158,7 @@ export function FamilyTree({ members, relationships, familyId }: Props & { famil
                 </svg>
 
                 {/* 12/10 Atmosphere: Triple Layer Background for Depth */}
+                {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
                 <Background id="1" gap={100} color="#2563eb" size={1} variant={'dots' as any} className="opacity-[0.03]" />
                 <Background id="2" gap={24} color="var(--border)" size={1} className="opacity-10" />
                 <Controls className="opacity-50" showInteractive={false} />

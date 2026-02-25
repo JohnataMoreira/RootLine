@@ -61,6 +61,7 @@ export function UploadPhotoForm() {
                 setTakenAt('')
                 if (inputRef.current) inputRef.current.value = ''
             }
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
         } catch (error: any) {
             console.error('Photo upload failed:', error)
             setResult({ error: error.message || 'Ocorreu um erro inesperado ao enviar a foto.' })

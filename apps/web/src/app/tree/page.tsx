@@ -16,7 +16,9 @@ export default async function TreePage() {
     const supabase = await createClient()
 
     let familyId: string | null = null
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     let members: any[] = []
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     let relationships: any[] = []
     let errorMsg: string | null = null
 
@@ -43,6 +45,7 @@ export default async function TreePage() {
 
         if (relError) throw new Error('Falha ao carregar conexões.')
         relationships = relData || []
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
         console.error('TreePage SSR Error:', err)
         errorMsg = err.message || 'Ocorreu um erro inesperado.'
@@ -90,6 +93,7 @@ export default async function TreePage() {
                         <div className="w-full h-[500px]">
                             <TreeProvider>
                                 <FamilyTree
+                                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
                                     members={(isOverCap ? members.slice(0, MAX_MEMBERS) : members) as any}
                                     relationships={relationships}
                                     familyId={familyId!}

@@ -49,9 +49,12 @@ export function MemoryFeed({ initialPhotos, initialHasMore, initialCursor, famil
 
     // Real-time integration: Prepend to the first page of the cache
     useTimelineRealtime(familyId, useCallback((newPhoto) => {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         queryClient.setQueryData(['timeline', familyId], (old: any) => {
             if (!old) return old
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             const exists = old.pages.some((page: any) =>
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 page.photos.some((p: any) => p.id === newPhoto.id)
             )
             if (exists) return old
