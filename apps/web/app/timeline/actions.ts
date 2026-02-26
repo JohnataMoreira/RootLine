@@ -67,7 +67,11 @@ export async function sendInvite(formData: FormData) {
     // Resolve base URL dynamically or from env
     const { headers } = await import('next/headers')
     const reqHeaders = await headers()
-    const origin = reqHeaders.get('origin') || process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'
+    const origin = reqHeaders.get('origin') || process.env.NEXT_PUBLIC_APP_URL
+    if (!origin) {
+        console.error('sendInvite: Não foi possível determinar a URL base. Defina NEXT_PUBLIC_APP_URL.')
+        return { error: 'Configuração do servidor incompleta. Contate o administrador.' }
+    }
     const inviteLink = `${origin}/invite/${rawToken}`
 
     return {

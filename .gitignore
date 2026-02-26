@@ -1,3 +1,12 @@
 apps/web/.env.local
 apps/web/.env.e2e
 apps/web/.env.*.local
+
+# Dev artifacts
+*.bak.*
+apps/web/playwright-report/
+apps/web/test-results/
+apps/web/test-results.json
+apps/web/playwright-out.txt
+apps/web/lint-results*.json
+apps/web/.playwright/
