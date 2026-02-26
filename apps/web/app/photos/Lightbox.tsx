@@ -217,7 +217,7 @@ export function Lightbox({ photos, initialIndex, onClose }: LightboxProps) {
                         </p>
 
                         <div className="flex flex-wrap gap-2">
-                            {photo.analysis.tags.map(tag => (
+                            {(photo.analysis.tags || []).map(tag => (
                                 <button
                                     key={tag}
                                     onClick={() => handleTagClick(tag)}

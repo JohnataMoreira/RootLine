@@ -80,7 +80,7 @@ export async function GET(request: NextRequest) {
             created_at: photo.created_at,
             analysis: analysis ? {
                 description: analysis.visual_description,
-                tags: analysis.tags
+                tags: analysis.tags || []
             } : null
         }
 

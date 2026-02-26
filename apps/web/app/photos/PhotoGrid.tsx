@@ -25,7 +25,7 @@ export function PhotoGrid({ photos }: { photos: Photo[] }) {
         takenAt: p.taken_at,
         analysis: p.analysis ? {
             description: p.analysis.visual_description,
-            tags: p.analysis.tags
+            tags: p.analysis.tags || []
         } : null
     }))
 
@@ -68,7 +68,8 @@ export function PhotoGrid({ photos }: { photos: Photo[] }) {
     moments.forEach(moment => {
         const tagCounts: Record<string, number> = {}
         moment.photos.forEach(p => {
-            p.analysis?.tags.forEach(tag => {
+            const tags = p.analysis?.tags || []
+            tags.forEach(tag => {
                 tagCounts[tag] = (tagCounts[tag] || 0) + 1
             })
         })
@@ -132,14 +133,14 @@ export function PhotoGrid({ photos }: { photos: Photo[] }) {
                                             </span>
                                             {photo.analysis && (
                                                 <div className="flex gap-1">
-                                                    {photo.analysis.tags.slice(0, 3).map((tag: string) => (
+                                                    {(photo.analysis.tags || []).slice(0, 3).map((tag: string) => (
                                                         <span key={tag} className="text-[9px] font-bold text-white/50 uppercase tracking-tighter bg-white/5 px-2 py-0.5 rounded-full border border-white/10 backdrop-blur-sm">
                                                             {tag}
                                                         </span>
                                                     ))}
-                                                    {photo.analysis.tags.length > 3 && (
+                                                    {(photo.analysis.tags || []).length > 3 && (
                                                         <span className="text-[9px] font-bold text-white/50 bg-white/5 px-2 py-0.5 rounded-full border border-white/10">
-                                                            +{photo.analysis.tags.length - 3}
+                                                            +{(photo.analysis.tags || []).length - 3}
                                                         </span>
                                                     )}
                                                 </div>
@@ -172,7 +173,7 @@ export function PhotoGrid({ photos }: { photos: Photo[] }) {
                                             <div className="flex items-center gap-1 bg-primary/20 backdrop-blur-md px-2 py-0.5 rounded-full border border-primary/30">
                                                 <span className="material-symbols-outlined text-primary text-[12px] font-bold">auto_awesome</span>
                                                 <span className="text-[9px] font-black text-primary-foreground">
-                                                    {photo.analysis.tags.length}
+                                                    {(photo.analysis.tags || []).length}
                                                 </span>
                                             </div>
                                         )}
