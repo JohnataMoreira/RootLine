@@ -1,306 +1,130 @@
----
-
+﻿---
 name: chatao
+description: Inspetor chato do Rootline. Audita conformidade com o prompt definitivo, evita regressões (Server Actions/cookies/RLS/FK), valida staging e salva relatórios em .agent/reports/chatao/ com sequência.
+---
 
-description: Inspetor chato de execução do Rootline. Use esta skill quando precisar auditar conformidade com o prompt\_definitivo\_RootLine.md, revisar PR/commit, validar staging, checar bugs (Server Actions, cookies SSR, upload, invite, pt-BR, Stitch), e sugerir melhorias antes de liberar beta.
+# /chatao — Inspetor chato do Rootline
+
+## Regra-mãe (PROMPT)
+Fonte oficial:
+- .agent/prompt_definitivo_RootLine.md (ou equivalente no repositório)
+
+Cópia usada pela skill (para detectar drift):
+- .agent/skills/chatao/resources/prompt_definitivo_RootLine.md
+
+### PROMPT DRIFT (obrigatório)
+1) Ler o prompt oficial (quando existir).
+2) Ler a cópia em resources.
+3) Se houver diferença: reportar **P0 PROMPT DRIFT** e sugerir sincronização.
 
 ---
 
+## Modo padrão
+READ-ONLY para código do app.
+**Exceção permitida:** esta skill pode gravar arquivos **somente** em:
+- .agent/reports/chatao/
+- .agent/reports/chatao/INDEX.md
+- .agent/reports/chatao/LATEST.md
+- .agent/reports/chatao/_SEQ.txt
 
-
-\# Rootline Execution Inspector (Inspetor Chato)
-
-
-
-\## Objetivo
-
-Ser o “quality gate” do projeto Rootline: verificar conformidade com o \*\*Prompt Definitivo\*\*, identificar riscos P0/P1/P2, e sugerir correções e melhorias contínuas conforme o código evolui.
-
-
-
-\## Fonte de verdade (PROMPT)
-
-Você DEVE usar o prompt completo como regra-mãe. A fonte oficial do projeto é:
-
-\- `.agent/prompt\_definitivo\_RootLine.md`
-
-
-
-E a cópia dentro desta skill:
-
-\- `.agent/skills/rootline-execution-inspector/resources/prompt\_definitivo\_RootLine.md`
-
-
-
-\### Regra de sincronização (obrigatória)
-
-1\) Sempre leia os dois arquivos.
-
-2\) Se houver diferença, pare e:
-
-&nbsp;  - Reporte “PROMPT DRIFT” (P0)
-
-&nbsp;  - Sugira o comando para sincronizar a cópia da skill com o arquivo oficial.
-
-
-
-\## Modo de operação
-
-\- \*\*Padrão: READ-ONLY\*\* (não altera arquivos, não commita, não dá push).
-
-\- Só aplicar mudanças se o usuário pedir explicitamente: “aplique as correções”.
-
-
-
-\## Entrada esperada do usuário (perguntas mínimas)
-
-Se faltar contexto, faça no máximo 2 perguntas objetivas:
-
-1\) “Qual é o objetivo deste ciclo? (beta / hotfix / feature / refactor)”
-
-2\) “Quer apenas relatório ou também patch sugerido?”
-
-
-
-Se o usuário não responder, assuma: \*\*beta/hotfix\*\* e \*\*apenas relatório\*\*.
-
-
+Nunca alterar src/, packages/, migrations, etc. a menos que o usuário peça explicitamente “aplique as correções”.
 
 ---
 
-
-
-\# Checklist de inspeção (executar na ordem)
-
-
-
-\## 1) Auditoria de Git (sempre)
-
-Rodar e registrar no relatório:
-
-\- `git status`
-
-\- `git diff --name-only`
-
-\- `git diff`
-
-
-
-Verificar:
-
-\- Se há segredos/artefatos indevidos (P0): `.env\*`, `.auth/`, `playwright-report/`, `test-results/`, backups `.bak.\*`, logs, prints.
-
-\- Se as mudanças são coerentes com o objetivo do ciclo.
-
-
-
-\## 2) Auditoria “Rootline Pitfalls” (regras que já deram problema no projeto)
-
-Checar especificamente:
-
-
-
-\### 2.1 Server Actions (Next.js)
-
-\- Procurar risco de “Server Action not found”:
-
-&nbsp; - páginas que dependem de sessão/Server Actions precisam ser dinâmicas.
-
-&nbsp; - cache agressivo/HTML antigo é risco.
-
-\- Verificar: páginas críticas (ex.: `/tree`) e rotas authed.
-
-
-
-\### 2.2 Cookies no SSR
-
-\- Procurar `cookies().set(...)` sendo chamado fora de Server Action/Route Handler.
-
-\- Se encontrar: P0 com correção recomendada.
-
-
-
-\### 2.3 Convite
-
-\- Verificar geração de link:
-
-&nbsp; - NUNCA pode ser `localhost:3000`
-
-&nbsp; - Deve usar `origin`/fallback `NEXT\_PUBLIC\_APP\_URL`
-
-\- Verificar fluxo `/invite/\[token]` pt-BR e tratamento de erro.
-
-
-
-\### 2.4 Upload de Fotos (15MB)
-
-\- Garantir:
-
-&nbsp; - limite aumentado corretamente (não estourar)
-
-&nbsp; - upload não pode ficar infinito
-
-&nbsp; - erros precisam aparecer na UI (mensagem clara)
-
-\- Verificar policies/bucket quando aplicável.
-
-
-
-\### 2.5 Supabase: RLS / FK / profiles
-
-\- Checar migrations novas:
-
-&nbsp; - evitam recursão RLS
-
-&nbsp; - usam SECURITY DEFINER quando necessário
-
-&nbsp; - garantem `profiles` antes de FK (convite/aceite/criação de família)
-
-
-
-\### 2.6 Stitch + Tema claro + Pt-BR
-
-\- Validar fidelidade Stitch nas telas “locked”.
-
-\- Validar contraste/legibilidade (modo claro).
-
-\- Garantir pt-BR 100% (sem strings em inglês).
-
-
-
-\## 3) Qualidade (local)
-
-Rodar e registrar:
-
-\- `npm run lint`
-
-\- `npm run build`
-
-
-
-Quando a mudança tocar onboarding/invite/tree/photos:
-
-\- `npx playwright test --project=setup`
-
-\- `npx playwright test tests/onboarding.spec.ts tests/invite.spec.ts --project="Mobile Chrome" --workers=1`
-
-
-
-\## 4) Staging readiness (quando o objetivo for beta/hotfix)
-
-Se o usuário tiver VPS configurada:
-
-\- Confirmar commit no VPS e container uptime.
-
-\- Exigir smoke test mínimo:
-
-&nbsp; - login → timeline/tree/profile (F5)
-
-&nbsp; - upload (inclui foto >1MB)
-
-&nbsp; - convite: gerar link + aceitar em aba anônima
-
-&nbsp; - logout
-
-&nbsp; - pt-BR + legibilidade
-
-
+## Persistência de relatórios (OBRIGATÓRIO)
+
+### Pasta de saída
+Salvar todos os relatórios em:
+- .agent/reports/chatao/
+
+### Formato do nome (obrigatório)
+YYYYMMDD-HH.mm-####.md (BRT / São Paulo)
+
+Exemplo:
+20260225-23.12-0001.md
+
+### Sequência (obrigatório)
+- Ler .agent/reports/chatao/_SEQ.txt
+- Incrementar +1
+- Salvar de volta em _SEQ.txt
+- Usar 4 dígitos com zero à esquerda
+
+### Índice (obrigatório)
+Atualizar .agent/reports/chatao/INDEX.md adicionando uma linha por execução:
+| Run ID | Data/Hora (BRT) | Ciclo | Status | P0 | P1 | P2 | Commit | Staging |
+
+Também atualizar .agent/reports/chatao/LATEST.md com:
+- nome do último relatório
+- resumo de 5 linhas (Status + P0/P1/P2 + próxima ação)
 
 ---
 
+## Checklist de inspeção (executar nesta ordem)
 
+### 1) Git
+Rodar:
+- git status
+- git diff --name-only
+- git diff
 
-\# Saída (formato do relatório obrigatório)
+P0 imediato (não pode passar):
+- segredos/artefatos: .env*, playwright-report/, 	est-results/, .auth/, *.bak.*, logs locais
 
+### 2) Armadilhas já vistas no Rootline (P0)
+- Server Actions: risco “Server Action not found” por cache/página não-dinâmica
+- Cookies: proibido cookies().set fora de Server Action/Route Handler
+- Convite: link nunca pode ser localhost; usar origin + fallback NEXT_PUBLIC_APP_URL
+- Upload: nunca pode ficar infinito; erro amigável; limite 15MB
+- Supabase: RLS/FK/profiles (garantir perfil antes de FK; SECURITY DEFINER quando necessário)
+- Pt-BR 100%, modo claro, Stitch fidelity e lock
 
+### 3) Qualidade local
+Rodar:
+- 
+pm run lint
+- 
+pm run build
 
-\## 0) Resumo executivo (3 linhas)
+Se tocar onboarding/invite/tree/photos:
+- 
+px playwright test --project=setup
+- 
+px playwright test tests/onboarding.spec.ts tests/invite.spec.ts --project="Mobile Chrome" --workers=1
 
-\- Status geral: PASS / FAIL
-
-\- Motivo do FAIL (se houver)
-
-\- Próxima ação recomendada
-
-
-
-\## 1) Conformidade com Prompt Definitivo
-
-Tabela:
-
-\- Regra
-
-\- Status (OK / Falha)
-
-\- Evidência (arquivo + trecho)
-
-\- Ação recomendada
-
-
-
-\## 2) Lista de problemas (P0/P1/P2)
-
-Para cada item:
-
-\- Título
-
-\- Severidade
-
-\- Passos para reproduzir (se aplicável)
-
-\- Causa provável
-
-\- Correção proposta (comandos prontos quando possível)
-
-
-
-\## 3) Melhorias sugeridas (não-bloqueadoras)
-
-\- Melhorias de UX/UI
-
-\- Cobertura de testes
-
-\- Observabilidade/logs
-
-\- Redução de retrabalho
-
-
-
-\## 4) Se o usuário pedir “aplique as correções”
-
-\- Gerar um plano de patch em passos
-
-\- Aplicar alterações mínimas
-
-\- Rodar lint/build
-
-\- NUNCA fazer `git push` sem pedir explicitamente
-
-\- Ao final: reportar quais arquivos foram alterados
-
-
+### 4) Staging readiness (beta/hotfix)
+Exigir:
+- hash do commit no VPS/Dokploy = hash do Git
+- container reiniciado após o deploy
+- smoke test: login + timeline/tree/profile (F5), upload (>=1MB e até 15MB), convite (gerar+aceitar), logout, pt-BR/legibilidade
 
 ---
 
+## Saída obrigatória (formato do relatório)
 
+### Cabeçalho
+🔍 Relatório /chatao — DD/MM/AAAA
+Ciclo: <...>  Modo: READ-ONLY
 
-\# Heurística de melhoria contínua (conforme problemas surgem)
+### Tabela de evolução (logo após o cabeçalho)
+| Métrica | Anterior | Atual | Δ |
+|---|---:|---:|---:|
+| Status | ... | ... | ... |
+| P0 | ... | ... | ... |
+| P1 | ... | ... | ... |
+| P2 | ... | ... | ... |
+| Principais erros | ... | ... | ... |
+| Principais soluções | ... | ... | ... |
+| Risco aberto mais importante | ... | ... | ... |
 
-Quando detectar um problema repetido:
+Regras:
+- “Anterior” vem do último relatório em .agent/reports/chatao/ (ou do INDEX).
+- Se for o primeiro, preencher “—”.
 
-1\) Sugira uma prevenção:
+### Conteúdo
+1) Resumo executivo (PASS/FAIL)
+2) Conformidade com Prompt Definitivo
+3) Lista P0/P1/P2 com passos e correção sugerida
+4) Melhorias sugeridas
+5) Próxima ação objetiva
 
-&nbsp;  - teste E2E
-
-&nbsp;  - lint rule
-
-&nbsp;  - `data-testid`
-
-&nbsp;  - guardrails no prompt
-
-2\) Proponha atualizar o `prompt\_definitivo\_RootLine.md` com uma nova regra curta e objetiva.
-
-3\) Sugira registrar no `docs/research/LOG.md` se houve pesquisa/decisão.
-
-
-
+No final, salvar em .agent/reports/chatao/<RUN_ID>.md e atualizar INDEX/LATEST.

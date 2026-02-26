@@ -210,3 +210,23 @@ Toda execuÃ§Ã£o do /chatao DEVE:
 1) salvar um relatÃ³rio em `.agent/reports/chatao/` no formato `YYYYMMDD-HH.mm-####.md`
 2) atualizar `.agent/reports/chatao/INDEX.md`
 3) incluir a tabela â€œEvoluÃ§Ã£o (vs anterior)â€ logo apÃ³s o cabeÃ§alho do relatÃ³rio
+## Gate obrigatório: Skill /chatao (Inspetor chato)
+
+A partir de agora, o agente DEVE executar **/chatao** automaticamente nestes momentos:
+1) Antes de qualquer commit/push
+2) Antes de declarar “concluído”
+3) Antes de liberar beta/testers
+4) Depois de corrigir qualquer P0
+5) Se ficar travado por 3 tentativas (antes de continuar tentativa-e-erro)
+
+Regras:
+- Se o /chatao apontar qualquer P0, é PROIBIDO commitar/push/liberar até corrigir.
+- O /chatao roda em READ-ONLY por padrão e gera relatório P0/P1/P2.
+
+### Persistência obrigatória dos relatórios do /chatao
+Toda execução do /chatao DEVE:
+1) salvar um relatório em .agent/reports/chatao/ no formato YYYYMMDD-HH.mm-####.md
+2) atualizar .agent/reports/chatao/INDEX.md
+3) atualizar .agent/reports/chatao/LATEST.md
+4) incluir a tabela “Evolução (vs anterior)” logo após o cabeçalho do relatório
+
