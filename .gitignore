@@ -10,3 +10,8 @@ apps/web/test-results.json
 apps/web/playwright-out.txt
 apps/web/lint-results*.json
 apps/web/.playwright/
+
+# generated chatao reports
+.agent/reports/chatao/*.md
+.agent/reports/chatao/LATEST.md
+
