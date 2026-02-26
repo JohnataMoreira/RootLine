@@ -33,7 +33,7 @@ export default async function PhotosPage(props: {
         .from('google_photo_tokens')
         .select('profile_id')
         .eq('profile_id', user.id)
-        .single()
+        .maybeSingle()
 
     const isGoogleConnected = !!googleToken
 
@@ -45,7 +45,7 @@ export default async function PhotosPage(props: {
         .eq('profile_id', user.id)
         .order('started_at', { ascending: false })
         .limit(1)
-        .single()
+        .maybeSingle()
 
     const { data: photos, error } = await supabase
         .from('photos')
