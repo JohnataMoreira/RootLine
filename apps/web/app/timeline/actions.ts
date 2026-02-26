@@ -14,6 +14,7 @@ export async function sendInvite(formData: FormData) {
     }
 
     const email = formData.get('email') as string
+    const targetMemberId = formData.get('targetMemberId') as string || null
 
     if (!email) {
         return { error: 'Email is required' }
@@ -50,7 +51,8 @@ export async function sendInvite(formData: FormData) {
             invited_email: email,
             role: role,
             token_hash: tokenHash,
-            status: 'pending'
+            status: 'pending',
+            target_member_id: targetMemberId
         })
 
     if (inviteError) {

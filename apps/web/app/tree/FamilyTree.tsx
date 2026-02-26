@@ -20,6 +20,7 @@ import { PremiumMemberNode } from './PremiumMemberNode'
 import { getLayoutedElements } from '@/utils/tree-layout'
 import { useReactFlow } from 'reactflow'
 import { CovenantEdge } from './CovenantEdge'
+import { InviteModal } from '@/components/InviteModal'
 
 type MemberData = {
     label: string
@@ -216,6 +217,25 @@ export function FamilyTree({ members, relationships, familyId }: Props & { famil
                     </div>
 
                     <div className="mt-4 pt-4 border-t border-border/50">
+                        {/* Slot-based Invitation: If it's a placeholder, allow inviting to this specific slot */}
+                        {members.find(m => m.id === selectedMember.id)?.profile_id === null && (
+                            <div className="mb-4 bg-primary/5 rounded-xl border border-primary/20 p-3">
+                                <p className="text-[10px] font-bold uppercase text-primary mb-2 tracking-wider flex items-center gap-1">
+                                    <span className="material-symbols-outlined text-[12px]">how_to_reg</span> Slot Reservado
+                                </p>
+                                <InviteModal
+                                    targetMemberId={selectedMember.id}
+                                    targetMemberName={selectedMember.label}
+                                    trigger={
+                                        <button className="w-full bg-primary text-white font-bold py-2 rounded-lg shadow-sm hover:scale-[1.02] active:scale-95 transition-all flex items-center justify-center gap-2 text-xs">
+                                            <span className="material-symbols-outlined text-[16px]">mail</span>
+                                            Convidar para este lugar
+                                        </button>
+                                    }
+                                />
+                            </div>
+                        )}
+
                         <p className="text-[10px] font-bold uppercase text-muted-foreground mb-2 tracking-wider">Adicionar Parente</p>
                         <div className="space-y-2">
                             <button

@@ -10,7 +10,13 @@ type InviteResult = {
     error?: string
 }
 
-export function InviteModal() {
+interface InviteModalProps {
+    targetMemberId?: string
+    targetMemberName?: string
+    trigger?: React.ReactNode
+}
+
+export function InviteModal({ targetMemberId, targetMemberName, trigger }: InviteModalProps) {
     const [open, setOpen] = useState(false)
     const [loading, setLoading] = useState(false)
     const [result, setResult] = useState<InviteResult | null>(null)
@@ -18,6 +24,10 @@ export function InviteModal() {
     async function handleSubmit(formData: FormData) {
         setLoading(true)
         setResult(null)
+        // Ensure targetMemberId is included in the submission
+        if (targetMemberId) {
+            formData.append('targetMemberId', targetMemberId)
+        }
         const response = await sendInvite(formData)
         setResult(response)
         setLoading(false)
@@ -30,15 +40,19 @@ export function InviteModal() {
 
     return (
         <>
-            {/* Trigger Button */}
-            <button
-                data-testid="invite-open"
-                onClick={() => setOpen(true)}
-                className="mt-4 w-full bg-primary hover:bg-primary/90 text-primary-foreground py-2.5 rounded-lg font-bold text-sm transition-all shadow-lg shadow-primary/20 flex items-center justify-center gap-2 active:scale-95 active:opacity-80"
-            >
-                <span className="material-symbols-outlined text-[18px]">person_add</span>
-                Convidar Familiares
-            </button>
+            {/* Trigger Button or Custom Trigger */}
+            {trigger ? (
+                <div onClick={() => setOpen(true)}>{trigger}</div>
+            ) : (
+                <button
+                    data-testid="invite-open"
+                    onClick={() => setOpen(true)}
+                    className="mt-4 w-full bg-primary hover:bg-primary/90 text-primary-foreground py-2.5 rounded-lg font-bold text-sm transition-all shadow-lg shadow-primary/20 flex items-center justify-center gap-2 active:scale-95 active:opacity-80"
+                >
+                    <span className="material-symbols-outlined text-[18px]">person_add</span>
+                    Convidar Familiares
+                </button>
+            )}
 
             {/* Modal Overlay */}
             {open && (
@@ -53,8 +67,19 @@ export function InviteModal() {
                         {/* Header */}
                         <div className="flex items-center justify-between mb-5">
                             <div className="flex items-center gap-2">
-                                <span className="material-symbols-outlined text-primary">group_add</span>
-                                <h2 className="text-lg font-bold text-text">Convidar Familiar</h2>
+                                <span className="material-symbols-outlined text-primary">
+                                    {targetMemberId ? 'how_to_reg' : 'group_add'}
+                                </span>
+                                <div>
+                                    <h2 className="text-lg font-bold text-text">
+                                        {targetMemberName ? `Convidar ${targetMemberName.split(' ')[0]}` : 'Convidar Familiar'}
+                                    </h2>
+                                    {targetMemberName && (
+                                        <p className="text-[10px] text-muted-foreground uppercase font-black tracking-tighter">
+                                            Vincular à Árvore Genealógica
+                                        </p>
+                                    )}
+                                </div>
                             </div>
                             <button
                                 onClick={handleClose}
